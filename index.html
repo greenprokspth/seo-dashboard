@@ -1,0 +1,2770 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>รายงาน SEO รายสัปดาห์ — Greenpro Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --primary:#207D3F; --primary-dark:#1D7139; --accent:#3CB348;
+  --accent-soft:#EAF6EC; --bg-alt:#F4FBF6; --surface:#FFFFFF;
+  --ink:#131736; --text:#131736; --text-2:#4B5563; --border:#E5E7EB;
+  --radius-card:16px; --radius-control:10px; --pill:9999px;
+  --red:#C0392B; --red-soft:#FDECEA; --amber:#B7791F; --amber-soft:#FEF6E7;
+  --green:#207D3F; --green-soft:#EAF6EC; --blue:#2563EB; --blue-soft:#EAF1FE;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"DB Heavent","Sarabun",sans-serif;background:var(--bg-alt);color:var(--text);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 20px 80px}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.sitebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.sitebar .lbl{font-weight:700;color:var(--text-2);font-size:14px;letter-spacing:.03em;text-transform:uppercase}
+.site-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.site-tab{border:1px solid var(--border);background:#fff;border-radius:var(--pill);padding:8px 18px;font-weight:700;font-size:16px;cursor:pointer;color:var(--text-2);transition:.15s}
+.site-tab:hover{border-color:var(--primary);color:var(--primary)}
+.site-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+header.top{background:linear-gradient(135deg,#fff 0%,var(--accent-soft) 100%);border:1px solid var(--border);border-radius:var(--radius-card);padding:26px 28px;margin-bottom:22px}
+.top .eyebrow{color:var(--primary);font-weight:700;letter-spacing:.03em;font-size:15px;text-transform:uppercase}
+.top h1{font-size:36px;font-weight:700;margin:4px 0 6px;line-height:1.15}
+.top .meta{color:var(--text-2);font-size:16px}
+.top-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+select,button,input{font-family:inherit;font-size:16px}
+select{padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-control);background:#fff;color:var(--text)}
+.btn{border:0;border-radius:var(--pill);padding:10px 18px;font-weight:700;cursor:pointer;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-ghost{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+.btn-ghost:hover{background:var(--accent-soft)}
+
+section{margin-bottom:30px}
+.sec-title{font-size:24px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sec-title .dot{width:10px;height:22px;background:var(--primary);border-radius:3px}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:20px}
+.card .label{color:var(--text-2);font-size:15px;font-weight:500}
+.card .value{font-size:34px;font-weight:700;line-height:1.1;margin-top:4px}
+.card .sub{font-size:13px;color:var(--text-2);margin-top:6px}
+.delta{display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:15px;margin-top:8px;padding:3px 10px;border-radius:var(--pill)}
+.delta.up{color:var(--green);background:var(--green-soft)}
+.delta.down{color:var(--red);background:var(--red-soft)}
+.delta.flat{color:var(--text-2);background:#F1F2F4}
+
+.findings{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:20px 24px}
+.findings ol{margin:0;padding-left:22px}
+.findings li{margin-bottom:8px}
+.findings li::marker{color:var(--primary);font-weight:700}
+
+.progress-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:22px 24px}
+.progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.progress-head .pct{font-size:28px;font-weight:700;color:var(--primary)}
+.bar{height:16px;background:var(--accent-soft);border-radius:var(--pill);overflow:hidden}
+.bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));border-radius:var(--pill);transition:width .5s ease}
+.progress-legend{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap;font-size:15px;color:var(--text-2)}
+.progress-legend b{color:var(--text)}
+
+/* Filter bar */
+.filterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:12px 16px;margin-bottom:16px}
+.filterbar .fl{font-size:14px;color:var(--text-2);font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--pill);overflow:hidden}
+.seg button{border:0;background:#fff;color:var(--text-2);padding:7px 16px;font-weight:700;cursor:pointer;font-size:15px}
+.seg button+button{border-left:1px solid var(--border)}
+.seg button.active{background:var(--primary);color:#fff}
+.filterbar select{padding:7px 12px;font-size:15px}
+.filterbar .spacer{flex:1}
+.filterbar .cnt{font-size:14px;color:var(--text-2)}
+
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:14px;min-height:120px}
+.col.drag-over{border-color:var(--primary);background:var(--accent-soft)}
+.col-head{display:flex;align-items:center;justify-content:space-between;font-weight:700;padding:6px 8px 12px}
+.col-head .count{background:var(--accent-soft);color:var(--primary);border-radius:var(--pill);padding:1px 11px;font-size:14px}
+.col[data-stage="doing"] .col-head .name{color:var(--amber)}
+.col[data-stage="done"] .col-head .name{color:var(--primary)}
+.kcard{background:#fff;border:1px solid var(--border);border-left:4px solid var(--border);border-radius:var(--radius-control);padding:11px 12px;margin-bottom:10px;cursor:grab;transition:.12s;position:relative}
+.kcard:hover{box-shadow:0 4px 14px rgba(19,23,54,.08);transform:translateY(-1px)}
+.kcard.dragging{opacity:.5}
+.kcard.closed{opacity:.6;background:#FafafA}
+.kcard.p-critical{border-left-color:var(--red)}
+.kcard.p-high{border-left-color:var(--accent)}
+.kcard.p-medium{border-left-color:var(--amber)}
+.kcard.p-low{border-left-color:var(--blue)}
+.kcard-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.kid{font-size:12px;font-weight:700;color:var(--text-2)}
+.kbtns{display:flex;gap:4px}
+.iconbtn{width:24px;height:24px;border:1px solid var(--border);background:#fff;border-radius:7px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text-2);display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0}
+.iconbtn:hover{border-color:var(--primary);color:var(--primary);background:var(--accent-soft)}
+.iconbtn.done{border-color:var(--primary);color:var(--primary)}
+.kcard .ktitle{font-weight:700;font-size:16px;margin:4px 0 3px}
+.kcard.closed .ktitle{text-decoration:line-through}
+.kcard .kdesc{font-size:14px;color:var(--text-2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.kcard .kfoot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--text-2);flex-wrap:wrap;gap:4px}
+.badge{font-size:12px;font-weight:700;padding:2px 9px;border-radius:var(--pill);white-space:nowrap}
+.badge.critical{color:var(--red);background:var(--red-soft)}
+.badge.high{color:var(--primary);background:var(--green-soft)}
+.badge.medium{color:var(--amber);background:var(--amber-soft)}
+.badge.low{color:var(--blue);background:var(--blue-soft)}
+.chip{font-size:12px;font-weight:600;padding:2px 8px;border-radius:var(--pill);background:#F1F2F4;color:var(--text-2)}
+.chip.closed{background:#E5E7EB;color:var(--text-2)}
+
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:var(--accent-soft);color:var(--primary-dark);font-weight:700;font-size:13px;letter-spacing:.02em;white-space:nowrap}
+tbody tr:hover{background:var(--bg-alt)}
+tr.row-closed{opacity:.55}
+tr.row-closed .act-name{text-decoration:line-through}
+tr.flash{animation:flash 2s ease}
+@keyframes flash{0%{background:#FFF6CC}40%{background:#FFF6CC}100%{background:transparent}}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.trend-up{color:var(--green);font-weight:700}
+.trend-down{color:var(--red);font-weight:700}
+.trend-flat{color:var(--text-2)}
+.pos-pill{display:inline-block;min-width:30px;text-align:center;font-weight:700;border-radius:var(--pill);padding:1px 9px;background:var(--accent-soft);color:var(--primary)}
+.pos-pill.top3{background:var(--primary);color:#fff}
+.lvl{font-size:12px;font-weight:700;padding:2px 9px;border-radius:var(--pill)}
+.lvl.Error{color:var(--red);background:var(--red-soft)}
+.lvl.Warning{color:var(--amber);background:var(--amber-soft)}
+.lvl.Notice{color:var(--text-2);background:#F1F2F4}
+.stage-select{padding:5px 8px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:#fff}
+.stage-select[data-stage="doing"]{color:var(--amber);border-color:var(--amber)}
+.stage-select[data-stage="done"]{color:var(--primary);border-color:var(--primary)}
+.cell-input{width:100%;min-width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:#fff}
+.cell-input:focus{outline:2px solid var(--accent-soft);border-color:var(--primary)}
+.rowbtn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text-2);white-space:nowrap}
+.rowbtn:hover{border-color:var(--primary);color:var(--primary);background:var(--accent-soft)}
+.muted{color:var(--text-2);font-size:14px}
+.empty{padding:26px;text-align:center;color:var(--text-2)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:20px}
+.chart-card h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.summary-box{background:var(--accent-soft);border:1px solid #cfe9d4;border-radius:var(--radius-card);padding:18px 22px;font-size:18px}
+.summary-box b{color:var(--primary-dark)}
+.subtle{font-size:14px;color:var(--text-2);margin:-6px 0 12px}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color:var(--text-2);font-size:14px;text-align:center}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:var(--pill);font-weight:600;opacity:0;transition:.3s;z-index:50}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* Modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(19,23,54,.45);display:none;align-items:flex-start;justify-content:center;padding:6vh 16px;z-index:60}
+.modal-backdrop.show{display:flex}
+.modal-box{background:#fff;border-radius:var(--radius-card);max-width:620px;width:100%;padding:26px 28px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;max-height:84vh;overflow:auto}
+.modal-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:1px solid var(--border);background:#fff;border-radius:9px;cursor:pointer;font-size:16px;font-weight:700;color:var(--text-2)}
+.modal-close:hover{border-color:var(--primary);color:var(--primary)}
+.modal-box h2{font-size:22px;font-weight:700;margin:0 36px 4px 0}
+.modal-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.mrow{display:grid;grid-template-columns:130px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:15px}
+.mrow .k{color:var(--text-2);font-weight:700}
+.modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.timelog{font-size:14px;color:var(--text-2)}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.board{grid-template-columns:1fr}.charts{grid-template-columns:1fr}.top h1{font-size:28px}.mrow{grid-template-columns:110px 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="sitebar">
+    <span class="lbl">เลือกเว็บไซต์:</span>
+    <div class="site-tabs" id="siteTabs"></div>
+  </div>
+
+  <header class="top">
+    <div class="top-row">
+      <div>
+        <div class="eyebrow">รายงาน &amp; แผนปรับ SEO รายสัปดาห์</div>
+        <h1 id="siteName">—</h1>
+        <div class="meta" id="siteMeta">—</div>
+      </div>
+      <div class="controls">
+        <label class="muted" for="weekSel">สัปดาห์:</label>
+        <select id="weekSel"></select>
+        <button class="btn btn-ghost" id="resetBtn" title="ล้างสถานะที่แก้ในเครื่อง กลับไปใช้ค่าที่เผยแพร่">รีเซ็ต</button>
+        <button class="btn btn-primary" id="exportBtn" title="บันทึกสถานะ/ผู้รับผิดชอบ/กำหนดเสร็จ ลงไฟล์ HTML เพื่อนำไป push ขึ้น GitHub">⬇ Export HTML</button>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>ภาพรวมเว็บไซต์ (เทียบสัปดาห์ก่อน)</div>
+    <div class="cards" id="scorecards"></div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>ข้อค้นพบเชิงกลยุทธ์ (จุดที่ต้องแก้)</div>
+    <div class="findings"><ol id="findingsList"></ol></div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>ความคืบหน้า Action Plan</div>
+    <div class="progress-wrap">
+      <div class="progress-head"><div>งานที่ทำเสร็จ (รวมงานที่ปิดแล้ว)</div><div class="pct" id="progPct">0%</div></div>
+      <div class="bar"><span id="progBar" style="width:0%"></span></div>
+      <div class="progress-legend">
+        <span>📋 To-do: <b id="cntTodo">0</b></span>
+        <span>🔧 Doing: <b id="cntDoing">0</b></span>
+        <span>✅ Done: <b id="cntDone">0</b></span>
+        <span>🗄️ Closed: <b id="cntClosed">0</b></span>
+        <span>รวม: <b id="cntAll">0</b> งาน</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER BAR (ควบคุมทั้ง Kanban และ List) -->
+  <div class="filterbar">
+    <span class="fl">แสดง:</span>
+    <div class="seg" id="viewSeg">
+      <button data-v="open" class="active">เปิดอยู่</button>
+      <button data-v="closed">ปิดแล้ว</button>
+      <button data-v="all">ทั้งหมด</button>
+    </div>
+    <span class="fl">ด้าน:</span>
+    <select id="catFilter"><option value="">ทุกด้าน</option></select>
+    <span class="fl">Priority:</span>
+    <select id="prioFilter"><option value="">ทุก Priority</option></select>
+    <span class="spacer"></span>
+    <span class="cnt" id="filterCnt"></span>
+  </div>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>กระดานงาน — ลากการ์ดเพื่อเปลี่ยนสถานะ <span class="muted" style="font-size:14px;font-weight:400">(ปุ่ม <b>i</b> = ดูรายละเอียด · <b>@</b> = ไปที่ตาราง · <b>✓/↩</b> = ปิด/เปิดงาน)</span></div>
+    <div class="board" id="board">
+      <div class="col" data-stage="todo"><div class="col-head"><span class="name">📋 To-do</span><span class="count">0</span></div><div class="drop"></div></div>
+      <div class="col" data-stage="doing"><div class="col-head"><span class="name">🔧 Doing</span><span class="count">0</span></div><div class="drop"></div></div>
+      <div class="col" data-stage="done"><div class="col-head"><span class="name">✅ Done</span><span class="count">0</span></div><div class="drop"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Action Plan — แผนงานเต็ม (List view)</div>
+    <div class="subtle">ใช้ฟิลเตอร์ด้านบนกรอง Open/Closed/ด้าน/Priority · ช่อง “ผู้รับผิดชอบ/กำหนดเสร็จ” กรอกได้ · ปุ่ม “ปิดงาน/เปิดใหม่” ซ่อน/แสดงงาน · กด Export เพื่อบันทึกลงไฟล์</div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th>ID</th><th>Priority</th><th>ด้าน</th><th>Action</th><th>รายละเอียด / วิธีทำ</th>
+          <th>หน้า/URL</th><th>Keyword</th><th>Impact</th><th>Effort</th>
+          <th style="min-width:130px">ผู้รับผิดชอบ</th><th style="min-width:140px">กำหนดเสร็จ</th><th style="min-width:120px">สถานะ</th><th style="min-width:110px">จัดการ</th>
+        </tr></thead>
+        <tbody id="actionBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Keyword Ranking Report — คำที่ติดตาม</div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th style="width:90px">แนวโน้ม</th><th>คำค้นหา</th>
+          <th class="num" style="width:80px">อันดับ</th><th class="num" style="width:90px">เปลี่ยน</th>
+          <th class="num" style="width:90px">Volume</th><th class="num" style="width:90px">Traffic</th>
+        </tr></thead>
+        <tbody id="trackBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Traffic Report</div>
+    <div class="charts">
+      <div class="chart-card"><h3>Organic Traffic / เดือน</h3><div class="muted">ประมาณการผู้เข้าชมจาก organic search</div><canvas id="trafficChart" height="150"></canvas></div>
+      <div class="chart-card"><h3>Keywords &amp; Top 3</h3><div class="muted">จำนวนคีย์เวิร์ดทั้งหมด และที่ติด Top 3</div><canvas id="kwChart" height="150"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Quick Wins — คำที่ใกล้ขึ้น Top 3</div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th>Keyword</th><th class="num" style="width:90px">Volume</th><th class="num" style="width:60px">KD</th>
+          <th class="num" style="width:80px">อันดับ</th><th class="num" style="width:80px">Traffic</th><th>URL</th><th>โอกาส / สิ่งที่ควรทำ</th>
+        </tr></thead>
+        <tbody id="qwBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Content &amp; AEO — หน้า/บทความที่ควรสร้าง</div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th>หน้า/บทความ</th><th>ประเภท</th><th>Keyword เป้าหมาย</th>
+          <th class="num" style="width:90px">Volume</th><th class="num" style="width:60px">KD</th><th>มุมเนื้อหา</th><th>หมายเหตุ AEO</th>
+        </tr></thead>
+        <tbody id="contentBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Technical Issues (Ahrefs Site Audit)</div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th>ปัญหา</th><th style="width:90px">ระดับ</th><th class="num" style="width:120px">จำนวนหน้า/รูป</th><th style="width:110px">หมวด</th><th>สิ่งที่ต้องทำ</th>
+        </tr></thead>
+        <tbody id="techBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>Competitors — คู่แข่งในผลการค้นหา</div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th>คู่แข่ง (Domain)</th><th class="num" style="width:60px">DR</th>
+          <th class="num" style="width:100px">คำที่ชนกัน</th><th class="num" style="width:120px">คำที่เขามี</th>
+          <th class="num" style="width:110px">Traffic/เดือน</th><th>หมายเหตุ</th>
+        </tr></thead>
+        <tbody id="compBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>สรุปสัปดาห์</div>
+    <div class="summary-box" id="summaryBox"></div>
+  </section>
+
+  <footer>
+    สร้างด้วย Ahrefs API · ดีไซน์ตามแบรนด์ Greenpro KSP · ไฟล์เดียวจบ พร้อม push ขึ้น GitHub Pages<br>
+    <span class="muted">เคล็ดลับ: แก้สถานะ/ผู้รับผิดชอบ/กำหนดเสร็จ/ปิดงาน แล้วกด “Export HTML” เพื่อบันทึกลงไฟล์ก่อน commit ขึ้น GitHub</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" title="ปิด">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script id="report-data" type="application/json">
+{
+  "generatedAt": "2026-06-14",
+  "sites": [
+    {
+      "id": "kspasiafin",
+      "name": "KSP AsiaFin",
+      "domain": "kspasiafin.com",
+      "weeks": [
+        {
+          "id": "2026-06-14",
+          "label": "สัปดาห์ที่ 14 มิ.ย. 2026",
+          "metrics": [
+            {
+              "label": "Domain Rating",
+              "value": 8,
+              "suffix": " /100",
+              "sub": "อำนาจโดเมน (backlink)"
+            },
+            {
+              "label": "Organic Keywords",
+              "value": 426,
+              "prev": 406,
+              "fmt": "int"
+            },
+            {
+              "label": "คำติด Top 3",
+              "value": 164,
+              "prev": 149,
+              "fmt": "int"
+            },
+            {
+              "label": "Organic Traffic / เดือน",
+              "value": 6845,
+              "prev": 4307,
+              "fmt": "int"
+            },
+            {
+              "label": "มูลค่าทราฟฟิก",
+              "value": 387.04,
+              "prev": 359.73,
+              "fmt": "usd"
+            },
+            {
+              "label": "Referring Domains",
+              "value": 2345,
+              "fmt": "int",
+              "sub": "โดเมนอ้างอิง"
+            },
+            {
+              "label": "Health Score",
+              "value": 100,
+              "suffix": " /100",
+              "sub": "1 error · 182 warning · 70 notice"
+            }
+          ],
+          "history": [
+            {
+              "week": "7 มิ.ย.",
+              "traffic": 4307,
+              "keywords": 406,
+              "top3": 149
+            },
+            {
+              "week": "14 มิ.ย.",
+              "traffic": 6845,
+              "keywords": 426,
+              "top3": 164
+            }
+          ],
+          "findings": [
+            "คำที่ดึง traffic ส่วนใหญ่เป็นคำกว้าง/ความรู้ทั่วไป (เทคโนโลยี, ระบบ, อัตโนมัติ, องค์กร, iot) ไม่ใช่คำที่คนตั้งใจซื้อบริการ RPA/OCR → traffic เยอะแต่แปลงเป็นลูกค้ายาก",
+            "หน้า money keyword อันดับยังไม่ดี: rpa คือ #11, ocr คือ #6 → ดันขึ้น Top 3 ได้ผลเร็ว",
+            "มีคำอันดับ 4–20 จำนวนมากที่ KD ต่ำ (0–6) รอดันขึ้น Top 3 = Quick Wins",
+            "ยังไม่มีหน้าบริการเชิงพาณิชย์ (RPA Thailand / OCR ภาษาไทย) — ช่องว่างใหญ่สุด",
+            "คู่แข่งตรง: dittothailand.com (DR 42), aigencorp.com, aware.co.th — แข็งกว่าด้าน backlink",
+            "โอกาส AEO สูง: คำ 'คือ' จำนวนมากติดอันดับอยู่แล้ว → ใส่ FAQ + schema ดัน AI Overview / Featured snippet"
+          ],
+          "actions": [
+            {
+              "id": "KT01",
+              "priority": "สูงมาก",
+              "category": "Crawl & Error",
+              "action": "แก้หน้า 500 / 5XX Server Error",
+              "detail": "มี 1 หน้าตอบ server error — เช็ก log/เซิร์ฟเวอร์ ให้กลับมา 200 เพื่อไม่ให้หลุดดัชนี",
+              "page": "1 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT02",
+              "priority": "สูง",
+              "category": "Indexing",
+              "action": "ตรวจหน้า Indexable → Non-indexable",
+              "detail": "1 หน้าเปลี่ยนเป็น noindex สัปดาห์นี้ — ยืนยันว่าตั้งใจ ถ้าไม่ใช่ให้เอา noindex ออก",
+              "page": "1 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT03",
+              "priority": "สูง",
+              "category": "On-page",
+              "action": "เติม Meta description ที่หาย",
+              "detail": "~17 หน้าไม่มี meta description — เขียนใหม่ให้ดึงคลิก (CTR)",
+              "page": "~17 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT04",
+              "priority": "กลาง",
+              "category": "On-page",
+              "action": "ขยาย Meta description ที่สั้นเกิน",
+              "detail": "12 หน้าสั้นเกินไป — ปรับให้ ~120-155 ตัวอักษร",
+              "page": "12 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT05",
+              "priority": "กลาง",
+              "category": "On-page",
+              "action": "แก้ Title ที่ไม่ตรงกับ SERP",
+              "detail": "22 หน้า Google เขียน title ใหม่เอง + 2 หน้า title ยาวเกิน — ปรับให้ตรง intent และ ≤60 ตัวอักษร",
+              "page": "24 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT06",
+              "priority": "สูง",
+              "category": "Internal Links",
+              "action": "ปรับ Internal Linking ไป money pages",
+              "detail": "เพิ่มลิงก์ภายในจากหน้า traffic สูง (เทคโนโลยี, iot) → หน้า RPA/OCR/บริการ ส่งต่ออำนาจหน้า",
+              "page": "ทั้งไซต์",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT07",
+              "priority": "สูง",
+              "category": "Schema",
+              "action": "เพิ่ม Schema markup ทั้งไซต์",
+              "detail": "Organization, Service, Breadcrumb, FAQ — ช่วยทั้ง SEO และ AEO (AI Overview/snippet)",
+              "page": "ทั้งไซต์",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT08",
+              "priority": "กลาง",
+              "category": "Images",
+              "action": "ใส่ Alt text รูปภาพที่หาย",
+              "detail": "180 รูปไม่มี alt — ใส่ alt อธิบายรูป + คีย์เวิร์ดที่เกี่ยวข้อง",
+              "page": "180 รูป",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT09",
+              "priority": "กลาง",
+              "category": "ความเร็ว/CSS",
+              "action": "ลดขนาด CSS + เช็ก Core Web Vitals",
+              "detail": "CSS file size too large 1 หน้า — บีบอัด/ตัด CSS ที่ไม่ใช้ เพิ่มความเร็วโหลด",
+              "page": "1 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT10",
+              "priority": "สูง",
+              "category": "Monitoring",
+              "action": "ตรวจหน้าที่หล่นอันดับ",
+              "detail": "8 หน้าหลุด Top 10 + 15 หน้า organic traffic ลด — หาสาเหตุและรีเฟรชเนื้อหา",
+              "page": "23 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KT11",
+              "priority": "ต่ำ",
+              "category": "Indexing",
+              "action": "ส่งหน้าใหม่เข้า IndexNow",
+              "detail": "13 หน้ารอส่ง index — เร่งให้ Google เก็บข้อมูลเร็วขึ้น",
+              "page": "13 หน้า",
+              "keyword": "-",
+              "impact": "ต่ำ",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KQ12",
+              "priority": "สูง",
+              "category": "Quick Win",
+              "action": "ดันหน้า OCR ขึ้น Top 3",
+              "detail": "ขยาย /ocr-คืออะไร/ (ocr คือ #6) + internal link",
+              "page": "/ocr-คืออะไร/",
+              "keyword": "ocr คือ (2,000)",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KQ13",
+              "priority": "สูง",
+              "category": "Quick Win",
+              "action": "ดันหน้า RPA ขึ้น Top 3",
+              "detail": "อัปเดต /rpa-คืออะไร/ (rpa คือ #11, KD 0!) ให้ครอบคลุม use case",
+              "page": "/rpa-คืออะไร/",
+              "keyword": "rpa คือ (1,400)",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KQ14",
+              "priority": "กลาง",
+              "category": "Quick Win",
+              "action": "ดันหน้า IoT",
+              "detail": "/iot/ ดัน 'iot' (#7) และ 'iot คืออะไร' (#8) — volume สูงมาก",
+              "page": "/iot/",
+              "keyword": "iot (16,000)",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KC15",
+              "priority": "กลาง",
+              "category": "Content/AEO",
+              "action": "FAQ + Schema ทุกหน้า 'คือ'",
+              "detail": "เพิ่ม FAQ + FAQPage schema เพื่อจับ AI Overview / Featured snippet",
+              "page": "ทุกหน้า informational",
+              "keyword": "กลุ่มคำ 'คือ'",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "KC16",
+              "priority": "กลาง",
+              "category": "Content/AEO",
+              "action": "สร้างหน้าบริการ RPA / OCR ภาษาไทย",
+              "detail": "Landing page เชิงพาณิชย์ ปิดช่องว่างหน้าขายตรง",
+              "page": "ใหม่: /rpa-thailand/, /ocr-thailand/",
+              "keyword": "rpa, ocr ภาษาไทย",
+              "impact": "สูง",
+              "effort": "สูง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            }
+          ],
+          "tracked": [
+            {
+              "trend": "up",
+              "keyword": "ocr",
+              "position": 1,
+              "diff": 1,
+              "volume": 2900,
+              "traffic": 0
+            },
+            {
+              "trend": "up",
+              "keyword": "ai ocr",
+              "position": 6,
+              "diff": 6,
+              "volume": 200,
+              "traffic": 15
+            },
+            {
+              "trend": "up",
+              "keyword": "rpa คืออะไร",
+              "position": 6,
+              "diff": 6,
+              "volume": 100,
+              "traffic": 9
+            },
+            {
+              "trend": "up",
+              "keyword": "ocr pdf",
+              "position": 7,
+              "diff": 7,
+              "volume": 300,
+              "traffic": 20
+            },
+            {
+              "trend": "up",
+              "keyword": "โปรแกรม ocr",
+              "position": 7,
+              "diff": 7,
+              "volume": 150,
+              "traffic": 10
+            },
+            {
+              "trend": "up",
+              "keyword": "rpa ย่อมาจาก",
+              "position": 9,
+              "diff": 9,
+              "volume": 200,
+              "traffic": 7
+            },
+            {
+              "trend": "up",
+              "keyword": "ocr คือ",
+              "position": 13,
+              "diff": 13,
+              "volume": 2000,
+              "traffic": 77
+            },
+            {
+              "trend": "up",
+              "keyword": "ocr คืออะไร",
+              "position": 13,
+              "diff": 13,
+              "volume": 250,
+              "traffic": 4
+            },
+            {
+              "trend": "up",
+              "keyword": "rpa คือ",
+              "position": 14,
+              "diff": 14,
+              "volume": 1400,
+              "traffic": 5
+            },
+            {
+              "trend": "up",
+              "keyword": "rpa",
+              "position": 17,
+              "diff": 17,
+              "volume": 2000,
+              "traffic": 9
+            },
+            {
+              "trend": "up",
+              "keyword": "ocr ภาษาไทย",
+              "position": 26,
+              "diff": 26,
+              "volume": 300,
+              "traffic": 0
+            },
+            {
+              "trend": "up",
+              "keyword": "แปลงรูปเป็นข้อความ",
+              "position": 36,
+              "diff": 36,
+              "volume": 5200,
+              "traffic": 1
+            },
+            {
+              "trend": "none",
+              "keyword": "uipath",
+              "position": null,
+              "diff": null,
+              "volume": 2000,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "ระบบอัตโนมัติ",
+              "position": null,
+              "diff": null,
+              "volume": 500,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "thai ocr",
+              "position": null,
+              "diff": null,
+              "volume": 300,
+              "traffic": 0
+            }
+          ],
+          "quickWins": [
+            {
+              "keyword": "iot",
+              "volume": 16000,
+              "kd": 1,
+              "position": 7,
+              "traffic": 27,
+              "url": "/iot/",
+              "opp": "Volume สูงมาก KD ต่ำ — ดันขึ้น Top 3 คุ้มสุด"
+            },
+            {
+              "keyword": "อัตโนมัติ",
+              "volume": 9200,
+              "kd": 0,
+              "position": 5,
+              "traffic": 49,
+              "url": "/ระบบอัตโนมัติ/",
+              "opp": "ใกล้ Top 3 + เชื่อมโยงบริการ RPA"
+            },
+            {
+              "keyword": "iot คืออะไร",
+              "volume": 5300,
+              "kd": 1,
+              "position": 8,
+              "traffic": 47,
+              "url": "/iot/",
+              "opp": "เสริมเนื้อหา + FAQ ดัน snippet"
+            },
+            {
+              "keyword": "องค์กร",
+              "volume": 5100,
+              "kd": 0,
+              "position": 9,
+              "traffic": 35,
+              "url": "/การพัฒนาองค์กร/",
+              "opp": "คำกว้าง — โฟกัสรองจาก money kw"
+            },
+            {
+              "keyword": "เทคโนโลยี คือ",
+              "volume": 4400,
+              "kd": 0,
+              "position": 5,
+              "traffic": 39,
+              "url": "/เทคโนโลยี/",
+              "opp": "หน้า traffic หลัก — รักษา + กระจายลิงก์ออก"
+            },
+            {
+              "keyword": "internet of things คือ",
+              "volume": 3000,
+              "kd": 2,
+              "position": 6,
+              "traffic": 20,
+              "url": "/iot/",
+              "opp": "รวมกับหน้า IoT ดัน Top 3"
+            },
+            {
+              "keyword": "machine learning คือ",
+              "volume": 2600,
+              "kd": 48,
+              "position": 11,
+              "traffic": 87,
+              "url": "/machine-learning/",
+              "opp": "KD สูง — ต้องเสริม backlink"
+            },
+            {
+              "keyword": "ocr คือ",
+              "volume": 2000,
+              "kd": 6,
+              "position": 6,
+              "traffic": 18,
+              "url": "/ocr-คืออะไร/",
+              "opp": "MONEY KW — ดัน Top 3 ด่วน"
+            },
+            {
+              "keyword": "รูทีน คือ",
+              "volume": 1500,
+              "kd": 0,
+              "position": 6,
+              "traffic": 115,
+              "url": "/routine/",
+              "opp": "KD 0 — ดันง่าย"
+            },
+            {
+              "keyword": "ระบบคืออะไร",
+              "volume": 1300,
+              "kd": 53,
+              "position": 14,
+              "traffic": 14,
+              "url": "/ระบบควบคุม/",
+              "opp": "KD สูง — รอง"
+            },
+            {
+              "keyword": "ปรับปรุง",
+              "volume": 1200,
+              "kd": 0,
+              "position": 6,
+              "traffic": 23,
+              "url": "/ปรับปรุงกระบวนการทำงาน/",
+              "opp": "KD 0 — ดันง่าย"
+            },
+            {
+              "keyword": "packing list",
+              "volume": 1000,
+              "kd": 0,
+              "position": 8,
+              "traffic": 22,
+              "url": "/packing-list/",
+              "opp": "ต่อยอด use case OCR เอกสาร"
+            },
+            {
+              "keyword": "web scraping",
+              "volume": 900,
+              "kd": 1,
+              "position": 15,
+              "traffic": 5,
+              "url": "/web-scraping/",
+              "opp": "KD 1 — เสริมเนื้อหาเชื่อม automation"
+            },
+            {
+              "keyword": "แปลงข้อความจากภาพ",
+              "volume": 900,
+              "kd": 0,
+              "position": 11,
+              "traffic": 17,
+              "url": "/แปลงข้อความจากภาพ/",
+              "opp": "เชื่อมหน้า OCR ดึง 'แปลงรูปเป็นข้อความ' (5,900)"
+            },
+            {
+              "keyword": "ai automation",
+              "volume": 800,
+              "kd": 27,
+              "position": 16,
+              "traffic": 7,
+              "url": "/ai-automation/",
+              "opp": "ต่อยอดหน้าที่ติด #1 workflow automation"
+            },
+            {
+              "keyword": "six sigma",
+              "volume": 800,
+              "kd": 0,
+              "position": 5,
+              "traffic": 6,
+              "url": "/six-sigma/",
+              "opp": "KD 0 — ดันง่าย"
+            },
+            {
+              "keyword": "reconcile แปล",
+              "volume": 700,
+              "kd": 0,
+              "position": 4,
+              "traffic": 6,
+              "url": "/bank-reconcile/",
+              "opp": "ใกล้ Top 3 — use case บัญชี"
+            },
+            {
+              "keyword": "real time",
+              "volume": 600,
+              "kd": 44,
+              "position": 6,
+              "traffic": 10,
+              "url": "/real-time/",
+              "opp": "-"
+            },
+            {
+              "keyword": "ระบบอัตโนมัติ",
+              "volume": 600,
+              "kd": 2,
+              "position": 11,
+              "traffic": 1,
+              "url": "/ระบบอัตโนมัติ/",
+              "opp": "MONEY-related — ดันขึ้น Top 3"
+            },
+            {
+              "keyword": "b/l คือ",
+              "volume": 500,
+              "kd": 0,
+              "position": 7,
+              "traffic": 23,
+              "url": "/bill-of-lading/",
+              "opp": "use case OCR เอกสารนำเข้า-ส่งออก"
+            },
+            {
+              "keyword": "rpa คือ",
+              "volume": 1400,
+              "kd": 0,
+              "position": 11,
+              "traffic": 47,
+              "url": "/rpa-คืออะไร/",
+              "opp": "MONEY KW — ดัน Top 3 ด่วน (KD 0!)"
+            }
+          ],
+          "content": [
+            {
+              "page": "บริการรับวางระบบ RPA",
+              "type": "Service page",
+              "keyword": "rpa, rpa tools, thailand rpa",
+              "volume": "~2,300",
+              "kd": "3",
+              "angle": "บริการ + ราคา + ผลงาน + ฟอร์มติดต่อ",
+              "aeo": "ใส่ Service schema + FAQ"
+            },
+            {
+              "page": "ระบบ OCR ภาษาไทยสำหรับองค์กร",
+              "type": "Service page",
+              "keyword": "ocr ภาษาไทย, thai ocr, ai ocr",
+              "volume": "~800",
+              "kd": "0",
+              "angle": "จุดเด่น OCR ไทย + อุตสาหกรรม + demo",
+              "aeo": "Service + FAQ schema"
+            },
+            {
+              "page": "RPA คืออะไร (ฉบับสมบูรณ์)",
+              "type": "Pillar/Guide",
+              "keyword": "rpa คือ, rpa ย่อมาจาก",
+              "volume": "~3,200",
+              "kd": "0",
+              "angle": "ครอบคลุม + use case + เชื่อมหน้าบริการ",
+              "aeo": "FAQ + HowTo schema → AI Overview"
+            },
+            {
+              "page": "OCR คืออะไร (ฉบับสมบูรณ์)",
+              "type": "Pillar/Guide",
+              "keyword": "ocr คือ, ocr คืออะไร, ocr pdf",
+              "volume": "~4,700",
+              "kd": "6",
+              "angle": "นิยาม + วิธีใช้ + เทียบเครื่องมือ",
+              "aeo": "FAQ schema, ตอบสั้นบนสุด"
+            },
+            {
+              "page": "RPA vs OCR ต่างกันอย่างไร",
+              "type": "Comparison",
+              "keyword": "rpa คือ, ocr คือ",
+              "volume": "~3,400",
+              "kd": "-",
+              "angle": "เปรียบเทียบ + ใช้คู่กัน + CTA บริการ",
+              "aeo": "ตาราง + FAQ ดึง snippet"
+            },
+            {
+              "page": "Use Case: OCR เอกสารบัญชี/นำเข้า",
+              "type": "Use case",
+              "keyword": "invoice ocr, b/l, packing list",
+              "volume": "~2,100",
+              "kd": "0",
+              "angle": "ต่อยอดหน้าที่ rank ดีอยู่แล้ว",
+              "aeo": "เชื่อม internal link เป็น cluster"
+            },
+            {
+              "page": "Content Hub: ระบบอัตโนมัติองค์กร",
+              "type": "Pillar hub",
+              "keyword": "ระบบอัตโนมัติ, automation",
+              "volume": "~600",
+              "kd": "2",
+              "angle": "หน้า pillar เชื่อม RPA/OCR/IoT/ML",
+              "aeo": "โครงสร้าง cluster ชัดเจน"
+            },
+            {
+              "page": "เพิ่ม FAQ + E-E-A-T ทุกหน้า 'คือ'",
+              "type": "Optimization",
+              "keyword": "กลุ่มคำ 'คือ'",
+              "volume": "สูง",
+              "kd": "ต่ำ",
+              "angle": "คำถาม-คำตอบสั้น + ผู้เขียน/อ้างอิง",
+              "aeo": "หัวใจของ AEO — ให้ AI อ้างอิง"
+            }
+          ],
+          "technical": [
+            {
+              "issue": "Missing alt text",
+              "level": "Warning",
+              "count": "180",
+              "cat": "Images",
+              "todo": "ใส่ alt อธิบายรูป + คีย์เวิร์ดที่เกี่ยว"
+            },
+            {
+              "issue": "Meta description missing/empty",
+              "level": "Warning",
+              "count": "17",
+              "cat": "Content",
+              "todo": "เขียน meta description ใหม่ ดึงคลิก"
+            },
+            {
+              "issue": "Meta description too short",
+              "level": "Warning",
+              "count": "12",
+              "cat": "Content",
+              "todo": "ขยายให้ ~120-155 ตัวอักษร"
+            },
+            {
+              "issue": "Page & SERP titles do not match",
+              "level": "Notice",
+              "count": "22",
+              "cat": "Content",
+              "todo": "ปรับ title ให้ตรง intent ที่ Google คาดหวัง"
+            },
+            {
+              "issue": "5XX / 500 page",
+              "level": "Error",
+              "count": "1",
+              "cat": "Internal",
+              "todo": "แก้ server error ให้เข้าถึงได้"
+            },
+            {
+              "issue": "Title too long",
+              "level": "Warning",
+              "count": "2",
+              "cat": "Content",
+              "todo": "ตัด title ให้ ≤ 60 ตัวอักษร"
+            },
+            {
+              "issue": "Pages dropped from Top 10",
+              "level": "Notice",
+              "count": "8",
+              "cat": "Other",
+              "todo": "หาสาเหตุ + รีเฟรชเนื้อหา"
+            },
+            {
+              "issue": "Organic traffic dropped",
+              "level": "Notice",
+              "count": "15",
+              "cat": "Other",
+              "todo": "ตรวจ + อัปเดตเนื้อหาให้สดใหม่"
+            },
+            {
+              "issue": "Pages to submit to IndexNow",
+              "level": "Notice",
+              "count": "13",
+              "cat": "Other",
+              "todo": "ส่ง index เร่งการเก็บข้อมูล"
+            },
+            {
+              "issue": "CSS file size too large",
+              "level": "Warning",
+              "count": "1",
+              "cat": "CSS",
+              "todo": "บีบอัด/ลดขนาด CSS เพิ่มความเร็ว"
+            }
+          ],
+          "competitors": [
+            {
+              "domain": "dittothailand.com",
+              "dr": 42,
+              "common": 119,
+              "theirs": 2497,
+              "traffic": 54958,
+              "note": "คู่แข่งตรงสุด — เอกสาร/OCR/ECM ไทย, DR สูงกว่ามาก ★"
+            },
+            {
+              "domain": "aigencorp.com",
+              "dr": 36,
+              "common": 33,
+              "theirs": 663,
+              "traffic": 10616,
+              "note": "คู่แข่งตรง — AI/automation ไทย"
+            },
+            {
+              "domain": "aware.co.th",
+              "dr": 36,
+              "common": 20,
+              "theirs": 686,
+              "traffic": 12252,
+              "note": "คู่แข่ง IT solution ไทย"
+            },
+            {
+              "domain": "dia.co.th",
+              "dr": 35,
+              "common": 26,
+              "theirs": 686,
+              "traffic": 23200,
+              "note": "คู่แข่ง digital/automation"
+            },
+            {
+              "domain": "dynamics-motion.com",
+              "dr": 10,
+              "common": 21,
+              "theirs": 1663,
+              "traffic": 20400,
+              "note": "คู่แข่ง automation รายเล็ก DR ใกล้เคียง"
+            },
+            {
+              "domain": "enablesurvey.com",
+              "dr": 34,
+              "common": 21,
+              "theirs": 1420,
+              "traffic": 17645,
+              "note": "แข่งบางคำ (survey/data)"
+            },
+            {
+              "domain": "peakaccount.com",
+              "dr": 53,
+              "common": 47,
+              "theirs": 8671,
+              "traffic": 123394,
+              "note": "ซอฟต์แวร์บัญชี — แข่งคำกลุ่มบัญชี/เอกสาร"
+            },
+            {
+              "domain": "sas.com",
+              "dr": 86,
+              "common": 27,
+              "theirs": 544,
+              "traffic": 13070,
+              "note": "แบรนด์ใหญ่ ML/analytics (ไม่ใช่คู่แข่งตรง)"
+            }
+          ],
+          "summaryHtml": "<b>ภาพรวมดีขึ้นชัดเจน</b> — organic traffic โต ~59%, คำติด Top 3 เพิ่ม 15 คำ, กลุ่ม OCR/RPA ไต่อันดับแรงและ <b>ไม่มีคำใดตกอันดับ</b> งานสำคัญสัปดาห์นี้: แก้หน้า 500 error, ดัน money keyword (ocr/rpa) ขึ้น Top 3 และเริ่มสร้างหน้าบริการเชิงพาณิชย์"
+        }
+      ]
+    },
+    {
+      "id": "greenproksp",
+      "name": "Greenpro KSP",
+      "domain": "greenproksp.com",
+      "weeks": [
+        {
+          "id": "2026-06-14",
+          "label": "สัปดาห์ที่ 14 มิ.ย. 2026",
+          "metrics": [
+            {
+              "label": "Domain Rating",
+              "value": 24,
+              "suffix": " /100",
+              "sub": "อำนาจโดเมน (backlink)"
+            },
+            {
+              "label": "Organic Keywords",
+              "value": 968,
+              "prev": 904,
+              "fmt": "int"
+            },
+            {
+              "label": "คำติด Top 3",
+              "value": 261,
+              "prev": 204,
+              "fmt": "int"
+            },
+            {
+              "label": "Organic Traffic / เดือน",
+              "value": 7953,
+              "prev": 7331,
+              "fmt": "int"
+            },
+            {
+              "label": "มูลค่าทราฟฟิก",
+              "value": 960.06,
+              "prev": 878.59,
+              "fmt": "usd"
+            },
+            {
+              "label": "Referring Domains",
+              "value": 3346,
+              "fmt": "int",
+              "sub": "โดเมนอ้างอิง"
+            },
+            {
+              "label": "Health Score",
+              "value": 99,
+              "suffix": " /100",
+              "sub": "11 error · 538 warning · 296 notice"
+            }
+          ],
+          "history": [
+            {
+              "week": "7 มิ.ย.",
+              "traffic": 7331,
+              "keywords": 904,
+              "top3": 204
+            },
+            {
+              "week": "14 มิ.ย.",
+              "traffic": 7953,
+              "keywords": 968,
+              "top3": 261
+            }
+          ],
+          "findings": [
+            "คอนเทนต์แข็งแรง — 968 organic keywords, Top 3 ถึง 261 คำ และโตต่อเนื่อง (+57 คำในสัปดาห์เดียว)",
+            "คำเชิงพาณิชย์ใกล้ Top 3: จดทะเบียนบริษัท (#6, vol 8,900), หนังสือรับรองบริษัท (#3-6), ผู้ประกอบการ vat (#4) — ดันได้รายได้",
+            "ปัญหาเทคนิคกดศักยภาพ: JavaScript พัง (Error) + meta/title ซ้ำ 11 หน้า ควรเร่งแก้",
+            "DR 24 / 3,346 referring domains — แข็งกว่า KSP มาก แต่คู่แข่งภาครัฐ/แบงก์ (dbd 81, rd 79, kbank 75) ยังนำ",
+            "โอกาส AEO: คำ 'คือ' กลุ่มบัญชี-ภาษีติดอันดับเยอะ (po, ภพ.30, ออดิท) ใส่ FAQ/schema ดึง snippet"
+          ],
+          "actions": [
+            {
+              "id": "GT01",
+              "priority": "สูงมาก",
+              "category": "Crawl & Error",
+              "action": "แก้ JavaScript ที่พัง",
+              "detail": "JavaScript broken + Page has broken JS ระดับ Error 3 หน้า (ใหม่) กระทบการแสดงผล/การ crawl",
+              "page": "3 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT02",
+              "priority": "สูงมาก",
+              "category": "On-page",
+              "action": "แก้ Multiple meta description tags",
+              "detail": "Error 11 หน้า มี meta description ซ้ำ — เหลือชุดเดียวต่อหน้า",
+              "page": "11 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT03",
+              "priority": "สูง",
+              "category": "On-page",
+              "action": "แก้ Multiple title tags",
+              "detail": "Error 1 หน้ามี title ซ้ำ — เหลือ title เดียว",
+              "page": "1 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT04",
+              "priority": "สูง",
+              "category": "Crawl & Error",
+              "action": "แก้ 3XX page ที่ยังรับ organic traffic",
+              "detail": "Error 3 หน้า — หน้าที่ redirect แต่ยังมีทราฟฟิก ควรชี้ปลายทางให้ถูก/อัปเดตลิงก์",
+              "page": "3 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT05",
+              "priority": "กลาง",
+              "category": "Schema",
+              "action": "แก้ Structured data validation error",
+              "detail": "schema.org validation error 36 หน้า — แก้ markup ให้ผ่าน เพื่อรักษา rich result",
+              "page": "36 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT06",
+              "priority": "กลาง",
+              "category": "ความเร็ว/CSS",
+              "action": "ลดขนาด/แก้ CSS",
+              "detail": "CSS file size too large 20 หน้า (ใหม่ 16) + Page has broken CSS 7 หน้า — กระทบ Core Web Vitals",
+              "page": "~27 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT07",
+              "priority": "กลาง",
+              "category": "On-page",
+              "action": "เติม Meta description ที่หาย",
+              "detail": "รวม ~12 หน้าไม่มี meta description — เขียนใหม่",
+              "page": "~12 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT08",
+              "priority": "กลาง",
+              "category": "Indexing",
+              "action": "ทบทวน Noindex pages",
+              "detail": "Noindex page 144 หน้า — ยืนยันว่าตั้งใจ noindex ทั้งหมด ไม่บังหน้าที่ควร index",
+              "page": "144 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT09",
+              "priority": "ต่ำ",
+              "category": "Images",
+              "action": "ใส่ Alt text รูปภาพ",
+              "detail": "Missing alt text 333 รูป — ทยอยใส่ alt",
+              "page": "333 รูป",
+              "keyword": "-",
+              "impact": "ต่ำ",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT10",
+              "priority": "สูง",
+              "category": "Monitoring",
+              "action": "ตรวจหน้าที่หล่นอันดับ",
+              "detail": "8 หน้าหลุด Top 10 + 11 หน้า traffic ลด — โฟกัสกลุ่มจดทะเบียน/บัญชีที่เป็นรายได้หลัก",
+              "page": "19 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GT11",
+              "priority": "สูง",
+              "category": "Internal Links",
+              "action": "เพิ่ม Internal Link เข้า money page",
+              "detail": "ลิงก์ภายในจากบทความ traffic สูง → หน้า service จดทะเบียนบริษัท",
+              "page": "หลายหน้า",
+              "keyword": "จดทะเบียนบริษัท",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GQ12",
+              "priority": "สูง",
+              "category": "Quick Win",
+              "action": "ดันคำเชิงพาณิชย์ขึ้น Top 3",
+              "detail": "'จดทะเบียนบริษัท' #6, 'ผู้ประกอบการ vat' #4, 'คัดหนังสือรับรองบริษัท' #5",
+              "page": "หลายหน้า",
+              "keyword": "จดทะเบียนบริษัท (8,900)",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "GC13",
+              "priority": "กลาง",
+              "category": "Content/AEO",
+              "action": "FAQ + Schema กลุ่มคำ 'คือ' บัญชี-ภาษี",
+              "detail": "po, ใบแจ้งหนี้, ภพ.30, ออดิท — ใส่ FAQ/schema ดึง AI Overview",
+              "page": "หลายหน้า blog",
+              "keyword": "po คือ, ภพ 30 คือ",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            }
+          ],
+          "tracked": [
+            {
+              "trend": "up",
+              "keyword": "รับจดทะเบียนบริษัท",
+              "position": 1,
+              "diff": 9,
+              "volume": 1500,
+              "traffic": 120
+            },
+            {
+              "trend": "up",
+              "keyword": "จดทะเบียนบริษัท",
+              "position": 3,
+              "diff": 3,
+              "volume": 8900,
+              "traffic": 1333
+            },
+            {
+              "trend": "up",
+              "keyword": "หนังสือรับรองบริษัท",
+              "position": 3,
+              "diff": 3,
+              "volume": 15000,
+              "traffic": 1
+            },
+            {
+              "trend": "up",
+              "keyword": "odoo",
+              "position": 2,
+              "diff": 3,
+              "volume": 4200,
+              "traffic": 0
+            },
+            {
+              "trend": "up",
+              "keyword": "เปิดบัญชีธนาคารใช้อะไรบ้าง",
+              "position": 7,
+              "diff": 1,
+              "volume": 2600,
+              "traffic": 154
+            },
+            {
+              "trend": "up",
+              "keyword": "นักบัญชี outsource",
+              "position": 3,
+              "diff": 5,
+              "volume": 0,
+              "traffic": 0
+            },
+            {
+              "trend": "up",
+              "keyword": "เปิดร้านนวดแผนไทย ต้องขออนุญาต",
+              "position": 6,
+              "diff": 4,
+              "volume": 30,
+              "traffic": 2
+            },
+            {
+              "trend": "flat",
+              "keyword": "ขอหนังสือรับรองบริษัท",
+              "position": 3,
+              "diff": 0,
+              "volume": 20000,
+              "traffic": 0
+            },
+            {
+              "trend": "flat",
+              "keyword": "บริษัท",
+              "position": 6,
+              "diff": 0,
+              "volume": 190000,
+              "traffic": 496
+            },
+            {
+              "trend": "flat",
+              "keyword": "ใบลดหนี้",
+              "position": 5,
+              "diff": 0,
+              "volume": 2900,
+              "traffic": 369
+            },
+            {
+              "trend": "flat",
+              "keyword": "บุคคลธรรมดา จด vat",
+              "position": 1,
+              "diff": 0,
+              "volume": 500,
+              "traffic": 157
+            },
+            {
+              "trend": "flat",
+              "keyword": "ขอใบอนุญาตขายสุรา",
+              "position": 1,
+              "diff": 0,
+              "volume": 800,
+              "traffic": 67
+            },
+            {
+              "trend": "flat",
+              "keyword": "บริษัทจำกัด",
+              "position": 10,
+              "diff": 0,
+              "volume": 1700,
+              "traffic": 53
+            },
+            {
+              "trend": "down",
+              "keyword": "ออดิตคือ",
+              "position": 25,
+              "diff": 2,
+              "volume": 40,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "จดทะเบียนพาณิชย์",
+              "position": null,
+              "diff": null,
+              "volume": 13000,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "erp",
+              "position": null,
+              "diff": null,
+              "volume": 6600,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "ภาษีมูลค่าเพิ่ม",
+              "position": null,
+              "diff": null,
+              "volume": 5600,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "work permit",
+              "position": null,
+              "diff": null,
+              "volume": 3700,
+              "traffic": 0
+            },
+            {
+              "trend": "none",
+              "keyword": "ห้างหุ้นส่วนจำกัด",
+              "position": null,
+              "diff": null,
+              "volume": 3300,
+              "traffic": 0
+            }
+          ],
+          "quickWins": [
+            {
+              "keyword": "บริษัท",
+              "volume": 195000,
+              "kd": null,
+              "position": 6,
+              "traffic": 1276,
+              "url": "/blog/business/limited-company-overview/",
+              "opp": "คำกว้าง traffic หลัก — รักษาและกระจายลิงก์"
+            },
+            {
+              "keyword": "ขอหนังสือรับรองบริษัท",
+              "volume": 20000,
+              "kd": null,
+              "position": 4,
+              "traffic": 2,
+              "url": "/blog/business/how-to-request-company-certification-online/",
+              "opp": "ใกล้ Top 3 vol สูงมาก — ดันด่วน"
+            },
+            {
+              "keyword": "หนังสือรับรองบริษัท",
+              "volume": 15000,
+              "kd": null,
+              "position": 6,
+              "traffic": 0,
+              "url": "/blog/business/how-to-request-company-certification-online/",
+              "opp": "vol สูง — เสริมเนื้อหา/FAQ"
+            },
+            {
+              "keyword": "รายชื่อผู้ประกอบการ vat",
+              "volume": 9700,
+              "kd": null,
+              "position": 19,
+              "traffic": 0,
+              "url": "/blog/business/business-owner-duties/",
+              "opp": "อันดับ 19 — มีโอกาสดันขึ้นเยอะ"
+            },
+            {
+              "keyword": "ผู้ประกอบการ vat",
+              "volume": 9400,
+              "kd": null,
+              "position": 4,
+              "traffic": 0,
+              "url": "/blog/accounting/duties-after-vat-registration/",
+              "opp": "ใกล้ Top 3 — ดันด่วน"
+            },
+            {
+              "keyword": "คัดหนังสือรับรองบริษัท",
+              "volume": 9200,
+              "kd": null,
+              "position": 5,
+              "traffic": 0,
+              "url": "/blog/business/how-to-request-company-certification-online/",
+              "opp": "ใกล้ Top 3 vol สูง"
+            },
+            {
+              "keyword": "จดทะเบียนบริษัท",
+              "volume": 8900,
+              "kd": null,
+              "position": 6,
+              "traffic": 5,
+              "url": "/services/business-formation/company-registration/",
+              "opp": "MONEY KW — หน้า service ดันขึ้น Top 3"
+            },
+            {
+              "keyword": "po",
+              "volume": 8300,
+              "kd": null,
+              "position": 18,
+              "traffic": 12,
+              "url": "/blog/accounting/what-is-purchase-order/",
+              "opp": "อันดับ 18 — เสริมเนื้อหา"
+            },
+            {
+              "keyword": "ใบแจ้งหนี้",
+              "volume": 8200,
+              "kd": null,
+              "position": 18,
+              "traffic": 0,
+              "url": "/blog/accounting/what-is-invoice/",
+              "opp": "vol สูง อันดับ 18 — ดันได้อีกมาก"
+            },
+            {
+              "keyword": "หัก ณ ที่จ่าย",
+              "volume": 7200,
+              "kd": null,
+              "position": 7,
+              "traffic": 0,
+              "url": "/blog/tax/withholding-tax/",
+              "opp": "ใกล้ Top 5 — เสริม FAQ"
+            }
+          ],
+          "content": [
+            {
+              "page": "Pillar: จดทะเบียนบริษัท ครบจบในหน้าเดียว",
+              "type": "Pillar/Service",
+              "keyword": "จดทะเบียนบริษัท, รับจดทะเบียนบริษัท",
+              "volume": "~10,400",
+              "kd": "-",
+              "angle": "ขั้นตอน + ค่าบริการ + เอกสาร + CTA",
+              "aeo": "FAQ + Service schema"
+            },
+            {
+              "page": "FAQ + Schema กลุ่มบัญชี-ภาษี 'คือ'",
+              "type": "Optimization",
+              "keyword": "po คือ, ภพ 30 คือ, ออดิทคือ",
+              "volume": "สูง",
+              "kd": "ต่ำ-กลาง",
+              "angle": "คำถาม-คำตอบสั้นบนสุด + ผู้เชี่ยวชาญ",
+              "aeo": "ดึง AI Overview / snippet"
+            },
+            {
+              "page": "Use case: เอกสารบัญชีธุรกิจ",
+              "type": "Use case",
+              "keyword": "ใบแจ้งหนี้, po, ใบลดหนี้",
+              "volume": "~19,000",
+              "kd": "-",
+              "angle": "ต่อยอดหน้าที่ rank ดี เชื่อมบริการบัญชี",
+              "aeo": "เชื่อม internal link เป็น cluster"
+            }
+          ],
+          "technical": [
+            {
+              "issue": "JavaScript broken",
+              "level": "Error",
+              "count": "3",
+              "cat": "JavaScript",
+              "todo": "แก้สคริปต์ที่โหลดไม่ได้ (ใหม่สัปดาห์นี้)"
+            },
+            {
+              "issue": "Page has broken JavaScript",
+              "level": "Error",
+              "count": "3",
+              "cat": "JavaScript",
+              "todo": "ตรวจหน้าที่มี JS เสีย"
+            },
+            {
+              "issue": "Multiple meta description tags",
+              "level": "Error",
+              "count": "11",
+              "cat": "Content",
+              "todo": "เหลือ meta description ชุดเดียวต่อหน้า"
+            },
+            {
+              "issue": "Multiple title tags",
+              "level": "Error",
+              "count": "1",
+              "cat": "Content",
+              "todo": "เหลือ title เดียวต่อหน้า"
+            },
+            {
+              "issue": "3XX page receives organic traffic",
+              "level": "Error",
+              "count": "3",
+              "cat": "Other",
+              "todo": "ชี้ redirect ปลายทางให้ถูก"
+            },
+            {
+              "issue": "CSS file size too large",
+              "level": "Warning",
+              "count": "20",
+              "cat": "CSS",
+              "todo": "บีบอัด CSS (ใหม่ 16 หน้า)"
+            },
+            {
+              "issue": "Page has broken CSS",
+              "level": "Warning",
+              "count": "7",
+              "cat": "CSS",
+              "todo": "แก้ไฟล์ CSS ที่โหลดไม่ได้"
+            },
+            {
+              "issue": "Missing alt text",
+              "level": "Warning",
+              "count": "333",
+              "cat": "Images",
+              "todo": "ทยอยใส่ alt text"
+            },
+            {
+              "issue": "Pages dropped from Top 10",
+              "level": "Notice",
+              "count": "8",
+              "cat": "Other",
+              "todo": "รีเฟรชเนื้อหาหน้าที่ร่วง"
+            },
+            {
+              "issue": "Organic traffic dropped",
+              "level": "Notice",
+              "count": "11",
+              "cat": "Other",
+              "todo": "อัปเดตเนื้อหาให้สดใหม่"
+            }
+          ],
+          "competitors": [
+            {
+              "domain": "dbd.go.th",
+              "dr": 81,
+              "common": 338,
+              "theirs": 4065,
+              "traffic": 679295,
+              "note": "ภาครัฐ — คำจดทะเบียน/หนังสือรับรอง ★"
+            },
+            {
+              "domain": "rd.go.th",
+              "dr": 79,
+              "common": 298,
+              "theirs": 15391,
+              "traffic": 2132625,
+              "note": "กรมสรรพากร — คำภาษี ★"
+            },
+            {
+              "domain": "kasikornbank.com",
+              "dr": 75,
+              "common": 249,
+              "theirs": 33786,
+              "traffic": 2239301,
+              "note": "แบงก์ — คำธุรกิจ/บัญชี"
+            },
+            {
+              "domain": "flowaccount.com",
+              "dr": 58,
+              "common": 424,
+              "theirs": 16878,
+              "traffic": 565650,
+              "note": "ซอฟต์แวร์บัญชี — คู่แข่งตรงคอนเทนต์ ★"
+            },
+            {
+              "domain": "peakaccount.com",
+              "dr": 53,
+              "common": 328,
+              "theirs": 8429,
+              "traffic": 129191,
+              "note": "ซอฟต์แวร์บัญชี — แข่งคำบัญชี"
+            },
+            {
+              "domain": "humansoft.co.th",
+              "dr": 46,
+              "common": 101,
+              "theirs": 16618,
+              "traffic": 214358,
+              "note": "HR/payroll software"
+            },
+            {
+              "domain": "drthawip.com",
+              "dr": 30,
+              "common": 87,
+              "theirs": 6595,
+              "traffic": 137834,
+              "note": "คอนเทนต์บัญชี-ภาษี DR ใกล้เคียง"
+            },
+            {
+              "domain": "moc.go.th",
+              "dr": 72,
+              "common": 119,
+              "theirs": 7426,
+              "traffic": 98400,
+              "note": "กระทรวงพาณิชย์ — ภาครัฐ"
+            }
+          ],
+          "summaryHtml": "<b>ภาพรวมแข็งแรงและโตต่อเนื่อง</b> — Top 3 เพิ่มถึง 57 คำ (+28%), traffic +8.5%, 'รับจดทะเบียนบริษัท' ขึ้นอันดับ 1 แต่ต้องรีบแก้ JavaScript ที่พังและ meta/title ซ้ำ 11 หน้า ซึ่งเป็นปัญหาเทคนิคที่กดศักยภาพไว้"
+        }
+      ]
+    },
+    {
+      "id": "perfectblending",
+      "name": "Perfect Blending",
+      "domain": "perfectblending.com",
+      "weeks": [
+        {
+          "id": "2026-06-14",
+          "label": "สัปดาห์ที่ 14 มิ.ย. 2026",
+          "metrics": [
+            {
+              "label": "Domain Rating",
+              "value": 14,
+              "suffix": " /100",
+              "sub": "อำนาจโดเมน (backlink)"
+            },
+            {
+              "label": "Organic Keywords",
+              "value": 2,
+              "prev": 1,
+              "fmt": "int"
+            },
+            {
+              "label": "คำติด Top 3",
+              "value": 1,
+              "prev": 1,
+              "fmt": "int"
+            },
+            {
+              "label": "Organic Traffic / เดือน",
+              "value": 0,
+              "prev": 0,
+              "fmt": "int"
+            },
+            {
+              "label": "มูลค่าทราฟฟิก",
+              "value": 0,
+              "prev": 0,
+              "fmt": "usd"
+            },
+            {
+              "label": "Referring Domains",
+              "value": 200,
+              "fmt": "int",
+              "sub": "โดเมนอ้างอิง"
+            },
+            {
+              "label": "Health Score",
+              "value": 92,
+              "suffix": " /100",
+              "sub": "12 error · 31 warning · 10 notice"
+            }
+          ],
+          "history": [
+            {
+              "week": "7 มิ.ย.",
+              "traffic": 0,
+              "keywords": 1,
+              "top3": 1
+            },
+            {
+              "week": "14 มิ.ย.",
+              "traffic": 0,
+              "keywords": 2,
+              "top3": 1
+            }
+          ],
+          "findings": [
+            "เว็บอยู่ระยะเริ่มต้น — organic เพียง 2 คำ, ทราฟฟิก 0, DR 14 / 200 referring domains",
+            "มีหน้า /odoo-erp-guide-2026/ ติด 'odoo' (#18, vol 4,200) — เป็นโอกาสแรกที่ดันได้",
+            "ปัญหาเทคนิคพื้นฐาน: Multiple meta description ซ้ำ 11 หน้า, H1 หาย 11 หน้า ควรแก้ก่อนสเกลคอนเทนต์",
+            "Health 92 (12 errors) ต่ำสุดในกลุ่ม — เก็บ error ก่อน",
+            "ต้องวางแผนคอนเทนต์ + backlink ตั้งแต่ต้นเพื่อสร้างฐานการมองเห็น"
+          ],
+          "actions": [
+            {
+              "id": "PT01",
+              "priority": "สูงมาก",
+              "category": "On-page",
+              "action": "แก้ Multiple meta description tags",
+              "detail": "Error 11 หน้ามี meta description ซ้ำ — เหลือชุดเดียวต่อหน้า",
+              "page": "11 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PT02",
+              "priority": "สูง",
+              "category": "On-page",
+              "action": "เพิ่ม H1 ให้หน้าที่ขาด",
+              "detail": "H1 tag missing or empty 11 หน้า — แต่ละหน้าควรมี H1 หลัก",
+              "page": "11 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PT03",
+              "priority": "สูง",
+              "category": "Crawl & Error",
+              "action": "แก้ลิงก์ภายใน HTTP",
+              "detail": "HTTPS page มี internal link ไป HTTP 1 หน้า (Error) — แก้ให้เป็น HTTPS",
+              "page": "1 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PT04",
+              "priority": "กลาง",
+              "category": "On-page",
+              "action": "เติม/ปรับ Meta description",
+              "detail": "หาย 5 หน้า + ยาวเกิน 2 หน้า — เขียน/ตัดให้ ~120-155 ตัวอักษร",
+              "page": "7 หน้า",
+              "keyword": "-",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PT05",
+              "priority": "สูง",
+              "category": "Crawl & Error",
+              "action": "เก็บ Error ใน Site Audit ให้ Health > 95",
+              "detail": "Health 92 (12 errors) ต่ำสุดในกลุ่ม — ไล่แก้ error ทีละหมวด",
+              "page": "ทั้งไซต์",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PT06",
+              "priority": "ต่ำ",
+              "category": "Images",
+              "action": "ใส่ Alt text รูปภาพ",
+              "detail": "Missing alt text 5 รูป — ใส่ alt อธิบายรูป",
+              "page": "5 รูป",
+              "keyword": "-",
+              "impact": "ต่ำ",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PQ07",
+              "priority": "กลาง",
+              "category": "Quick Win",
+              "action": "ดัน 'odoo' เข้า Top 10",
+              "detail": "คำ 'odoo' (vol 4,200) อยู่อันดับ 18 — ปรับ on-page + internal link",
+              "page": "/odoo-erp-guide-2026/",
+              "keyword": "odoo (4,200)",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            },
+            {
+              "id": "PC08",
+              "priority": "สูง",
+              "category": "Content/AEO",
+              "action": "เร่งสร้างคอนเทนต์รากฐาน",
+              "detail": "เว็บมี organic แค่ 2 คำ — วางแผนคอนเทนต์ตามบริการหลัก (ERP/Odoo/automation) สร้างฐานคีย์เวิร์ด",
+              "page": "ใหม่ หลายหน้า",
+              "keyword": "odoo, erp, automation",
+              "impact": "สูง",
+              "effort": "สูง",
+              "stage": "todo",
+              "owner": "",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-14"
+                }
+              ]
+            }
+          ],
+          "tracked": [
+            {
+              "trend": "up",
+              "keyword": "odoo",
+              "position": 10,
+              "diff": 2,
+              "volume": 4200,
+              "traffic": 0
+            }
+          ],
+          "quickWins": [
+            {
+              "keyword": "odoo",
+              "volume": 4200,
+              "kd": null,
+              "position": 18,
+              "traffic": 0,
+              "url": "/odoo-erp-guide-2026/",
+              "opp": "คีย์เวิร์ดเดียวที่มีโอกาส — ดันเข้า Top 10 ก่อน"
+            }
+          ],
+          "content": [
+            {
+              "page": "Odoo ERP คืออะไร (ฉบับสมบูรณ์)",
+              "type": "Pillar/Guide",
+              "keyword": "odoo, odoo erp, erp",
+              "volume": "~10,800",
+              "kd": "-",
+              "angle": "นิยาม + โมดูล + ราคา + ใครเหมาะ",
+              "aeo": "FAQ schema, ตอบสั้นบนสุด"
+            },
+            {
+              "page": "บริการวางระบบ ERP/Odoo",
+              "type": "Service page",
+              "keyword": "วางระบบ odoo, รับทำ erp",
+              "volume": "-",
+              "kd": "-",
+              "angle": "บริการ + ผลงาน + ฟอร์มติดต่อ",
+              "aeo": "Service + FAQ schema"
+            },
+            {
+              "page": "คอนเทนต์รากฐานตามบริการ",
+              "type": "Cluster",
+              "keyword": "automation, ระบบธุรกิจ",
+              "volume": "-",
+              "kd": "-",
+              "angle": "สร้างชุดบทความรองรับบริการหลัก",
+              "aeo": "วางโครง cluster ตั้งแต่ต้น"
+            }
+          ],
+          "technical": [
+            {
+              "issue": "Multiple meta description tags",
+              "level": "Error",
+              "count": "11",
+              "cat": "Content",
+              "todo": "เหลือ meta description ชุดเดียวต่อหน้า"
+            },
+            {
+              "issue": "H1 tag missing or empty",
+              "level": "Warning",
+              "count": "11",
+              "cat": "Content",
+              "todo": "เพิ่ม H1 หลักทุกหน้า"
+            },
+            {
+              "issue": "HTTPS page has internal links to HTTP",
+              "level": "Error",
+              "count": "1",
+              "cat": "Links",
+              "todo": "แก้ลิงก์ภายในให้เป็น HTTPS"
+            },
+            {
+              "issue": "Meta description missing/empty",
+              "level": "Warning",
+              "count": "5",
+              "cat": "Content",
+              "todo": "เขียน meta description"
+            },
+            {
+              "issue": "Meta description too long",
+              "level": "Warning",
+              "count": "2",
+              "cat": "Content",
+              "todo": "ตัดให้ ~120-155 ตัวอักษร"
+            },
+            {
+              "issue": "Missing alt text",
+              "level": "Warning",
+              "count": "5",
+              "cat": "Images",
+              "todo": "ใส่ alt text"
+            },
+            {
+              "issue": "Pages dropped from Top 10",
+              "level": "Notice",
+              "count": "1",
+              "cat": "Other",
+              "todo": "ตรวจหน้าที่ร่วง"
+            }
+          ],
+          "competitors": [
+            {
+              "domain": "odoo.com",
+              "dr": 93,
+              "common": 1,
+              "theirs": 501,
+              "traffic": 7374,
+              "note": "เจ้าของแพลตฟอร์ม Odoo — คำ odoo ★"
+            },
+            {
+              "domain": "rocket.in.th",
+              "dr": 40,
+              "common": 1,
+              "theirs": 2862,
+              "traffic": 73014,
+              "note": "คู่แข่งคอนเทนต์ธุรกิจ/ซอฟต์แวร์"
+            },
+            {
+              "domain": "dynamics-motion.com",
+              "dr": 10,
+              "common": 1,
+              "theirs": 1692,
+              "traffic": 18999,
+              "note": "automation รายเล็ก DR ใกล้เคียง"
+            },
+            {
+              "domain": "anyworkanywhereanytime.com",
+              "dr": 12,
+              "common": 0,
+              "theirs": 8,
+              "traffic": 7,
+              "note": "เว็บเล็ก"
+            }
+          ],
+          "summaryHtml": "<b>เว็บอยู่ระยะเริ่มต้น</b> — ยังแทบไม่มี organic presence (2 คีย์เวิร์ด, ทราฟฟิก 0) โฟกัสควรเป็นการวางรากฐาน: แก้ปัญหาเทคนิค (meta ซ้ำ, H1 หาย), เร่งสร้างคอนเทนต์ตามบริการหลัก และดันคำ 'odoo' เข้าหน้าแรก"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  const STAGES=["todo","doing","done"];
+  const STAGE_TH={todo:"To-do",doing:"Doing",done:"Done"};
+  const PRIO_CLASS={"สูงมาก":"critical","สูง":"high","กลาง":"medium","ต่ำ":"low"};
+  const PRIO_ORDER=["สูงมาก","สูง","กลาง","ต่ำ"];
+  const raw=JSON.parse(document.getElementById("report-data").textContent);
+  const STORAGE_KEY="greenpro-seo-report-state-v3";
+
+  let filterView="open", filterCat="", filterPrio="";
+
+  function loadOverrides(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{};}catch(e){return {};}}
+  let overrides=loadOverrides();
+
+  function applyOverrides(s,w){
+    const o=overrides[s.id]&&overrides[s.id][w.id];
+    if(!o||!o.actions)return;
+    w.actions.forEach(a=>{const x=o.actions[a.id];if(x){a.stage=x.stage;if(x.owner!=null)a.owner=x.owner;if(x.due!=null)a.due=x.due;if(x.closed!=null)a.closed=x.closed;a.log=x.log||a.log;}});
+  }
+  function saveOverrides(s,w){
+    overrides[s.id]=overrides[s.id]||{};
+    overrides[s.id][w.id]={actions:{}};
+    w.actions.forEach(a=>{overrides[s.id][w.id].actions[a.id]={stage:a.stage,owner:a.owner||"",due:a.due||"",closed:!!a.closed,log:a.log};});
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(overrides));}catch(e){/* storage อาจถูกปิด — ใช้ Export แทน */}
+  }
+
+  let site=raw.sites[0], week=site.weeks[0];
+
+  const siteTabs=document.getElementById("siteTabs");
+  raw.sites.forEach(s=>{
+    const b=document.createElement("button");b.className="site-tab";b.textContent=s.name;b.dataset.id=s.id;
+    b.addEventListener("click",()=>{site=s;week=s.weeks[0];syncWeekSel();selectSite();});
+    siteTabs.appendChild(b);
+  });
+  function selectSite(){
+    document.querySelectorAll(".site-tab").forEach(t=>t.classList.toggle("active",t.dataset.id===site.id));
+    document.getElementById("siteName").textContent=site.name+" — "+site.domain;
+    applyOverrides(site,week);
+    buildFilterOptions();
+    renderAll();
+  }
+  const weekSel=document.getElementById("weekSel");
+  function syncWeekSel(){
+    weekSel.innerHTML="";
+    site.weeks.forEach(w=>{const o=document.createElement("option");o.value=w.id;o.textContent=w.label;weekSel.appendChild(o);});
+    weekSel.value=week.id;
+  }
+  weekSel.addEventListener("change",()=>{week=site.weeks.find(w=>w.id===weekSel.value);applyOverrides(site,week);buildFilterOptions();renderAll();});
+
+  function fmtNum(n){return n==null?"–":n.toLocaleString("en-US");}
+  function todayStr(){return new Date().toISOString().slice(0,10);}
+
+  /* ---------- Filters ---------- */
+  function buildFilterOptions(){
+    const cats=[...new Set(week.actions.map(a=>a.category))];
+    const cf=document.getElementById("catFilter");
+    cf.innerHTML='<option value="">ทุกด้าน</option>'+cats.map(c=>`<option value="${c}">${c}</option>`).join("");
+    cf.value=filterCat;
+    const prios=PRIO_ORDER.filter(p=>week.actions.some(a=>a.priority===p));
+    const pf=document.getElementById("prioFilter");
+    pf.innerHTML='<option value="">ทุก Priority</option>'+prios.map(p=>`<option value="${p}">${p}</option>`).join("");
+    pf.value=filterPrio;
+  }
+  function matchFilter(a){
+    if(filterView==="open"&&a.closed)return false;
+    if(filterView==="closed"&&!a.closed)return false;
+    if(filterCat&&a.category!==filterCat)return false;
+    if(filterPrio&&a.priority!==filterPrio)return false;
+    return true;
+  }
+  function visibleActions(){return week.actions.filter(matchFilter);}
+
+  document.getElementById("viewSeg").addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    filterView=b.dataset.v;
+    document.querySelectorAll("#viewSeg button").forEach(x=>x.classList.toggle("active",x===b));
+    renderBoard();renderActions();updateFilterCnt();
+  });
+  document.getElementById("catFilter").addEventListener("change",e=>{filterCat=e.target.value;renderBoard();renderActions();updateFilterCnt();});
+  document.getElementById("prioFilter").addEventListener("change",e=>{filterPrio=e.target.value;renderBoard();renderActions();updateFilterCnt();});
+  function updateFilterCnt(){
+    const v=visibleActions().length,t=week.actions.length;
+    document.getElementById("filterCnt").textContent="แสดง "+v+" / "+t+" งาน";
+  }
+
+  /* ---------- Scorecards / findings ---------- */
+  function renderMeta(){document.getElementById("siteMeta").textContent="ตลาด: ประเทศไทย (ภาษาไทย) · "+week.label+" · ข้อมูลจาก Ahrefs · อัปเดตทุกวันอาทิตย์";}
+  function renderCards(){
+    const el=document.getElementById("scorecards");el.innerHTML="";
+    week.metrics.forEach(m=>{
+      let html=`<div class="label">${m.label}</div>`;
+      const val=m.fmt==="usd"?("$"+Number(m.value).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})):(fmtNum(m.value)+(m.suffix||""));
+      html+=`<div class="value">${val}</div>`;
+      if(m.prev!=null){
+        let diff=null,dir="flat";
+        if(m.prev!==0){diff=(m.value-m.prev)/m.prev*100;dir=diff>0?"up":(diff<0?"down":"flat");}
+        else if(m.value>0){dir="up";}
+        if(diff!=null&&diff!==0)html+=`<div class="delta ${dir}">${dir==="up"?"▲":"▼"} ${Math.abs(diff).toFixed(1)}%</div>`;
+        else html+=`<div class="delta flat">— คงที่</div>`;
+      } else if(m.sub){html+=`<div class="sub">${m.sub}</div>`;}
+      const d=document.createElement("div");d.className="card";d.innerHTML=html;el.appendChild(d);
+    });
+  }
+  function renderFindings(){
+    const ol=document.getElementById("findingsList");ol.innerHTML="";
+    (week.findings||[]).forEach(f=>{const li=document.createElement("li");li.textContent=f;ol.appendChild(li);});
+  }
+  function renderProgress(){
+    let todo=0,doing=0,done=0,closed=0;
+    week.actions.forEach(a=>{if(a.closed){closed++;}else if(a.stage==="todo")todo++;else if(a.stage==="doing")doing++;else if(a.stage==="done")done++;});
+    const all=week.actions.length,finished=done+closed,pct=all?Math.round(finished/all*100):0;
+    document.getElementById("progPct").textContent=pct+"%";
+    document.getElementById("progBar").style.width=pct+"%";
+    document.getElementById("cntTodo").textContent=todo;
+    document.getElementById("cntDoing").textContent=doing;
+    document.getElementById("cntDone").textContent=done;
+    document.getElementById("cntClosed").textContent=closed;
+    document.getElementById("cntAll").textContent=all;
+  }
+
+  /* ---------- Kanban ---------- */
+  function renderBoard(){
+    const vis=visibleActions();
+    document.querySelectorAll(".col").forEach(col=>{
+      const stage=col.dataset.stage,drop=col.querySelector(".drop");drop.innerHTML="";
+      const items=vis.filter(a=>a.stage===stage);
+      col.querySelector(".count").textContent=items.length;
+      items.forEach(a=>drop.appendChild(makeCard(a)));
+    });
+  }
+  function makeCard(a){
+    const c=document.createElement("div");
+    c.className="kcard p-"+(PRIO_CLASS[a.priority]||"low")+(a.closed?" closed":"");
+    c.draggable=true;c.dataset.id=a.id;
+    const last=a.log&&a.log.length?a.log[a.log.length-1].at:"-";
+    const toggleLabel=a.closed?"↩":"✓";
+    const toggleTitle=a.closed?"เปิดงานใหม่":"ปิดงาน (ซ่อน)";
+    c.innerHTML=`<div class="kcard-top">
+        <span class="kid">${a.id} · <span class="chip">${a.category}</span>${a.closed?' <span class="chip closed">ปิดแล้ว</span>':''}</span>
+        <span class="kbtns">
+          <button class="iconbtn" data-act="info" title="ดูรายละเอียด" draggable="false">i</button>
+          <button class="iconbtn" data-act="goto" title="ไปที่ตาราง Action Plan" draggable="false">@</button>
+          <button class="iconbtn ${a.closed?'':'done'}" data-act="toggle" title="${toggleTitle}" draggable="false">${toggleLabel}</button>
+        </span>
+      </div>
+      <div class="ktitle">${a.action}</div>
+      <div class="kdesc">${a.detail}</div>
+      <div class="kfoot"><span class="badge ${PRIO_CLASS[a.priority]||'low'}">${a.priority}</span><span>${a.owner?('👤 '+a.owner+' · '):''}อัปเดต ${last}</span></div>`;
+    c.addEventListener("dragstart",e=>{c.classList.add("dragging");e.dataTransfer.setData("text/plain",a.id);});
+    c.addEventListener("dragend",()=>c.classList.remove("dragging"));
+    c.querySelectorAll(".iconbtn").forEach(btn=>{
+      btn.addEventListener("mousedown",e=>e.stopPropagation());
+      btn.addEventListener("click",e=>{
+        e.stopPropagation();
+        const act=btn.dataset.act;
+        if(act==="info")openModal(a.id);
+        else if(act==="goto")gotoAction(a.id);
+        else if(act==="toggle")toggleClosed(a.id);
+      });
+    });
+    return c;
+  }
+  document.querySelectorAll(".col").forEach(col=>{
+    col.addEventListener("dragover",e=>{e.preventDefault();col.classList.add("drag-over");});
+    col.addEventListener("dragleave",()=>col.classList.remove("drag-over"));
+    col.addEventListener("drop",e=>{e.preventDefault();col.classList.remove("drag-over");moveAction(e.dataTransfer.getData("text/plain"),col.dataset.stage);});
+  });
+  function moveAction(id,stage){
+    const a=week.actions.find(x=>x.id===id);if(!a||a.stage===stage)return;
+    a.stage=stage;a.log=a.log||[];a.log.push({stage:stage,at:todayStr()});
+    saveOverrides(site,week);renderBoard();renderProgress();renderActions();updateFilterCnt();
+    toast(`ย้าย ${a.id} → ${STAGE_TH[stage]}`);
+  }
+  function toggleClosed(id){
+    const a=week.actions.find(x=>x.id===id);if(!a)return;
+    a.closed=!a.closed;
+    a.log=a.log||[];a.log.push({stage:a.closed?"closed":"reopened",at:todayStr()});
+    saveOverrides(site,week);renderBoard();renderActions();renderProgress();updateFilterCnt();
+    if(document.getElementById("modal").classList.contains("show"))openModal(id);
+    toast(a.closed?`ปิดงาน ${a.id} แล้ว`:`เปิดงาน ${a.id} ใหม่`);
+  }
+
+  /* ---------- Action Plan list ---------- */
+  function renderActions(){
+    const tb=document.getElementById("actionBody");tb.innerHTML="";
+    const vis=visibleActions();
+    if(!vis.length){tb.innerHTML=`<tr><td colspan="13" class="empty">ไม่มีงานตรงกับฟิลเตอร์ที่เลือก</td></tr>`;return;}
+    vis.forEach(a=>{
+      const tr=document.createElement("tr");tr.dataset.id=a.id;if(a.closed)tr.className="row-closed";
+      tr.innerHTML=`<td><b>${a.id}</b></td>
+        <td><span class="badge ${PRIO_CLASS[a.priority]||'low'}">${a.priority}</span></td>
+        <td><span class="chip">${a.category}</span></td>
+        <td><b class="act-name">${a.action}</b>${a.closed?' <span class="chip closed">ปิดแล้ว</span>':''}</td><td>${a.detail}</td>
+        <td class="muted">${a.page||'-'}</td><td class="muted">${a.keyword||'-'}</td>
+        <td>${a.impact||'-'}</td><td>${a.effort||'-'}</td>
+        <td></td><td></td><td></td><td></td>`;
+      const tds=tr.querySelectorAll("td");
+      const ownerIn=document.createElement("input");ownerIn.className="cell-input";ownerIn.placeholder="ชื่อ…";ownerIn.value=a.owner||"";
+      ownerIn.addEventListener("change",()=>{a.owner=ownerIn.value;saveOverrides(site,week);renderBoard();});
+      tds[9].appendChild(ownerIn);
+      const dueIn=document.createElement("input");dueIn.className="cell-input";dueIn.type="date";dueIn.value=a.due||"";
+      dueIn.addEventListener("change",()=>{a.due=dueIn.value;saveOverrides(site,week);});
+      tds[10].appendChild(dueIn);
+      const sel=document.createElement("select");sel.className="stage-select";sel.dataset.stage=a.stage;
+      STAGES.forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=STAGE_TH[s];if(s===a.stage)o.selected=true;sel.appendChild(o);});
+      sel.addEventListener("change",()=>moveAction(a.id,sel.value));
+      tds[11].appendChild(sel);
+      const tbtn=document.createElement("button");tbtn.className="rowbtn";tbtn.textContent=a.closed?"↩ เปิดใหม่":"✓ ปิดงาน";
+      tbtn.addEventListener("click",()=>toggleClosed(a.id));
+      tds[12].appendChild(tbtn);
+      tb.appendChild(tr);
+    });
+  }
+  function gotoAction(id){
+    // ensure row visible even if filtered out
+    const a=week.actions.find(x=>x.id===id);
+    if(a&&((filterView==="open"&&a.closed)||(filterView==="closed"&&!a.closed)||(filterCat&&a.category!==filterCat)||(filterPrio&&a.priority!==filterPrio))){
+      filterView="all";filterCat="";filterPrio="";
+      document.querySelectorAll("#viewSeg button").forEach(x=>x.classList.toggle("active",x.dataset.v==="all"));
+      document.getElementById("catFilter").value="";document.getElementById("prioFilter").value="";
+      renderActions();updateFilterCnt();
+    }
+    const row=document.querySelector('#actionBody tr[data-id="'+id+'"]');
+    if(row){row.scrollIntoView({behavior:"smooth",block:"center"});row.classList.remove("flash");void row.offsetWidth;row.classList.add("flash");}
+  }
+
+  /* ---------- Modal ---------- */
+  const modal=document.getElementById("modal");
+  function openModal(id){
+    const a=week.actions.find(x=>x.id===id);if(!a)return;
+    const logHtml=(a.log||[]).map(l=>`${l.at} → ${STAGE_TH[l.stage]||l.stage}`).join(" · ");
+    document.getElementById("modalContent").innerHTML=`
+      <h2>${a.action}</h2>
+      <div class="modal-meta">
+        <span class="chip">${a.id}</span>
+        <span class="badge ${PRIO_CLASS[a.priority]||'low'}">${a.priority}</span>
+        <span class="chip">${a.category}</span>
+        <span class="chip">${STAGE_TH[a.stage]}</span>
+        ${a.closed?'<span class="chip closed">ปิดแล้ว</span>':''}
+      </div>
+      <div class="mrow"><div class="k">รายละเอียด</div><div>${a.detail}</div></div>
+      <div class="mrow"><div class="k">หน้า/URL</div><div>${a.page||'-'}</div></div>
+      <div class="mrow"><div class="k">Keyword</div><div>${a.keyword||'-'}</div></div>
+      <div class="mrow"><div class="k">Impact / Effort</div><div>${a.impact||'-'} / ${a.effort||'-'}</div></div>
+      <div class="mrow"><div class="k">ผู้รับผิดชอบ</div><div>${a.owner||'<span class="muted">ยังไม่ระบุ</span>'}</div></div>
+      <div class="mrow"><div class="k">กำหนดเสร็จ</div><div>${a.due||'<span class="muted">ยังไม่ระบุ</span>'}</div></div>
+      <div class="mrow"><div class="k">Timelog</div><div class="timelog">${logHtml||'-'}</div></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" data-m="goto">@ ไปที่ตาราง</button>
+        <button class="btn btn-primary" data-m="toggle">${a.closed?'↩ เปิดงานใหม่':'✓ ปิดงาน'}</button>
+      </div>`;
+    document.getElementById("modalContent").querySelector('[data-m="goto"]').addEventListener("click",()=>{closeModal();gotoAction(id);});
+    document.getElementById("modalContent").querySelector('[data-m="toggle"]').addEventListener("click",()=>toggleClosed(id));
+    modal.classList.add("show");
+  }
+  function closeModal(){modal.classList.remove("show");}
+  document.getElementById("modalClose").addEventListener("click",closeModal);
+  modal.addEventListener("click",e=>{if(e.target===modal)closeModal();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
+
+  /* ---------- Other tables ---------- */
+  function renderTracked(){
+    const tb=document.getElementById("trackBody");tb.innerHTML="";
+    if(!week.tracked||!week.tracked.length){tb.innerHTML=`<tr><td colspan="6" class="empty">ยังไม่มีคำที่ติดตาม</td></tr>`;return;}
+    week.tracked.forEach(k=>{
+      let trend,diff;
+      if(k.trend==="up"){trend=`<span class="trend-up">▲ ขึ้น</span>`;diff=k.diff!=null?`<span class="trend-up">+${Math.abs(k.diff)}</span>`:"–";}
+      else if(k.trend==="down"){trend=`<span class="trend-down">▼ ลง</span>`;diff=k.diff!=null?`<span class="trend-down">-${Math.abs(k.diff)}</span>`:"–";}
+      else if(k.trend==="flat"){trend=`<span class="trend-flat">— คงที่</span>`;diff="0";}
+      else{trend=`<span class="trend-flat">— ไม่ติด</span>`;diff="–";}
+      const pos=k.position==null?`<span class="muted">ไม่ติด</span>`:`<span class="pos-pill ${k.position<=3?'top3':''}">${k.position}</span>`;
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${trend}</td><td>${k.keyword}</td><td class="num">${pos}</td><td class="num">${diff}</td><td class="num">${fmtNum(k.volume)}</td><td class="num">${fmtNum(k.traffic)}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+  function renderQW(){
+    const tb=document.getElementById("qwBody");tb.innerHTML="";
+    if(!week.quickWins||!week.quickWins.length){tb.innerHTML=`<tr><td colspan="7" class="empty">ยังไม่มี quick wins</td></tr>`;return;}
+    week.quickWins.forEach(k=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${k.keyword}</td><td class="num">${fmtNum(k.volume)}</td><td class="num">${k.kd==null?'–':k.kd}</td>
+        <td class="num"><span class="pos-pill ${k.position<=3?'top3':''}">${k.position}</span></td>
+        <td class="num">${fmtNum(k.traffic)}</td>
+        <td><a href="https://www.${site.domain}${k.url}" target="_blank" rel="noopener">${k.url}</a></td>
+        <td class="muted">${k.opp||'-'}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+  function renderContent(){
+    const tb=document.getElementById("contentBody");tb.innerHTML="";
+    if(!week.content||!week.content.length){tb.innerHTML=`<tr><td colspan="7" class="empty">ยังไม่มีแผนคอนเทนต์</td></tr>`;return;}
+    week.content.forEach(c=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td><b>${c.page}</b></td><td><span class="chip">${c.type}</span></td><td class="muted">${c.keyword}</td>
+        <td class="num">${c.volume}</td><td class="num">${c.kd}</td><td>${c.angle}</td><td class="muted">${c.aeo}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+  function renderTech(){
+    const tb=document.getElementById("techBody");tb.innerHTML="";
+    if(!week.technical||!week.technical.length){tb.innerHTML=`<tr><td colspan="5" class="empty">ไม่พบปัญหา</td></tr>`;return;}
+    week.technical.forEach(t=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td><b>${t.issue}</b></td><td><span class="lvl ${t.level}">${t.level}</span></td>
+        <td class="num">${t.count}</td><td class="muted">${t.cat}</td><td>${t.todo}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+  function renderComp(){
+    const tb=document.getElementById("compBody");tb.innerHTML="";
+    if(!week.competitors||!week.competitors.length){tb.innerHTML=`<tr><td colspan="6" class="empty">ยังไม่มีข้อมูลคู่แข่ง</td></tr>`;return;}
+    week.competitors.forEach(c=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td><a href="https://${c.domain}" target="_blank" rel="noopener">${c.domain}</a></td>
+        <td class="num">${c.dr}</td><td class="num">${fmtNum(c.common)}</td><td class="num">${fmtNum(c.theirs)}</td>
+        <td class="num">${fmtNum(c.traffic)}</td><td class="muted">${c.note}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+  let trafficChart,kwChart;
+  function renderCharts(){
+    const h=week.history||[],labels=h.map(x=>x.week),green="#207D3F",accent="#3CB348";
+    if(trafficChart)trafficChart.destroy();if(kwChart)kwChart.destroy();if(!window.Chart)return;
+    trafficChart=new Chart(document.getElementById("trafficChart"),{type:"line",
+      data:{labels,datasets:[{label:"Organic Traffic",data:h.map(x=>x.traffic),borderColor:green,backgroundColor:"rgba(60,179,72,.15)",fill:true,tension:.3,pointRadius:5,pointBackgroundColor:green}]},
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+    kwChart=new Chart(document.getElementById("kwChart"),{type:"bar",
+      data:{labels,datasets:[{label:"Keywords ทั้งหมด",data:h.map(x=>x.keywords),backgroundColor:"rgba(32,125,63,.85)"},{label:"ติด Top 3",data:h.map(x=>x.top3),backgroundColor:accent}]},
+      options:{plugins:{legend:{position:"bottom"}},scales:{y:{beginAtZero:true}}}});
+  }
+  function renderSummary(){document.getElementById("summaryBox").innerHTML=week.summaryHtml||"";}
+  function renderAll(){renderMeta();renderCards();renderFindings();renderProgress();renderBoard();renderActions();updateFilterCnt();renderTracked();renderCharts();renderQW();renderContent();renderTech();renderComp();renderSummary();}
+
+  let toastT;
+  function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
+
+  document.getElementById("resetBtn").addEventListener("click",()=>{
+    if(!confirm("ล้างสถานะ/ผู้รับผิดชอบ/กำหนดเสร็จ/การปิดงาน ที่แก้ในเครื่องนี้ และกลับไปใช้ค่าที่เผยแพร่ในไฟล์?"))return;
+    localStorage.removeItem(STORAGE_KEY);overrides={};location.reload();
+  });
+  document.getElementById("exportBtn").addEventListener("click",()=>{
+    raw.sites.forEach(s=>s.weeks.forEach(w=>applyOverrides(s,w)));
+    const newJson=JSON.stringify(raw,null,2);
+    const clone=document.documentElement.cloneNode(true);
+    clone.querySelector("#report-data").textContent="\n"+newJson+"\n";
+    const html="<!DOCTYPE html>\n"+clone.outerHTML;
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="index.html";a.click();URL.revokeObjectURL(a.href);
+    toast("บันทึกไฟล์แล้ว — นำ index.html ไป commit ขึ้น GitHub ได้เลย");
+  });
+
+  syncWeekSel();selectSite();
+})();
+</script>
+</body>
+</html>

@@ -138,6 +138,9 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .stage-select[data-stage="done"]{color:var(--primary);border-color:var(--primary)}
 .cell-input{width:100%;min-width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:#fff}
 .cell-input:focus{outline:2px solid var(--accent-soft);border-color:var(--primary)}
+.note-input{width:100%;min-width:150px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:#fff;font-family:inherit;font-size:14px;resize:vertical;line-height:1.4}
+.note-input:focus{outline:2px solid var(--accent-soft);border-color:var(--primary)}
+.knote{font-size:12px;color:var(--text-2);background:var(--accent-soft);border-radius:7px;padding:4px 8px;margin-top:6px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
 .rowbtn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text-2);white-space:nowrap}
 .rowbtn:hover{border-color:var(--primary);color:var(--primary);background:var(--accent-soft)}
 .muted{color:var(--text-2);font-size:14px}
@@ -409,7 +412,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
         <thead><tr>
           <th>ID</th><th>Priority</th><th>ด้าน</th><th>Action</th><th>รายละเอียด / วิธีทำ</th>
           <th>หน้า/URL</th><th>Keyword</th><th>Impact</th><th>Effort</th>
-          <th style="min-width:130px">ผู้รับผิดชอบ</th><th style="min-width:140px">กำหนดเสร็จ</th><th style="min-width:120px">สถานะ</th><th style="min-width:110px">จัดการ</th>
+          <th style="min-width:130px">ผู้รับผิดชอบ</th><th style="min-width:140px">กำหนดเสร็จ</th><th style="min-width:120px">สถานะ</th><th style="min-width:170px">โน้ต</th><th style="min-width:110px">จัดการ</th>
         </tr></thead>
         <tbody id="actionBody"><tr data-id="KT01"><td><b>KT01</b></td>
         <td><span class="badge critical">สูงมาก</span></td>
@@ -5506,12 +5509,12 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   function applyOverrides(s,w){
     const o=overrides[s.id]&&overrides[s.id][w.id];
     if(!o||!o.actions)return;
-    w.actions.forEach(a=>{const x=o.actions[a.id];if(x){a.stage=x.stage;if(x.owner!=null)a.owner=x.owner;if(x.due!=null)a.due=x.due;if(x.closed!=null)a.closed=x.closed;a.log=x.log||a.log;}});
+    w.actions.forEach(a=>{const x=o.actions[a.id];if(x){a.stage=x.stage;if(x.owner!=null)a.owner=x.owner;if(x.due!=null)a.due=x.due;if(x.closed!=null)a.closed=x.closed;if(x.note!=null)a.note=x.note;a.log=x.log||a.log;}});
   }
   function saveOverrides(s,w){
     overrides[s.id]=overrides[s.id]||{};
     overrides[s.id][w.id]={actions:{}};
-    w.actions.forEach(a=>{overrides[s.id][w.id].actions[a.id]={stage:a.stage,owner:a.owner||"",due:a.due||"",closed:!!a.closed,log:a.log};});
+    w.actions.forEach(a=>{overrides[s.id][w.id].actions[a.id]={stage:a.stage,owner:a.owner||"",due:a.due||"",closed:!!a.closed,note:a.note||"",log:a.log};});
     try{localStorage.setItem(STORAGE_KEY,JSON.stringify(overrides));}catch(e){/* storage อาจถูกปิด — ใช้ Export แทน */}
   }
 
@@ -5637,6 +5640,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       <div class="ktitle">${a.action}</div>
       <div class="kdesc">${a.detail}</div>
       <div class="kfoot"><span class="badge ${PRIO_CLASS[a.priority]||'low'}">${a.priority}</span><span>${a.owner?('👤 '+a.owner+' · '):''}อัปเดต ${last}</span></div>`;
+    if(a.note){const nd=document.createElement("div");nd.className="knote";nd.textContent="📝 "+a.note;const kd=c.querySelector(".kdesc");kd.parentNode.insertBefore(nd,kd.nextSibling);}
     c.addEventListener("dragstart",e=>{c.classList.add("dragging");e.dataTransfer.setData("text/plain",a.id);});
     c.addEventListener("dragend",()=>c.classList.remove("dragging"));
     c.querySelectorAll(".iconbtn").forEach(btn=>{
@@ -5675,7 +5679,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   function renderActions(){
     const tb=document.getElementById("actionBody");tb.innerHTML="";
     const vis=visibleActions();
-    if(!vis.length){tb.innerHTML=`<tr><td colspan="13" class="empty">ไม่มีงานตรงกับฟิลเตอร์ที่เลือก</td></tr>`;return;}
+    if(!vis.length){tb.innerHTML=`<tr><td colspan="14" class="empty">ไม่มีงานตรงกับฟิลเตอร์ที่เลือก</td></tr>`;return;}
     vis.forEach(a=>{
       const tr=document.createElement("tr");tr.dataset.id=a.id;if(a.closed)tr.className="row-closed";
       tr.innerHTML=`<td><b>${a.id}</b></td>
@@ -5684,7 +5688,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
         <td><b class="act-name">${a.action}</b>${a.closed?' <span class="chip closed">ปิดแล้ว</span>':''}</td><td>${a.detail}</td>
         <td class="muted">${a.page||'-'}</td><td class="muted">${a.keyword||'-'}</td>
         <td>${a.impact||'-'}</td><td>${a.effort||'-'}</td>
-        <td></td><td></td><td></td><td></td>`;
+        <td></td><td></td><td></td><td></td><td></td>`;
       const tds=tr.querySelectorAll("td");
       const ownerIn=document.createElement("input");ownerIn.className="cell-input";ownerIn.placeholder="ชื่อ…";ownerIn.value=a.owner||"";
       ownerIn.addEventListener("change",()=>{a.owner=ownerIn.value;saveOverrides(site,week);renderBoard();});
@@ -5696,9 +5700,12 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       STAGES.forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=STAGE_TH[s];if(s===a.stage)o.selected=true;sel.appendChild(o);});
       sel.addEventListener("change",()=>moveAction(a.id,sel.value));
       tds[11].appendChild(sel);
+      const noteIn=document.createElement("textarea");noteIn.className="note-input";noteIn.rows=2;noteIn.placeholder="เพิ่มโน้ต…";noteIn.value=a.note||"";
+      noteIn.addEventListener("change",()=>{a.note=noteIn.value;saveOverrides(site,week);renderBoard();});
+      tds[12].appendChild(noteIn);
       const tbtn=document.createElement("button");tbtn.className="rowbtn";tbtn.textContent=a.closed?"↩ เปิดใหม่":"✓ ปิดงาน";
       tbtn.addEventListener("click",()=>toggleClosed(a.id));
-      tds[12].appendChild(tbtn);
+      tds[13].appendChild(tbtn);
       tb.appendChild(tr);
     });
   }
@@ -5736,12 +5743,14 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       <div class="mrow"><div class="k">ผู้รับผิดชอบ</div><div>${a.owner||'<span class="muted">ยังไม่ระบุ</span>'}</div></div>
       <div class="mrow"><div class="k">กำหนดเสร็จ</div><div>${a.due||'<span class="muted">ยังไม่ระบุ</span>'}</div></div>
       <div class="mrow"><div class="k">Timelog</div><div class="timelog">${logHtml||'-'}</div></div>
+      <div class="mrow"><div class="k">📝 โน้ต</div><div><textarea id="modalNote" class="note-input" rows="3" placeholder="พิมพ์โน้ตของงานนี้…"></textarea></div></div>
       <div class="modal-actions">
         <button class="btn btn-ghost" data-m="goto">@ ไปที่ตาราง</button>
         <button class="btn btn-primary" data-m="toggle">${a.closed?'↩ เปิดงานใหม่':'✓ ปิดงาน'}</button>
       </div>`;
     document.getElementById("modalContent").querySelector('[data-m="goto"]').addEventListener("click",()=>{closeModal();gotoAction(id);});
     document.getElementById("modalContent").querySelector('[data-m="toggle"]').addEventListener("click",()=>toggleClosed(id));
+    const mn=document.getElementById("modalNote");if(mn){mn.value=a.note||"";mn.addEventListener("change",()=>{a.note=mn.value;saveOverrides(site,week);renderBoard();renderActions();});}
     modal.classList.add("show");
   }
   function closeModal(){modal.classList.remove("show");}

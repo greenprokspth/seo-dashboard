@@ -7,6 +7,31 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/* ==================================================================
+   ตั้งค่า FIREBASE — แก้ตรงนี้ที่เดียว (ดูวิธีใน SETUP-FIREBASE.md)
+   - ยังไม่ใส่ config (null) = dashboard ทำงานแบบเดิม เก็บในเครื่องใครเครื่องมัน
+   - ใส่ config แล้ว = ทุกการแก้ไขบันทึกถึงกันอัตโนมัติ พร้อมชื่อคนทำ
+   ตัวอย่าง:
+   window.FIREBASE_CONFIG = {
+     apiKey: "AIza....",
+     authDomain: "greenpro-seo.firebaseapp.com",
+     databaseURL: "https://greenpro-seo-default-rtdb.asia-southeast1.firebasedatabase.app",
+     projectId: "greenpro-seo"
+   };
+   ================================================================== */
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCZx73d5c1du4vIImk2hlyuJbJPnedlI6E",
+  authDomain: "greenpro-seo.firebaseapp.com",
+  databaseURL: "https://greenpro-seo-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "greenpro-seo",
+  storageBucket: "greenpro-seo.firebasestorage.app",
+  messagingSenderId: "788345724189",
+  appId: "1:788345724189:web:eda71f9a084a11d8db55f4"
+};
+</script>
 <style>
 :root{
   --primary:#207D3F; --primary-dark:#1D7139; --accent:#3CB348;
@@ -168,6 +193,14 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
 .modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .timelog{font-size:14px;color:var(--text-2)}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.board{grid-template-columns:1fr}.charts{grid-template-columns:1fr}.top h1{font-size:28px}.mrow{grid-template-columns:110px 1fr}}
+/* ---- Realtime sync & activity feed ---- */
+.sync-chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--pill);padding:6px 12px;white-space:nowrap}
+.sync-chip.on{color:var(--primary);border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.activity-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:8px 16px;max-height:280px;overflow-y:auto}
+.activity-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13.5px;line-height:1.55}
+.activity-item:last-child{border-bottom:none}
+.activity-time{color:var(--text-2);white-space:nowrap;font-size:12.5px;min-width:118px}
+.activity-by{font-weight:700;color:var(--primary)}
 </style>
 <style data-emotion="css" data-s=""></style></head>
 <body>
@@ -186,6 +219,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
         <div class="meta" id="siteMeta">ตลาด: ประเทศไทย (ภาษาไทย) · สัปดาห์ที่ 14 มิ.ย. 2026 · ข้อมูลจาก Ahrefs · อัปเดตทุกวันอาทิตย์</div>
       </div>
       <div class="controls">
+        <span class="sync-chip" id="syncStatus" title="สถานะการเชื่อมต่อระบบกลาง">⚪ โหมดเครื่องนี้</span>
+        <button class="btn btn-ghost" id="nameBtn" title="ชื่อของคุณ — แสดงในประวัติการอัปเดตให้ทีมเห็น">👤 ตั้งชื่อ</button>
         <label class="muted" for="weekSel">สัปดาห์:</label>
         <select id="weekSel"><option value="2026-06-14">สัปดาห์ที่ 14 มิ.ย. 2026</option></select>
         <button class="btn btn-ghost" id="resetBtn" title="ล้างสถานะที่แก้ในเครื่อง กลับไปใช้ค่าที่เผยแพร่">รีเซ็ต</button>
@@ -217,6 +252,11 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
         <span>รวม: <b id="cntAll">16</b> งาน</span>
       </div>
     </div>
+  </section>
+
+  <section>
+    <div class="sec-title"><span class="dot"></span>ประวัติการอัปเดต — ใครทำอะไร เมื่อไหร่</div>
+    <div class="activity-card" id="activityBox"><div class="empty" style="padding:10px 0">ยังไม่มีการอัปเดต</div></div>
   </section>
 
   <!-- FILTER BAR (ควบคุมทั้ง Kanban และ List) -->
@@ -406,7 +446,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
 
   <section>
     <div class="sec-title"><span class="dot"></span>Action Plan — แผนงานเต็ม (List view)</div>
-    <div class="subtle">ใช้ฟิลเตอร์ด้านบนกรอง Open/Closed/ด้าน/Priority · ช่อง “ผู้รับผิดชอบ/กำหนดเสร็จ” กรอกได้ · ปุ่ม “ปิดงาน/เปิดใหม่” ซ่อน/แสดงงาน · กด Export เพื่อบันทึกลงไฟล์</div>
+    <div class="subtle">ใช้ฟิลเตอร์ด้านบนกรอง Open/Closed/ด้าน/Priority · ช่อง “ผู้รับผิดชอบ/กำหนดเสร็จ” กรอกได้ · ปุ่ม “ปิดงาน/เปิดใหม่” ซ่อน/แสดงงาน · ถ้าสถานะด้านบนเป็น 🟢 ทุกการแก้ไขบันทึกถึงทีมอัตโนมัติ ไม่ต้องกด Export</div>
     <div class="table-card">
       <table>
         <thead><tr>
@@ -714,7 +754,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
 
   <footer>
     สร้างด้วย Ahrefs API · ดีไซน์ตามแบรนด์ Greenpro KSP · ไฟล์เดียวจบ พร้อม push ขึ้น GitHub Pages<br>
-    <span class="muted">เคล็ดลับ: แก้สถานะ/ผู้รับผิดชอบ/กำหนดเสร็จ/ปิดงาน แล้วกด “Export HTML” เพื่อบันทึกลงไฟล์ก่อน commit ขึ้น GitHub</span>
+    <span class="muted">ถ้าสถานะเป็น 🟢 การแก้ไขทุกอย่างบันทึกถึงทีมอัตโนมัติ · ปุ่ม “Export HTML” ใช้สำรองข้อมูลลงไฟล์เท่านั้น</span>
   </footer>
 </div>
 
@@ -3683,33 +3723,154 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   const PRIO_ORDER=["สูงมาก","สูง","กลาง","ต่ำ"];
   const raw=JSON.parse(document.getElementById("report-data").textContent);
   const STORAGE_KEY="greenpro-seo-report-state-v3";
+  const NAME_KEY="greenpro-seo-editor-name";
+  const ACT_KEY="greenpro-seo-activity-v1";
 
   let filterView="open", filterCat="", filterPrio="";
 
   function loadOverrides(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{};}catch(e){return {};}}
   let overrides=loadOverrides();
 
+  /* ---------- ชื่อผู้แก้ไข ---------- */
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function editorName(forceAsk){
+    let n="";try{n=localStorage.getItem(NAME_KEY)||"";}catch(e){}
+    if(!n||forceAsk){
+      const input=(prompt("ใส่ชื่อของคุณ (จะแสดงในประวัติการอัปเดตให้ทีมเห็น):",n)||"").trim();
+      if(input){n=input;try{localStorage.setItem(NAME_KEY,n);}catch(e){}}
+    }
+    updateNameBtn();
+    return n||"ไม่ระบุชื่อ";
+  }
+  function updateNameBtn(){
+    let n="";try{n=localStorage.getItem(NAME_KEY)||"";}catch(e){}
+    document.getElementById("nameBtn").textContent="👤 "+(n||"ตั้งชื่อ");
+  }
+  document.getElementById("nameBtn").addEventListener("click",()=>editorName(true));
+  updateNameBtn();
+
+  /* ---------- ประวัติการอัปเดต (activity feed) ---------- */
+  function fmtTime(t){try{return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});}catch(e){return "";}}
+  function renderActivity(list){
+    const box=document.getElementById("activityBox");
+    if(!list||!list.length){box.innerHTML='<div class="empty" style="padding:10px 0">ยังไม่มีการอัปเดต</div>';return;}
+    box.innerHTML=list.slice().reverse().map(e=>
+      `<div class="activity-item"><span class="activity-time">${fmtTime(e.at)}</span>`+
+      `<span><span class="activity-by">${esc(e.by)}</span> · <span class="chip">${esc(e.siteName||e.site||"")}</span> ${esc(e.text)}</span></div>`
+    ).join("");
+  }
+  function loadLocalActivity(){try{return JSON.parse(localStorage.getItem(ACT_KEY))||[];}catch(e){return [];}}
+  function logActivity(a,text){
+    const entry={at:Date.now(),by:editorName(),site:site.id,siteName:site.name,week:week.id,task:a?a.id:"",text:text};
+    if(FB.ready){
+      try{FB.db.ref("activity").push(entry);}catch(e){}
+    }else{
+      const list=loadLocalActivity();list.push(entry);while(list.length>100)list.shift();
+      try{localStorage.setItem(ACT_KEY,JSON.stringify(list));}catch(e){}
+      renderActivity(list);
+    }
+  }
+
+  /* ---------- Firebase realtime sync ---------- */
+  const FB={db:null,ready:false};
+  function setSyncStatus(on,msg){
+    const el=document.getElementById("syncStatus");
+    el.textContent=on?"🟢 "+(msg||"เชื่อมต่อแล้ว — อัปเดตถึงกันอัตโนมัติ"):"⚪ "+(msg||"โหมดเครื่องนี้");
+    el.classList.toggle("on",!!on);
+  }
+  function packAction(a){return {stage:a.stage,owner:a.owner||"",due:a.due||"",closed:!!a.closed,note:a.note||"",log:a.log||[]};}
+  function applyRemote(remote){
+    Object.keys(remote||{}).forEach(sid=>{
+      overrides[sid]=overrides[sid]||{};
+      Object.keys(remote[sid]||{}).forEach(wid=>{
+        const rActions=(remote[sid][wid]&&remote[sid][wid].actions)||{};
+        overrides[sid][wid]=overrides[sid][wid]||{};
+        overrides[sid][wid].actions=overrides[sid][wid].actions||{};
+        Object.keys(rActions).forEach(aid=>{overrides[sid][wid].actions[aid]=rActions[aid];});
+      });
+    });
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(overrides));}catch(e){}
+  }
+  /* ไม่ re-render ขณะผู้ใช้กำลังพิมพ์ในช่องกรอก — รอ blur ก่อน */
+  let pendingRender=false;
+  function isTyping(){const ae=document.activeElement;return ae&&(ae.tagName==="INPUT"||ae.tagName==="TEXTAREA");}
+  function safeRender(){
+    if(isTyping()){pendingRender=true;return;}
+    applyOverrides(site,week);renderAll();
+  }
+  document.addEventListener("focusout",()=>{setTimeout(()=>{if(pendingRender&&!isTyping()){pendingRender=false;applyOverrides(site,week);renderAll();}},120);});
+  function initFirebase(){
+    if(!window.FIREBASE_CONFIG||!window.firebase){renderActivity(loadLocalActivity());return;}
+    try{
+      firebase.initializeApp(window.FIREBASE_CONFIG);
+      FB.db=firebase.database();
+    }catch(e){setSyncStatus(false,"เชื่อมต่อไม่ได้ — โหมดเครื่องนี้");renderActivity(loadLocalActivity());return;}
+    FB.db.ref(".info/connected").on("value",s=>{
+      FB.ready=!!s.val();
+      setSyncStatus(FB.ready,FB.ready?null:"หลุดการเชื่อมต่อ — กำลังลองใหม่");
+    });
+    let firstSnap=true;
+    FB.db.ref("overrides").on("value",snap=>{
+      const remote=snap.val();
+      if(firstSnap){
+        firstSnap=false;
+        if(!remote&&Object.keys(overrides).length){
+          if(confirm("ระบบกลางยังว่างอยู่ แต่พบข้อมูลที่เคยแก้ไว้ในเครื่องนี้\nต้องการอัปโหลดข้อมูลนี้ขึ้นระบบกลางให้ทีมเห็นไหม?")){
+            try{FB.db.ref("overrides").set(overrides);}catch(e){}
+            return;
+          }
+        }
+      }
+      applyRemote(remote||{});
+      safeRender();
+    });
+    FB.db.ref("activity").limitToLast(80).on("value",snap=>{
+      const list=[];snap.forEach(ch=>{list.push(ch.val());});
+      renderActivity(list);
+    });
+  }
+
   function applyOverrides(s,w){
     const o=overrides[s.id]&&overrides[s.id][w.id];
     if(!o||!o.actions)return;
     w.actions.forEach(a=>{const x=o.actions[a.id];if(x){a.stage=x.stage;if(x.owner!=null)a.owner=x.owner;if(x.due!=null)a.due=x.due;if(x.closed!=null)a.closed=x.closed;if(x.note!=null)a.note=x.note;a.log=x.log||a.log;}});
   }
-  function saveOverrides(s,w){
+  function saveOverrides(s,w,changed){
     overrides[s.id]=overrides[s.id]||{};
     overrides[s.id][w.id]={actions:{}};
     w.actions.forEach(a=>{overrides[s.id][w.id].actions[a.id]={stage:a.stage,owner:a.owner||"",due:a.due||"",closed:!!a.closed,note:a.note||"",log:a.log};});
     try{localStorage.setItem(STORAGE_KEY,JSON.stringify(overrides));}catch(e){/* storage อาจถูกปิด — ใช้ Export แทน */}
+    if(FB.ready){
+      try{
+        if(changed)FB.db.ref("overrides/"+s.id+"/"+w.id+"/actions/"+changed.id).set(packAction(changed));
+        else FB.db.ref("overrides/"+s.id+"/"+w.id+"/actions").set(overrides[s.id][w.id].actions);
+      }catch(e){}
+    }
   }
 
   let site=raw.sites[0], week=site.weeks[0];
 
+  /* ---------- ลิงก์แยกต่อเว็บไซต์ (#kspasiafin / #greenproksp / #perfectblending) ---------- */
+  function siteFromHash(){
+    const h=decodeURIComponent((location.hash||"").replace("#","")).split("/")[0];
+    return raw.sites.find(s=>s.id===h)||null;
+  }
+  const hashSite=siteFromHash();
+  if(hashSite){site=hashSite;week=hashSite.weeks[0];}
+  window.addEventListener("hashchange",()=>{
+    const s=siteFromHash();
+    if(s&&s.id!==site.id){site=s;week=s.weeks[0];syncWeekSel();selectSite();}
+  });
+
   const siteTabs=document.getElementById("siteTabs");
+  siteTabs.innerHTML="";
   raw.sites.forEach(s=>{
     const b=document.createElement("button");b.className="site-tab";b.textContent=s.name;b.dataset.id=s.id;
     b.addEventListener("click",()=>{site=s;week=s.weeks[0];syncWeekSel();selectSite();});
     siteTabs.appendChild(b);
   });
   function selectSite(){
+    try{history.replaceState(null,"","#"+site.id);}catch(e){}
     document.querySelectorAll(".site-tab").forEach(t=>t.classList.toggle("active",t.dataset.id===site.id));
     document.getElementById("siteName").textContent=site.name+" — "+site.domain;
     applyOverrides(site,week);
@@ -3809,7 +3970,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     const c=document.createElement("div");
     c.className="kcard p-"+(PRIO_CLASS[a.priority]||"low")+(a.closed?" closed":"");
     c.draggable=true;c.dataset.id=a.id;
-    const last=a.log&&a.log.length?a.log[a.log.length-1].at:"-";
+    const lastLog=a.log&&a.log.length?a.log[a.log.length-1]:null;
+    const last=lastLog?(lastLog.at+(lastLog.by?" โดย "+lastLog.by:"")):"-";
     const toggleLabel=a.closed?"↩":"✓";
     const toggleTitle=a.closed?"เปิดงานใหม่":"ปิดงาน (ซ่อน)";
     c.innerHTML=`<div class="kcard-top">
@@ -3845,15 +4007,19 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   });
   function moveAction(id,stage){
     const a=week.actions.find(x=>x.id===id);if(!a||a.stage===stage)return;
-    a.stage=stage;a.log=a.log||[];a.log.push({stage:stage,at:todayStr()});
-    saveOverrides(site,week);renderBoard();renderProgress();renderActions();updateFilterCnt();
+    const by=editorName();
+    a.stage=stage;a.log=a.log||[];a.log.push({stage:stage,at:todayStr(),by:by});
+    saveOverrides(site,week,a);renderBoard();renderProgress();renderActions();updateFilterCnt();
+    logActivity(a,`ย้าย ${a.id} "${a.action}" → ${STAGE_TH[stage]}`);
     toast(`ย้าย ${a.id} → ${STAGE_TH[stage]}`);
   }
   function toggleClosed(id){
     const a=week.actions.find(x=>x.id===id);if(!a)return;
+    const by=editorName();
     a.closed=!a.closed;
-    a.log=a.log||[];a.log.push({stage:a.closed?"closed":"reopened",at:todayStr()});
-    saveOverrides(site,week);renderBoard();renderActions();renderProgress();updateFilterCnt();
+    a.log=a.log||[];a.log.push({stage:a.closed?"closed":"reopened",at:todayStr(),by:by});
+    saveOverrides(site,week,a);renderBoard();renderActions();renderProgress();updateFilterCnt();
+    logActivity(a,a.closed?`ปิดงาน ${a.id} "${a.action}"`:`เปิดงาน ${a.id} "${a.action}" ใหม่`);
     if(document.getElementById("modal").classList.contains("show"))openModal(id);
     toast(a.closed?`ปิดงาน ${a.id} แล้ว`:`เปิดงาน ${a.id} ใหม่`);
   }
@@ -3874,17 +4040,17 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
         <td></td><td></td><td></td><td></td><td></td>`;
       const tds=tr.querySelectorAll("td");
       const ownerIn=document.createElement("input");ownerIn.className="cell-input";ownerIn.placeholder="ชื่อ…";ownerIn.value=a.owner||"";
-      ownerIn.addEventListener("change",()=>{a.owner=ownerIn.value;saveOverrides(site,week);renderBoard();});
+      ownerIn.addEventListener("change",()=>{a.owner=ownerIn.value;saveOverrides(site,week,a);logActivity(a,`ตั้งผู้รับผิดชอบ ${a.id} = ${a.owner||"(ว่าง)"}`);renderBoard();});
       tds[9].appendChild(ownerIn);
       const dueIn=document.createElement("input");dueIn.className="cell-input";dueIn.type="date";dueIn.value=a.due||"";
-      dueIn.addEventListener("change",()=>{a.due=dueIn.value;saveOverrides(site,week);});
+      dueIn.addEventListener("change",()=>{a.due=dueIn.value;saveOverrides(site,week,a);logActivity(a,`ตั้งกำหนดเสร็จ ${a.id} = ${a.due||"(ว่าง)"}`);});
       tds[10].appendChild(dueIn);
       const sel=document.createElement("select");sel.className="stage-select";sel.dataset.stage=a.stage;
       STAGES.forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=STAGE_TH[s];if(s===a.stage)o.selected=true;sel.appendChild(o);});
       sel.addEventListener("change",()=>moveAction(a.id,sel.value));
       tds[11].appendChild(sel);
       const noteIn=document.createElement("textarea");noteIn.className="note-input";noteIn.rows=2;noteIn.placeholder="เพิ่มโน้ต…";noteIn.value=a.note||"";
-      noteIn.addEventListener("change",()=>{a.note=noteIn.value;saveOverrides(site,week);renderBoard();});
+      noteIn.addEventListener("change",()=>{a.note=noteIn.value;saveOverrides(site,week,a);logActivity(a,`แก้โน้ต ${a.id}: ${a.note?a.note.slice(0,60):"(ลบโน้ต)"}`);renderBoard();});
       tds[12].appendChild(noteIn);
       const tbtn=document.createElement("button");tbtn.className="rowbtn";tbtn.textContent=a.closed?"↩ เปิดใหม่":"✓ ปิดงาน";
       tbtn.addEventListener("click",()=>toggleClosed(a.id));
@@ -3909,7 +4075,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   const modal=document.getElementById("modal");
   function openModal(id){
     const a=week.actions.find(x=>x.id===id);if(!a)return;
-    const logHtml=(a.log||[]).map(l=>`${l.at} → ${STAGE_TH[l.stage]||l.stage}`).join(" · ");
+    const logHtml=(a.log||[]).map(l=>`${l.at} → ${STAGE_TH[l.stage]||l.stage}${l.by?" (โดย "+esc(l.by)+")":""}`).join(" · ");
     document.getElementById("modalContent").innerHTML=`
       <h2>${a.action}</h2>
       <div class="modal-meta">
@@ -3933,7 +4099,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       </div>`;
     document.getElementById("modalContent").querySelector('[data-m="goto"]').addEventListener("click",()=>{closeModal();gotoAction(id);});
     document.getElementById("modalContent").querySelector('[data-m="toggle"]').addEventListener("click",()=>toggleClosed(id));
-    const mn=document.getElementById("modalNote");if(mn){mn.value=a.note||"";mn.addEventListener("change",()=>{a.note=mn.value;saveOverrides(site,week);renderBoard();renderActions();});}
+    const mn=document.getElementById("modalNote");if(mn){mn.value=a.note||"";mn.addEventListener("change",()=>{a.note=mn.value;saveOverrides(site,week,a);logActivity(a,`แก้โน้ต ${a.id}: ${a.note?a.note.slice(0,60):"(ลบโน้ต)"}`);renderBoard();renderActions();});}
     modal.classList.add("show");
   }
   function closeModal(){modal.classList.remove("show");}
@@ -4019,7 +4185,10 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
 
   document.getElementById("resetBtn").addEventListener("click",()=>{
-    if(!confirm("ล้างสถานะ/ผู้รับผิดชอบ/กำหนดเสร็จ/การปิดงาน ที่แก้ในเครื่องนี้ และกลับไปใช้ค่าที่เผยแพร่ในไฟล์?"))return;
+    const msg=FB.ready
+      ?"ล้างข้อมูลที่ค้างในเครื่องนี้แล้วโหลดใหม่จากระบบกลาง? (ข้อมูลกลางของทีมไม่หาย)"
+      :"ล้างสถานะ/ผู้รับผิดชอบ/กำหนดเสร็จ/การปิดงาน ที่แก้ในเครื่องนี้ และกลับไปใช้ค่าที่เผยแพร่ในไฟล์?";
+    if(!confirm(msg))return;
     localStorage.removeItem(STORAGE_KEY);overrides={};location.reload();
   });
   document.getElementById("exportBtn").addEventListener("click",()=>{
@@ -4033,7 +4202,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     toast("บันทึกไฟล์แล้ว — นำ index.html ไป commit ขึ้น GitHub ได้เลย");
   });
 
-  syncWeekSel();selectSite();
+  syncWeekSel();selectSite();initFirebase();
 })();
 </script>
 

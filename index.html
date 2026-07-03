@@ -728,9 +728,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   </div>
 </div>
 
-<script id="report-data" type="application/json">
-{
-  "generatedAt": "2026-06-23",
+<script id="report-data" type="application/json">{
+  "generatedAt": "2026-07-03",
   "sites": [
     {
       "id": "kspasiafin",
@@ -738,1160 +737,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       "domain": "kspasiafin.com",
       "weeks": [
         {
-          "id": "2026-06-21",
-          "label": "สัปดาห์ที่ 21 มิ.ย. 2026",
-          "metrics": [
-            {
-              "label": "Domain Rating",
-              "value": 8,
-              "suffix": " /100",
-              "sub": "อำนาจโดเมน (backlink)"
-            },
-            {
-              "label": "Organic Keywords",
-              "value": 428,
-              "prev": 426,
-              "fmt": "int"
-            },
-            {
-              "label": "คำติด Top 3",
-              "value": 173,
-              "prev": 164,
-              "fmt": "int"
-            },
-            {
-              "label": "Organic Traffic / เดือน",
-              "value": 4405,
-              "prev": 6845,
-              "fmt": "int"
-            },
-            {
-              "label": "มูลค่าทราฟฟิก",
-              "value": 296.55,
-              "prev": 387.04,
-              "fmt": "usd"
-            },
-            {
-              "label": "Referring Domains",
-              "value": 2477,
-              "fmt": "int",
-              "sub": "โดเมนอ้างอิง"
-            },
-            {
-              "label": "Health Score",
-              "value": 85,
-              "suffix": " /100",
-              "sub": "215 error · 210 warning · 77 notice (crawl 23 มิ.ย.)"
-            }
-          ],
-          "history": [
-            {
-              "week": "7 มิ.ย.",
-              "traffic": 4307,
-              "keywords": 406,
-              "top3": 149
-            },
-            {
-              "week": "14 มิ.ย.",
-              "traffic": 6845,
-              "keywords": 426,
-              "top3": 164
-            },
-            {
-              "week": "21 มิ.ย.",
-              "traffic": 4405,
-              "keywords": 428,
-              "top3": 173
-            }
-          ],
-          "findings": [
-            "🔴 INCIDENT (crawl 23 มิ.ย.): health 100→85 — รูปเสีย 172, หน้า broken image 37, 500/5XX 5+5, CSS พัง 34/33 น่าจะมาจากปัญหา server/deploy/CDN ช่วง 22-23 มิ.ย. ตรวจด่วนสุด",
-            "Ahrefs ประเมิน organic traffic ลดจาก 6,845 → 4,405/เดือน แต่จำนวนคำ (428) และ Top 3 (173) ยังเพิ่ม — ความผันผวนระดับประเมิน โฟกัสกู้หน้าที่หล่นจริง",
-            "กลุ่ม OCR ขึ้น Top 3 หลายคำสัปดาห์นี้: ai ocr #1, ocr pdf #2, โปรแกรม ocr #3 — โมเมนตัมดี",
-            "⚠️ 'rpa คืออะไร' หล่นจาก #6 → #11 หลุด Top 10 — ต้องกู้คืนด่วน (money keyword)",
-            "⚠️ พบ Error รูปภาพเสีย 2 รายการใหม่ (Image broken + Page has broken image) — แก้ทันที",
-            "Quick wins volume สูงใกล้ Top 3: iot (#8, 16,000), อัตโนมัติ (#6, 9,200), ocr คือ (#6, 2,000), รูทีน คือ (#4)",
-            "ข่าวดี: หน้าหลุด Top 10 ลดจาก 8 → 5 และหน้า traffic ลดจาก 15 → 11 — แรงกดดันด้านลบลดลง",
-            "โอกาส AEO สูง: คำ 'คือ' จำนวนมากติดอันดับอยู่แล้ว → ใส่ FAQ + schema ดัน AI Overview / Featured snippet"
-          ],
-          "actions": [
-            {
-              "id": "KT01",
-              "priority": "สูงมาก",
-              "category": "Crawl & Error",
-              "action": "แก้หน้า 500 / 5XX Server Error",
-              "detail": "มี 1 หน้าตอบ server error — เช็ก log/เซิร์ฟเวอร์ ให้กลับมา 200 เพื่อไม่ให้หลุดดัชนี",
-              "page": "1 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "ต่ำ",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-17"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT02",
-              "priority": "สูง",
-              "category": "Indexing",
-              "action": "ตรวจหน้า Indexable → Non-indexable",
-              "detail": "1 หน้าเปลี่ยนเป็น noindex สัปดาห์นี้ — ยืนยันว่าตั้งใจ ถ้าไม่ใช่ให้เอา noindex ออก",
-              "page": "1 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "ต่ำ",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-17"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT03",
-              "priority": "สูง",
-              "category": "On-page",
-              "action": "เติม Meta description ที่หาย",
-              "detail": "~17 หน้าไม่มี meta description — เขียนใหม่ให้ดึงคลิก (CTR)",
-              "page": "~17 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-19"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-19"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT04",
-              "priority": "กลาง",
-              "category": "On-page",
-              "action": "ขยาย Meta description ที่สั้นเกิน",
-              "detail": "12 หน้าสั้นเกินไป — ปรับให้ ~120-155 ตัวอักษร",
-              "page": "12 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-19"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-19"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT05",
-              "priority": "กลาง",
-              "category": "On-page",
-              "action": "แก้ Title ที่ไม่ตรงกับ SERP",
-              "detail": "22 หน้า Google เขียน title ใหม่เอง + 2 หน้า title ยาวเกิน — ปรับให้ตรง intent และ ≤60 ตัวอักษร",
-              "page": "24 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-19"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-19"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT06",
-              "priority": "สูง",
-              "category": "Internal Links",
-              "action": "ปรับ Internal Linking ไป money pages",
-              "detail": "เพิ่มลิงก์ภายในจากหน้า traffic สูง (เทคโนโลยี, iot) → หน้า RPA/OCR/บริการ ส่งต่ออำนาจหน้า",
-              "page": "ทั้งไซต์",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-22"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-22"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT07",
-              "priority": "สูง",
-              "category": "Schema",
-              "action": "เพิ่ม Schema markup ทั้งไซต์",
-              "detail": "Organization, Service, Breadcrumb, FAQ — ช่วยทั้ง SEO และ AEO (AI Overview/snippet)",
-              "page": "ทั้งไซต์",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "doing",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT08",
-              "priority": "กลาง",
-              "category": "Images",
-              "action": "ใส่ Alt text รูปภาพที่หาย",
-              "detail": "180 รูปไม่มี alt — ใส่ alt อธิบายรูป + คีย์เวิร์ดที่เกี่ยวข้อง",
-              "page": "180 รูป",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT09",
-              "priority": "กลาง",
-              "category": "ความเร็ว/CSS",
-              "action": "ลดขนาด CSS + เช็ก Core Web Vitals",
-              "detail": "CSS file size too large 1 หน้า — บีบอัด/ตัด CSS ที่ไม่ใช้ เพิ่มความเร็วโหลด",
-              "page": "1 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT10",
-              "priority": "สูง",
-              "category": "Monitoring",
-              "action": "ตรวจหน้าที่หล่นอันดับ",
-              "detail": "8 หน้าหลุด Top 10 + 15 หน้า organic traffic ลด — หาสาเหตุและรีเฟรชเนื้อหา",
-              "page": "23 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT11",
-              "priority": "ต่ำ",
-              "category": "Indexing",
-              "action": "ส่งหน้าใหม่เข้า IndexNow",
-              "detail": "13 หน้ารอส่ง index — เร่งให้ Google เก็บข้อมูลเร็วขึ้น",
-              "page": "13 หน้า",
-              "keyword": "-",
-              "impact": "ต่ำ",
-              "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KQ12",
-              "priority": "สูง",
-              "category": "Quick Win",
-              "action": "ดันหน้า OCR ขึ้น Top 3",
-              "detail": "ขยาย /ocr-คืออะไร/ (ocr คือ #6) + internal link",
-              "page": "/ocr-คืออะไร/",
-              "keyword": "ocr คือ (2,000)",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "2026-06-16",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "closed",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "reopened",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-17"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-17"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-18"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KQ13",
-              "priority": "สูง",
-              "category": "Quick Win",
-              "action": "ดันหน้า RPA ขึ้น Top 3",
-              "detail": "อัปเดต /rpa-คืออะไร/ (rpa คือ #11, KD 0!) ให้ครอบคลุม use case",
-              "page": "/rpa-คืออะไร/",
-              "keyword": "rpa คือ (1,400)",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "done",
-              "owner": "Bird",
-              "due": "2026-06-16",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "closed",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "reopened",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-16"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-17"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-17"
-                },
-                {
-                  "stage": "done",
-                  "at": "2026-06-17"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KQ14",
-              "priority": "กลาง",
-              "category": "Quick Win",
-              "action": "ดันหน้า IoT",
-              "detail": "/iot/ ดัน 'iot' (#7) และ 'iot คืออะไร' (#8) — volume สูงมาก",
-              "page": "/iot/",
-              "keyword": "iot (16,000)",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KC15",
-              "priority": "กลาง",
-              "category": "Content/AEO",
-              "action": "FAQ + Schema ทุกหน้า 'คือ'",
-              "detail": "เพิ่ม FAQ + FAQPage schema เพื่อจับ AI Overview / Featured snippet",
-              "page": "ทุกหน้า informational",
-              "keyword": "กลุ่มคำ 'คือ'",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KC16",
-              "priority": "กลาง",
-              "category": "Content/AEO",
-              "action": "สร้างหน้าบริการ RPA / OCR ภาษาไทย",
-              "detail": "Landing page เชิงพาณิชย์ ปิดช่องว่างหน้าขายตรง",
-              "page": "ใหม่: /rpa-thailand/, /ocr-thailand/",
-              "keyword": "rpa, ocr ภาษาไทย",
-              "impact": "สูง",
-              "effort": "สูง",
-              "stage": "doing",
-              "owner": "Bird",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                },
-                {
-                  "stage": "doing",
-                  "at": "2026-06-18"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT12",
-              "priority": "สูงมาก",
-              "category": "Crawl & Error",
-              "action": "แก้รูปภาพเสียยกชุด (172 รูป / 37 หน้า)",
-              "detail": "🆕 crawl 23 มิ.ย. Image broken พุ่ง 1→172, Page has broken image 37 — ตรวจ CDN/พาธรูป/สิทธิ์ไฟล์",
-              "page": "172 รูป / 37 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-21"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT13",
-              "priority": "สูง",
-              "category": "Monitoring",
-              "action": "กู้หน้า /rpa-คืออะไร/ ที่หล่นจาก Top 10",
-              "detail": "'rpa คืออะไร' หล่น #6 → #11 — รีเฟรชเนื้อหา/อัปเดตวันที่ + เสริม internal link ดึงกลับหน้าแรก",
-              "page": "/rpa-คืออะไร/",
-              "keyword": "rpa คืออะไร",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-21"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KQ17",
-              "priority": "สูง",
-              "category": "Quick Win",
-              "action": "ดัน 'อัตโนมัติ' /ระบบอัตโนมัติ/ ขึ้น Top 3",
-              "detail": "'อัตโนมัติ' #6 vol 9,200 ใกล้ Top 3 — เสริม on-page + internal link",
-              "page": "/ระบบอัตโนมัติ/",
-              "keyword": "อัตโนมัติ (9,200)",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-21"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT14",
-              "priority": "สูงมาก",
-              "category": "Crawl & Error",
-              "action": "ตรวจ Server/Deploy incident (500/5XX + CSS พัง)",
-              "detail": "crawl 23 มิ.ย.: 500 page 5, 5XX 5, Page has broken CSS 34, CSS broken 33 — เกิดพร้อมรูปเสีย น่าจะ root cause เดียวกัน (server/deploy/CDN) ตรวจด่วน",
-              "page": "~80 รายการ",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "KT15",
-              "priority": "สูง",
-              "category": "Indexing",
-              "action": "ตรวจหน้า indexable→non-indexable + noindex ใหม่",
-              "detail": "Indexable→non-indexable 16 หน้า + Noindex page 11 หน้า (ใหม่) — ยืนยันว่าตั้งใจ ถ้าไม่ใช่ให้เอา noindex ออกกู้คืน",
-              "page": "~27 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            }
-          ],
-          "tracked": [
-            {
-              "trend": "up",
-              "keyword": "ai ocr",
-              "position": 1,
-              "diff": 5,
-              "volume": 200,
-              "traffic": 12
-            },
-            {
-              "trend": "up",
-              "keyword": "ocr pdf",
-              "position": 2,
-              "diff": 5,
-              "volume": 300,
-              "traffic": 12
-            },
-            {
-              "trend": "up",
-              "keyword": "โปรแกรม ocr",
-              "position": 3,
-              "diff": 4,
-              "volume": 150,
-              "traffic": 3
-            },
-            {
-              "trend": "up",
-              "keyword": "rpa ย่อมาจาก",
-              "position": 8,
-              "diff": 1,
-              "volume": 200,
-              "traffic": 9
-            },
-            {
-              "trend": "up",
-              "keyword": "ocr คืออะไร",
-              "position": 9,
-              "diff": 4,
-              "volume": 250,
-              "traffic": 9
-            },
-            {
-              "trend": "flat",
-              "keyword": "ocr",
-              "position": 1,
-              "diff": 0,
-              "volume": 2900,
-              "traffic": 0
-            },
-            {
-              "trend": "up",
-              "keyword": "rpa คือ",
-              "position": 11,
-              "diff": 3,
-              "volume": 1400,
-              "traffic": 37
-            },
-            {
-              "trend": "down",
-              "keyword": "rpa คืออะไร",
-              "position": 11,
-              "diff": -5,
-              "volume": 100,
-              "traffic": 3
-            },
-            {
-              "trend": "down",
-              "keyword": "ocr คือ",
-              "position": 14,
-              "diff": -1,
-              "volume": 2000,
-              "traffic": 71
-            },
-            {
-              "trend": "flat",
-              "keyword": "ocr ภาษาไทย",
-              "position": 26,
-              "diff": 0,
-              "volume": 300,
-              "traffic": 0
-            },
-            {
-              "trend": "down",
-              "keyword": "ocr ไทย",
-              "position": 33,
-              "diff": -33,
-              "volume": 100,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "rpa",
-              "position": null,
-              "diff": null,
-              "volume": 2000,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "uipath",
-              "position": null,
-              "diff": null,
-              "volume": 2000,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "แปลงรูปเป็นข้อความ",
-              "position": null,
-              "diff": null,
-              "volume": 5200,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "thai ocr",
-              "position": null,
-              "diff": null,
-              "volume": 300,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "ระบบอัตโนมัติ",
-              "position": null,
-              "diff": null,
-              "volume": 500,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "automation anywhere",
-              "position": null,
-              "diff": null,
-              "volume": 150,
-              "traffic": 0
-            }
-          ],
-          "quickWins": [
-            {
-              "keyword": "iot",
-              "volume": 16000,
-              "kd": 1,
-              "position": 8,
-              "traffic": 16,
-              "url": "/iot/",
-              "opp": "Volume สูงสุดของไซต์ KD ต่ำ — ดัน Top 3 คุ้มสุด"
-            },
-            {
-              "keyword": "อัตโนมัติ",
-              "volume": 9200,
-              "kd": 0,
-              "position": 6,
-              "traffic": 167,
-              "url": "/ระบบอัตโนมัติ/",
-              "opp": "ใกล้ Top 3 + เชื่อมบริการ RPA — ดันด่วน"
-            },
-            {
-              "keyword": "กระบวนการ",
-              "volume": 4200,
-              "kd": "-",
-              "position": 16,
-              "traffic": 0,
-              "url": "/ปรับปรุงกระบวนการทำงาน/",
-              "opp": "เสริมเนื้อหา ดึงขึ้นหน้าแรก"
-            },
-            {
-              "keyword": "internet of things คือ",
-              "volume": 3000,
-              "kd": 2,
-              "position": 6,
-              "traffic": 20,
-              "url": "/iot/",
-              "opp": "รวมกับหน้า IoT ดัน Top 3"
-            },
-            {
-              "keyword": "machine learning คือ",
-              "volume": 2600,
-              "kd": 48,
-              "position": 16,
-              "traffic": 29,
-              "url": "/machine-learning/",
-              "opp": "KD สูง — เสริม backlink"
-            },
-            {
-              "keyword": "ocr คือ",
-              "volume": 2000,
-              "kd": 6,
-              "position": 6,
-              "traffic": 18,
-              "url": "/ocr-คืออะไร/",
-              "opp": "MONEY KW — ดัน Top 3 ด่วน"
-            },
-            {
-              "keyword": "รูทีน คือ",
-              "volume": 1600,
-              "kd": 0,
-              "position": 4,
-              "traffic": 191,
-              "url": "/routine/",
-              "opp": "KD 0 ใกล้ Top 3 มาก — ดันง่าย"
-            },
-            {
-              "keyword": "แปลง pdf เป็น excel",
-              "volume": 1400,
-              "kd": "-",
-              "position": 16,
-              "traffic": 0,
-              "url": "/แปลง-pdf-เป็น-excel/",
-              "opp": "use case OCR เอกสาร"
-            },
-            {
-              "keyword": "erp ย่อมาจาก",
-              "volume": 1000,
-              "kd": "-",
-              "position": 17,
-              "traffic": 2,
-              "url": "/erp/",
-              "opp": "เสริมเนื้อหา ERP"
-            },
-            {
-              "keyword": "packing list",
-              "volume": 1000,
-              "kd": 0,
-              "position": 8,
-              "traffic": 22,
-              "url": "/packing-list/",
-              "opp": "ต่อยอด use case OCR เอกสาร"
-            },
-            {
-              "keyword": "web scraping",
-              "volume": 900,
-              "kd": 1,
-              "position": 15,
-              "traffic": 5,
-              "url": "/web-scraping/",
-              "opp": "KD 1 — เชื่อม automation"
-            },
-            {
-              "keyword": "bl คือ",
-              "volume": 900,
-              "kd": "-",
-              "position": 13,
-              "traffic": 8,
-              "url": "/bill-of-lading/",
-              "opp": "use case OCR นำเข้า-ส่งออก"
-            },
-            {
-              "keyword": "ai automation",
-              "volume": 800,
-              "kd": 27,
-              "position": 16,
-              "traffic": 7,
-              "url": "/ai-automation/",
-              "opp": "ต่อยอดหน้า workflow automation"
-            },
-            {
-              "keyword": "real time",
-              "volume": 600,
-              "kd": 44,
-              "position": 7,
-              "traffic": 8,
-              "url": "/real-time/",
-              "opp": "ใกล้ Top 3"
-            },
-            {
-              "keyword": "reconcile",
-              "volume": 600,
-              "kd": "-",
-              "position": 8,
-              "traffic": 4,
-              "url": "/bank-reconcile/",
-              "opp": "use case บัญชี"
-            },
-            {
-              "keyword": "กระบวนการทำงาน",
-              "volume": 500,
-              "kd": "-",
-              "position": 4,
-              "traffic": 16,
-              "url": "/ปรับปรุงกระบวนการทำงาน/",
-              "opp": "ใกล้ Top 3 — ดันง่าย"
-            }
-          ],
-          "content": [
-            {
-              "page": "บริการรับวางระบบ RPA",
-              "type": "Service page",
-              "keyword": "rpa, rpa tools, thailand rpa",
-              "volume": "~2,300",
-              "kd": "3",
-              "angle": "บริการ + ราคา + ผลงาน + ฟอร์มติดต่อ",
-              "aeo": "ใส่ Service schema + FAQ"
-            },
-            {
-              "page": "ระบบ OCR ภาษาไทยสำหรับองค์กร",
-              "type": "Service page",
-              "keyword": "ocr ภาษาไทย, thai ocr, ai ocr",
-              "volume": "~800",
-              "kd": "0",
-              "angle": "จุดเด่น OCR ไทย + อุตสาหกรรม + demo",
-              "aeo": "Service + FAQ schema"
-            },
-            {
-              "page": "RPA คืออะไร (ฉบับสมบูรณ์)",
-              "type": "Pillar/Guide",
-              "keyword": "rpa คือ, rpa ย่อมาจาก",
-              "volume": "~3,200",
-              "kd": "0",
-              "angle": "ครอบคลุม + use case + เชื่อมหน้าบริการ",
-              "aeo": "FAQ + HowTo schema → AI Overview"
-            },
-            {
-              "page": "OCR คืออะไร (ฉบับสมบูรณ์)",
-              "type": "Pillar/Guide",
-              "keyword": "ocr คือ, ocr คืออะไร, ocr pdf",
-              "volume": "~4,700",
-              "kd": "6",
-              "angle": "นิยาม + วิธีใช้ + เทียบเครื่องมือ",
-              "aeo": "FAQ schema, ตอบสั้นบนสุด"
-            },
-            {
-              "page": "RPA vs OCR ต่างกันอย่างไร",
-              "type": "Comparison",
-              "keyword": "rpa คือ, ocr คือ",
-              "volume": "~3,400",
-              "kd": "-",
-              "angle": "เปรียบเทียบ + ใช้คู่กัน + CTA บริการ",
-              "aeo": "ตาราง + FAQ ดึง snippet"
-            },
-            {
-              "page": "Use Case: OCR เอกสารบัญชี/นำเข้า",
-              "type": "Use case",
-              "keyword": "invoice ocr, b/l, packing list",
-              "volume": "~2,100",
-              "kd": "0",
-              "angle": "ต่อยอดหน้าที่ rank ดีอยู่แล้ว",
-              "aeo": "เชื่อม internal link เป็น cluster"
-            },
-            {
-              "page": "Content Hub: ระบบอัตโนมัติองค์กร",
-              "type": "Pillar hub",
-              "keyword": "ระบบอัตโนมัติ, automation",
-              "volume": "~600",
-              "kd": "2",
-              "angle": "หน้า pillar เชื่อม RPA/OCR/IoT/ML",
-              "aeo": "โครงสร้าง cluster ชัดเจน"
-            },
-            {
-              "page": "เพิ่ม FAQ + E-E-A-T ทุกหน้า 'คือ'",
-              "type": "Optimization",
-              "keyword": "กลุ่มคำ 'คือ'",
-              "volume": "สูง",
-              "kd": "ต่ำ",
-              "angle": "คำถาม-คำตอบสั้น + ผู้เขียน/อ้างอิง",
-              "aeo": "หัวใจของ AEO — ให้ AI อ้างอิง"
-            }
-          ],
-          "technical": [
-            {
-              "issue": "Image broken",
-              "level": "Error",
-              "count": "172",
-              "cat": "Images",
-              "todo": "🆕 พุ่งจาก 1 → 172 — ตรวจ CDN/พาธรูป (incident)"
-            },
-            {
-              "issue": "Page has broken image",
-              "level": "Error",
-              "count": "37",
-              "cat": "Images",
-              "todo": "🆕 จาก 1 → 37 หน้า — แก้พร้อมรูปเสีย"
-            },
-            {
-              "issue": "500 page",
-              "level": "Error",
-              "count": "5",
-              "cat": "Internal",
-              "todo": "🆕 server error 5 หน้า — เช็ก log/เซิร์ฟเวอร์ด่วน"
-            },
-            {
-              "issue": "5XX page",
-              "level": "Error",
-              "count": "5",
-              "cat": "Internal",
-              "todo": "🆕 5xx 5 หน้า — แก้ให้กลับ 200"
-            },
-            {
-              "issue": "Orphan page (indexable)",
-              "level": "Error",
-              "count": "1",
-              "cat": "Links",
-              "todo": "🆕 ไม่มีลิงก์ภายในชี้ — เพิ่ม internal link"
-            },
-            {
-              "issue": "Page has broken CSS",
-              "level": "Warning",
-              "count": "34",
-              "cat": "CSS",
-              "todo": "🆕 +34 — CSS โหลดไม่ได้ กระทบการแสดงผล"
-            },
-            {
-              "issue": "CSS broken",
-              "level": "Warning",
-              "count": "33",
-              "cat": "CSS",
-              "todo": "🆕 +33 — ตรวจไฟล์ CSS/เส้นทาง"
-            },
-            {
-              "issue": "Missing alt text",
-              "level": "Warning",
-              "count": "175",
-              "cat": "Images",
-              "todo": "ใส่ alt อธิบายรูป + คีย์เวิร์ด"
-            },
-            {
-              "issue": "Indexable → non-indexable",
-              "level": "Notice",
-              "count": "16",
-              "cat": "Indexability",
-              "todo": "🆕 16 หน้ากลายเป็น noindex — ยืนยันว่าตั้งใจ"
-            },
-            {
-              "issue": "Noindex page (ใหม่)",
-              "level": "Notice",
-              "count": "11",
-              "cat": "Indexability",
-              "todo": "🆕 noindex 11 หน้า — กู้คืนถ้าไม่ตั้งใจ"
-            },
-            {
-              "issue": "Pages dropped from Top 10",
-              "level": "Notice",
-              "count": "6",
-              "cat": "Other",
-              "todo": "หาสาเหตุ + รีเฟรช"
-            },
-            {
-              "issue": "Pages to submit to IndexNow",
-              "level": "Notice",
-              "count": "40",
-              "cat": "Other",
-              "todo": "ส่ง index เร่งเก็บข้อมูล"
-            }
-          ],
-          "competitors": [
-            {
-              "domain": "dittothailand.com",
-              "dr": 42,
-              "common": 119,
-              "theirs": 2497,
-              "traffic": 54958,
-              "note": "คู่แข่งตรงสุด — เอกสาร/OCR/ECM ไทย, DR สูงกว่ามาก ★"
-            },
-            {
-              "domain": "aigencorp.com",
-              "dr": 36,
-              "common": 33,
-              "theirs": 663,
-              "traffic": 10616,
-              "note": "คู่แข่งตรง — AI/automation ไทย"
-            },
-            {
-              "domain": "aware.co.th",
-              "dr": 36,
-              "common": 20,
-              "theirs": 686,
-              "traffic": 12252,
-              "note": "คู่แข่ง IT solution ไทย"
-            },
-            {
-              "domain": "dia.co.th",
-              "dr": 35,
-              "common": 26,
-              "theirs": 686,
-              "traffic": 23200,
-              "note": "คู่แข่ง digital/automation"
-            },
-            {
-              "domain": "dynamics-motion.com",
-              "dr": 10,
-              "common": 21,
-              "theirs": 1663,
-              "traffic": 20400,
-              "note": "คู่แข่ง automation รายเล็ก DR ใกล้เคียง"
-            },
-            {
-              "domain": "enablesurvey.com",
-              "dr": 34,
-              "common": 21,
-              "theirs": 1420,
-              "traffic": 17645,
-              "note": "แข่งบางคำ (survey/data)"
-            },
-            {
-              "domain": "peakaccount.com",
-              "dr": 53,
-              "common": 47,
-              "theirs": 8671,
-              "traffic": 123394,
-              "note": "ซอฟต์แวร์บัญชี — แข่งคำกลุ่มบัญชี/เอกสาร"
-            },
-            {
-              "domain": "sas.com",
-              "dr": 86,
-              "common": 27,
-              "theirs": 544,
-              "traffic": 13070,
-              "note": "แบรนด์ใหญ่ ML/analytics (ไม่ใช่คู่แข่งตรง)"
-            }
-          ],
-          "summaryHtml": "<b>ภาพรวมดีขึ้นชัดเจน</b> — organic traffic โต ~59%, คำติด Top 3 เพิ่ม 15 คำ, กลุ่ม OCR/RPA ไต่อันดับแรงและ <b>ไม่มีคำใดตกอันดับ</b> งานสำคัญสัปดาห์นี้: แก้หน้า 500 error, ดัน money keyword (ocr/rpa) ขึ้น Top 3 และเริ่มสร้างหน้าบริการเชิงพาณิชย์"
-        },
-        {
           "id": "2026-06-14",
-          "label": "สัปดาห์ที่ 14 มิ.ย. 2026",
+          "label": "สัปดาห์ 3 ก.ค. 2026 (merge ทีม + Ahrefs 3 ก.ค.)",
           "metrics": [
             {
               "label": "Domain Rating",
@@ -2143,7 +990,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "กลาง",
               "effort": "กลาง",
-              "stage": "doing",
+              "stage": "done",
               "owner": "Bird",
               "due": "",
               "log": [
@@ -2154,9 +1001,17 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
                 {
                   "stage": "doing",
                   "at": "2026-06-23"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
                 }
               ],
-              "closed": false
+              "closed": true
             },
             {
               "id": "KT08",
@@ -2168,13 +1023,17 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "กลาง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "doing",
+              "owner": "Bird",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-07-02"
                 }
               ],
               "closed": false
@@ -2189,16 +1048,28 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "กลาง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Bird",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-29"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-30"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
                 }
               ],
-              "closed": false
+              "closed": true
             },
             {
               "id": "KT10",
@@ -2210,16 +1081,28 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "สูง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Bird",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
                 }
               ],
-              "closed": false
+              "closed": true
             },
             {
               "id": "KT11",
@@ -2231,13 +1114,17 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "ต่ำ",
               "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
+              "stage": "doing",
+              "owner": "Bird",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-07-01"
                 }
               ],
               "closed": false
@@ -2254,7 +1141,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "effort": "กลาง",
               "stage": "done",
               "owner": "Bird",
-              "due": "2026-06-16",
+              "due": "",
               "log": [
                 {
                   "stage": "todo",
@@ -2307,7 +1194,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "effort": "กลาง",
               "stage": "done",
               "owner": "Bird",
-              "due": "2026-06-16",
+              "due": "",
               "log": [
                 {
                   "stage": "todo",
@@ -2358,16 +1245,36 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "iot (16,000)",
               "impact": "สูง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Bird",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-29"
+                },
+                {
+                  "stage": "todo",
+                  "at": "2026-06-29"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-30"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-07-01"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
                 }
               ],
-              "closed": false
+              "closed": true
             },
             {
               "id": "KC15",
@@ -2379,13 +1286,17 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "กลุ่มคำ 'คือ'",
               "impact": "สูง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "doing",
+              "owner": "Bird",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-07-01"
                 }
               ],
               "closed": false
@@ -2400,7 +1311,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "rpa, ocr ภาษาไทย",
               "impact": "สูง",
               "effort": "สูง",
-              "stage": "doing",
+              "stage": "done",
               "owner": "Bird",
               "due": "",
               "log": [
@@ -2411,9 +1322,219 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
                 {
                   "stage": "doing",
                   "at": "2026-06-18"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
                 }
               ],
-              "closed": false
+              "closed": true
+            },
+            {
+              "id": "KQ17",
+              "priority": "สูง",
+              "category": "Quick Win",
+              "action": "ดัน 'อัตโนมัติ' /ระบบอัตโนมัติ/ ขึ้น Top 3",
+              "detail": "'อัตโนมัติ' #6 vol 9,200 ใกล้ Top 3 — เสริม on-page + internal link",
+              "page": "/ระบบอัตโนมัติ/",
+              "keyword": "อัตโนมัติ (9,200)",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "done",
+              "owner": "Bird",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-21"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "todo",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-29"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
+                }
+              ],
+              "closed": true,
+              "note": ""
+            },
+            {
+              "id": "KT12",
+              "priority": "สูงมาก",
+              "category": "Crawl & Error",
+              "action": "แก้รูปภาพเสียยกชุด (172 รูป / 37 หน้า)",
+              "detail": "🆕 crawl 23 มิ.ย. Image broken พุ่ง 1→172, Page has broken image 37 — ตรวจ CDN/พาธรูป/สิทธิ์ไฟล์",
+              "page": "172 รูป / 37 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "ต่ำ",
+              "stage": "done",
+              "owner": "Bird",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-21"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
+                }
+              ],
+              "closed": true,
+              "note": ""
+            },
+            {
+              "id": "KT13",
+              "priority": "สูง",
+              "category": "Monitoring",
+              "action": "กู้หน้า /rpa-คืออะไร/ ที่หล่นจาก Top 10",
+              "detail": "'rpa คืออะไร' หล่น #6 → #11 — รีเฟรชเนื้อหา/อัปเดตวันที่ + เสริม internal link ดึงกลับหน้าแรก",
+              "page": "/rpa-คืออะไร/",
+              "keyword": "rpa คืออะไร",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "done",
+              "owner": "Bird",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-21"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
+                }
+              ],
+              "closed": true,
+              "note": ""
+            },
+            {
+              "id": "KT14",
+              "priority": "สูงมาก",
+              "category": "Crawl & Error",
+              "action": "ตรวจ Server/Deploy incident (500/5XX + CSS พัง)",
+              "detail": "crawl 23 มิ.ย.: 500 page 5, 5XX 5, Page has broken CSS 34, CSS broken 33 — เกิดพร้อมรูปเสีย น่าจะ root cause เดียวกัน (server/deploy/CDN) ตรวจด่วน",
+              "page": "~80 รายการ",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "done",
+              "owner": "Bird",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-23"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-29"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-30"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-07-01"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-07-02"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-02"
+                }
+              ],
+              "closed": true,
+              "note": ""
+            },
+            {
+              "id": "KT15",
+              "priority": "สูง",
+              "category": "Indexing",
+              "action": "ตรวจหน้า indexable→non-indexable + noindex ใหม่",
+              "detail": "Indexable→non-indexable 16 หน้า + Noindex page 11 หน้า (ใหม่) — ยืนยันว่าตั้งใจ ถ้าไม่ใช่ให้เอา noindex ออกกู้คืน",
+              "page": "~27 หน้า",
+              "keyword": "-",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "done",
+              "owner": "Bird",
+              "due": "",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-06-23"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-25"
+                },
+                {
+                  "stage": "todo",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-26"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-29"
+                },
+                {
+                  "stage": "closed",
+                  "at": "2026-07-01"
+                }
+              ],
+              "closed": true,
+              "note": ""
             }
           ],
           "tracked": [
@@ -2807,72 +1928,44 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
             {
               "issue": "Missing alt text",
               "level": "Warning",
-              "count": "180",
+              "count": "42",
               "cat": "Images",
-              "todo": "ใส่ alt อธิบายรูป + คีย์เวิร์ดที่เกี่ยว"
+              "todo": "ทยอยใส่ alt text รูปภาพ"
             },
             {
-              "issue": "Meta description missing/empty",
+              "issue": "Noindex page",
               "level": "Warning",
-              "count": "17",
+              "count": "11",
+              "cat": "Indexability",
+              "todo": "ทบทวนว่าตั้งใจ noindex ทั้งหมด ไม่บังหน้าที่ควร index"
+            },
+            {
+              "issue": "Page and SERP titles do not match",
+              "level": "Notice",
+              "count": "23",
               "cat": "Content",
-              "todo": "เขียน meta description ใหม่ ดึงคลิก"
+              "todo": "ปรับ title ให้ตรงกับที่ Google แสดง"
             },
             {
               "issue": "Meta description too short",
-              "level": "Warning",
-              "count": "12",
-              "cat": "Content",
-              "todo": "ขยายให้ ~120-155 ตัวอักษร"
-            },
-            {
-              "issue": "Page & SERP titles do not match",
               "level": "Notice",
-              "count": "22",
+              "count": "11",
               "cat": "Content",
-              "todo": "ปรับ title ให้ตรง intent ที่ Google คาดหวัง"
+              "todo": "ขยาย meta description ให้ครบ ~120-155 ตัวอักษร"
             },
             {
-              "issue": "5XX / 500 page",
-              "level": "Error",
-              "count": "1",
-              "cat": "Internal",
-              "todo": "แก้ server error ให้เข้าถึงได้"
+              "issue": "Noindex follow page",
+              "level": "Notice",
+              "count": "11",
+              "cat": "Indexability",
+              "todo": "ทบทวน noindex ว่าถูกต้อง"
             },
             {
-              "issue": "Title too long",
-              "level": "Warning",
+              "issue": "Structured data has Google rich results validation error",
+              "level": "Notice",
               "count": "2",
-              "cat": "Content",
-              "todo": "ตัด title ให้ ≤ 60 ตัวอักษร"
-            },
-            {
-              "issue": "Pages dropped from Top 10",
-              "level": "Notice",
-              "count": "8",
               "cat": "Other",
-              "todo": "หาสาเหตุ + รีเฟรชเนื้อหา"
-            },
-            {
-              "issue": "Organic traffic dropped",
-              "level": "Notice",
-              "count": "15",
-              "cat": "Other",
-              "todo": "ตรวจ + อัปเดตเนื้อหาให้สดใหม่"
-            },
-            {
-              "issue": "Pages to submit to IndexNow",
-              "level": "Notice",
-              "count": "13",
-              "cat": "Other",
-              "todo": "ส่ง index เร่งการเก็บข้อมูล"
-            },
-            {
-              "issue": "CSS file size too large",
-              "level": "Warning",
-              "count": "1",
-              "cat": "CSS",
-              "todo": "บีบอัด/ลดขนาด CSS เพิ่มความเร็ว"
+              "todo": "แก้ schema ให้ผ่าน Google rich results"
             }
           ],
           "competitors": [
@@ -2941,7 +2034,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "note": "แบรนด์ใหญ่ ML/analytics (ไม่ใช่คู่แข่งตรง)"
             }
           ],
-          "summaryHtml": "<b>ภาพรวมดีขึ้นชัดเจน</b> — organic traffic โต ~59%, คำติด Top 3 เพิ่ม 15 คำ, กลุ่ม OCR/RPA ไต่อันดับแรงและ <b>ไม่มีคำใดตกอันดับ</b> งานสำคัญสัปดาห์นี้: แก้หน้า 500 error, ดัน money keyword (ocr/rpa) ขึ้น Top 3 และเริ่มสร้างหน้าบริการเชิงพาณิชย์"
+          "summaryHtml": "<b>ภาพรวมดีขึ้นชัดเจน</b> — organic traffic โต ~59%, คำติด Top 3 เพิ่ม 15 คำ, กลุ่ม OCR/RPA ไต่อันดับแรงและ <b>ไม่มีคำใดตกอันดับ</b> งานสำคัญสัปดาห์นี้: แก้หน้า 500 error, ดัน money keyword (ocr/rpa) ขึ้น Top 3 และเริ่มสร้างหน้าบริการเชิงพาณิชย์",
+          "_ahrefs_crawl": "2026-07-03"
         }
       ]
     },
@@ -2951,8 +2045,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       "domain": "greenproksp.com",
       "weeks": [
         {
-          "id": "2026-06-23",
-          "label": "สัปดาห์ที่ 23 มิ.ย. 2026",
+          "id": "2026-07-03",
+          "label": "สัปดาห์ 3 ก.ค. 2026 (merge ทีม + Ahrefs 29 มิ.ย.)",
           "metrics": [
             {
               "label": "Domain Rating",
@@ -2962,858 +2056,25 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
             },
             {
               "label": "Organic Keywords",
-              "value": 1080,
-              "prev": 968,
-              "fmt": "int"
-            },
-            {
-              "label": "คำติด Top 3",
-              "value": 345,
-              "prev": 261,
-              "fmt": "int"
-            },
-            {
-              "label": "Organic Traffic / เดือน",
-              "value": 7707,
-              "prev": 7953,
-              "fmt": "int"
-            },
-            {
-              "label": "มูลค่าทราฟฟิก",
-              "value": 1031.39,
-              "prev": 960.06,
-              "fmt": "usd"
-            },
-            {
-              "label": "Referring Domains",
-              "value": 3195,
-              "fmt": "int",
-              "sub": "โดเมนอ้างอิง"
-            },
-            {
-              "label": "Health Score",
-              "value": 100,
-              "suffix": " /100",
-              "sub": "3 error · 520 warning · 257 notice (crawl 22 มิ.ย.)"
-            }
-          ],
-          "history": [
-            {
-              "week": "7 มิ.ย.",
-              "traffic": 7331,
-              "keywords": 904,
-              "top3": 204
-            },
-            {
-              "week": "14 มิ.ย.",
-              "traffic": 7953,
-              "keywords": 968,
-              "top3": 261
-            },
-            {
-              "week": "23 มิ.ย.",
-              "traffic": 7707,
-              "keywords": 1080,
-              "top3": 345
-            }
-          ],
-          "findings": [
-            "คอนเทนต์โตต่อเนื่อง: 1,080 organic keywords, Top 3 = 345 (▲ จาก 261)",
-            "⚠️ คำเชิงพาณิชย์หลายคำหล่นสัปดาห์นี้: หนังสือรับรองบริษัท #3→7, ขอหนังสือรับรอง #3→8, รับจดทะเบียนบริษัท #1→8, odoo #2→13 — ตรวจ SERP/รีเฟรช",
-            "คำใหม่เข้าหน้า 2: ห้างหุ้นส่วนจำกัด #11, จดทะเบียนพาณิชย์ #11, จดทะเบียนการค้า #11 — ดันเข้า Top 10",
-            "Quick wins ใกล้ Top 3 vol สูง: คัดหนังสือรับรองบริษัท #4 (9,200), ผู้ประกอบการ vat #4 (9,400), จดทะเบียนบริษัท #5 (8,900)",
-            "เทคนิค: ✅ JS พังแก้แล้ว (3→0) แต่ Multiple meta description ซ้ำ 11 หน้า (Error) ยังค้าง + alt text 332",
-            "traffic 7,707/เดือน (ทรงตัวจาก 7,953) · มูลค่า $1,031 ▲ · DR 24 · ref domains 3,195"
-          ],
-          "actions": [
-            {
-              "id": "GT01",
-              "priority": "สูงมาก",
-              "category": "Crawl & Error",
-              "action": "แก้ JavaScript ที่พัง",
-              "detail": "JavaScript broken + Page has broken JS ระดับ Error 3 หน้า (ใหม่) กระทบการแสดงผล/การ crawl",
-              "page": "3 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT02",
-              "priority": "สูงมาก",
-              "category": "On-page",
-              "action": "แก้ Multiple meta description tags",
-              "detail": "Error 11 หน้า มี meta description ซ้ำ — เหลือชุดเดียวต่อหน้า",
-              "page": "11 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT03",
-              "priority": "สูง",
-              "category": "On-page",
-              "action": "แก้ Multiple title tags",
-              "detail": "Error 1 หน้ามี title ซ้ำ — เหลือ title เดียว",
-              "page": "1 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT04",
-              "priority": "สูง",
-              "category": "Crawl & Error",
-              "action": "แก้ 3XX page ที่ยังรับ organic traffic",
-              "detail": "Error 3 หน้า — หน้าที่ redirect แต่ยังมีทราฟฟิก ควรชี้ปลายทางให้ถูก/อัปเดตลิงก์",
-              "page": "3 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT05",
-              "priority": "กลาง",
-              "category": "Schema",
-              "action": "แก้ Structured data validation error",
-              "detail": "schema.org validation error 36 หน้า — แก้ markup ให้ผ่าน เพื่อรักษา rich result",
-              "page": "36 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT06",
-              "priority": "กลาง",
-              "category": "ความเร็ว/CSS",
-              "action": "ลดขนาด/แก้ CSS",
-              "detail": "CSS file size too large 20 หน้า (ใหม่ 16) + Page has broken CSS 7 หน้า — กระทบ Core Web Vitals",
-              "page": "~27 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT07",
-              "priority": "กลาง",
-              "category": "On-page",
-              "action": "เติม Meta description ที่หาย",
-              "detail": "รวม ~12 หน้าไม่มี meta description — เขียนใหม่",
-              "page": "~12 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT08",
-              "priority": "กลาง",
-              "category": "Indexing",
-              "action": "ทบทวน Noindex pages",
-              "detail": "Noindex page 144 หน้า — ยืนยันว่าตั้งใจ noindex ทั้งหมด ไม่บังหน้าที่ควร index",
-              "page": "144 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT09",
-              "priority": "ต่ำ",
-              "category": "Images",
-              "action": "ใส่ Alt text รูปภาพ",
-              "detail": "Missing alt text 333 รูป — ทยอยใส่ alt",
-              "page": "333 รูป",
-              "keyword": "-",
-              "impact": "ต่ำ",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT10",
-              "priority": "สูง",
-              "category": "Monitoring",
-              "action": "ตรวจหน้าที่หล่นอันดับ",
-              "detail": "8 หน้าหลุด Top 10 + 11 หน้า traffic ลด — โฟกัสกลุ่มจดทะเบียน/บัญชีที่เป็นรายได้หลัก",
-              "page": "19 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT11",
-              "priority": "สูง",
-              "category": "Internal Links",
-              "action": "เพิ่ม Internal Link เข้า money page",
-              "detail": "ลิงก์ภายในจากบทความ traffic สูง → หน้า service จดทะเบียนบริษัท",
-              "page": "หลายหน้า",
-              "keyword": "จดทะเบียนบริษัท",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GQ12",
-              "priority": "สูง",
-              "category": "Quick Win",
-              "action": "ดันคำเชิงพาณิชย์ขึ้น Top 3",
-              "detail": "'จดทะเบียนบริษัท' #6, 'ผู้ประกอบการ vat' #4, 'คัดหนังสือรับรองบริษัท' #5",
-              "page": "หลายหน้า",
-              "keyword": "จดทะเบียนบริษัท (8,900)",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GC13",
-              "priority": "กลาง",
-              "category": "Content/AEO",
-              "action": "FAQ + Schema กลุ่มคำ 'คือ' บัญชี-ภาษี",
-              "detail": "po, ใบแจ้งหนี้, ภพ.30, ออดิท — ใส่ FAQ/schema ดึง AI Overview",
-              "page": "หลายหน้า blog",
-              "keyword": "po คือ, ภพ 30 คือ",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "GT14",
-              "priority": "สูงมาก",
-              "category": "On-page",
-              "action": "ตรวจซ้ำ Multiple meta description (ยังเหลือ 11 หน้า)",
-              "detail": "GT02 มาร์ค done แต่ audit 22 มิ.ย. ยังพบ Error 11 หน้า — น่าจะมาจาก template/plugin ใส่ซ้ำ ตรวจที่ต้นทาง",
-              "page": "11 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            }
-          ],
-          "tracked": [
-            {
-              "trend": "up",
-              "keyword": "ใบลดหนี้",
-              "position": 1,
-              "diff": 4,
-              "volume": 2900,
-              "traffic": 368
-            },
-            {
-              "trend": "up",
-              "keyword": "จดทะเบียนบริษัท",
-              "position": 2,
-              "diff": 1,
-              "volume": 8900,
-              "traffic": 213
-            },
-            {
-              "trend": "flat",
-              "keyword": "บุคคลธรรมดา จด vat",
-              "position": 1,
-              "diff": 0,
-              "volume": 500,
-              "traffic": 126
-            },
-            {
-              "trend": "down",
-              "keyword": "รับจดทะเบียนบริษัท",
-              "position": 8,
-              "diff": -7,
-              "volume": 1500,
-              "traffic": 96
-            },
-            {
-              "trend": "flat",
-              "keyword": "ขอใบอนุญาตขายสุรา",
-              "position": 1,
-              "diff": 0,
-              "volume": 800,
-              "traffic": 67
-            },
-            {
-              "trend": "down",
-              "keyword": "เปิดบัญชีธนาคารใช้อะไรบ้าง",
-              "position": 9,
-              "diff": -2,
-              "volume": 2600,
-              "traffic": 99
-            },
-            {
-              "trend": "up",
-              "keyword": "บริษัทจำกัด",
-              "position": 1,
-              "diff": 9,
-              "volume": 1700,
-              "traffic": 88
-            },
-            {
-              "trend": "down",
-              "keyword": "บริษัท",
-              "position": 9,
-              "diff": -3,
-              "volume": 190000,
-              "traffic": 79
-            },
-            {
-              "trend": "down",
-              "keyword": "จด vat บุคคลธรรมดา",
-              "position": 5,
-              "diff": -1,
-              "volume": 600,
-              "traffic": 50
-            },
-            {
-              "trend": "up",
-              "keyword": "ห้างหุ้นส่วนจำกัด",
-              "position": 11,
-              "diff": 11,
-              "volume": 3300,
-              "traffic": 1
-            },
-            {
-              "trend": "down",
-              "keyword": "หนังสือรับรองบริษัท",
-              "position": 7,
-              "diff": -4,
-              "volume": 15000,
-              "traffic": 0
-            },
-            {
-              "trend": "down",
-              "keyword": "ขอหนังสือรับรองบริษัท",
-              "position": 8,
-              "diff": -5,
-              "volume": 20000,
-              "traffic": 0
-            },
-            {
-              "trend": "up",
-              "keyword": "จดทะเบียนพาณิชย์",
-              "position": 11,
-              "diff": 11,
-              "volume": 13000,
-              "traffic": 0
-            },
-            {
-              "trend": "up",
-              "keyword": "จดทะเบียนการค้า",
-              "position": 11,
-              "diff": 11,
-              "volume": 3900,
-              "traffic": 0
-            },
-            {
-              "trend": "down",
-              "keyword": "odoo",
-              "position": 13,
-              "diff": -11,
-              "volume": 4200,
-              "traffic": 0
-            },
-            {
-              "trend": "up",
-              "keyword": "ออดิตคือ",
-              "position": 21,
-              "diff": 4,
-              "volume": 40,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "erp",
-              "position": null,
-              "diff": null,
-              "volume": 6600,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "ภาษีมูลค่าเพิ่ม",
-              "position": null,
-              "diff": null,
-              "volume": 5600,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "work permit",
-              "position": null,
-              "diff": null,
-              "volume": 3700,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "สำนักงานบัญชี",
-              "position": null,
-              "diff": null,
-              "volume": 1500,
-              "traffic": 0
-            }
-          ],
-          "quickWins": [
-            {
-              "keyword": "หนังสือรับรองบริษัท",
-              "volume": 15000,
-              "kd": "-",
-              "position": 8,
-              "traffic": 0,
-              "url": "/blog/business/how-to-request-company-certification-online/",
-              "opp": "vol สูง — เสริมเนื้อหา/FAQ ดันเข้า Top 5"
-            },
-            {
-              "keyword": "ทะเบียนพาณิชย์",
-              "volume": 10000,
-              "kd": "-",
-              "position": 11,
-              "traffic": 0,
-              "url": "/services/business-formation/commercial-registration/",
-              "opp": "หน้า service — ดันเข้า Top 10"
-            },
-            {
-              "keyword": "ผู้ประกอบการ vat",
-              "volume": 9400,
-              "kd": "-",
-              "position": 4,
-              "traffic": 0,
-              "url": "/blog/accounting/duties-after-vat-registration/",
-              "opp": "ใกล้ Top 3 — ดันด่วน"
-            },
-            {
-              "keyword": "คัดหนังสือรับรองบริษัท",
-              "volume": 9200,
-              "kd": "-",
-              "position": 4,
-              "traffic": 1,
-              "url": "/blog/business/how-to-request-company-certification-online/",
-              "opp": "ใกล้ Top 3 vol สูง — ดันด่วน"
-            },
-            {
-              "keyword": "จดทะเบียนบริษัท",
-              "volume": 8900,
-              "kd": "-",
-              "position": 5,
-              "traffic": 25,
-              "url": "/services/business-formation/company-registration/",
-              "opp": "MONEY KW — ดัน Top 3"
-            },
-            {
-              "keyword": "po",
-              "volume": 8300,
-              "kd": "-",
-              "position": 20,
-              "traffic": 8,
-              "url": "/blog/accounting/what-is-purchase-order/",
-              "opp": "อันดับ 20 — เสริมเนื้อหา+FAQ"
-            },
-            {
-              "keyword": "ออดิท",
-              "volume": 7300,
-              "kd": "-",
-              "position": 20,
-              "traffic": 0,
-              "url": "/blog/accounting/importances-of-audit/",
-              "opp": "vol สูง KD งานบัญชี — ดันขึ้น"
-            },
-            {
-              "keyword": "คัดหนังสือรับรอง",
-              "volume": 6900,
-              "kd": "-",
-              "position": 6,
-              "traffic": 0,
-              "url": "/blog/business/how-to-request-company-certification-online/",
-              "opp": "ใกล้ Top 3"
-            },
-            {
-              "keyword": "หนังสือรับรอง",
-              "volume": 6400,
-              "kd": "-",
-              "position": 6,
-              "traffic": 0,
-              "url": "/blog/business/how-to-request-company-certification-online/",
-              "opp": "ใกล้ Top 3"
-            },
-            {
-              "keyword": "audit คือ",
-              "volume": 4300,
-              "kd": "-",
-              "position": 20,
-              "traffic": 0,
-              "url": "/blog/accounting/importances-of-audit/",
-              "opp": "AEO — ใส่ FAQ คำ 'คือ'"
-            },
-            {
-              "keyword": "odoo",
-              "volume": 4200,
-              "kd": "-",
-              "position": 8,
-              "traffic": 0,
-              "url": "/blog/business/what-is-odoo-erp-for-business-thailand/",
-              "opp": "เชื่อม Perfect Blending (ERP)"
-            },
-            {
-              "keyword": "หจก",
-              "volume": 4000,
-              "kd": "-",
-              "position": 7,
-              "traffic": 0,
-              "url": "/blog/business/documents-needed-register-lp/",
-              "opp": "ใกล้ Top 5"
-            },
-            {
-              "keyword": "คัดหนังสือรับรองออนไลน์",
-              "volume": 3500,
-              "kd": "-",
-              "position": 5,
-              "traffic": 266,
-              "url": "/blog/business/how-to-request-company-certification-online/",
-              "opp": "traffic หลัก — รักษา+ดัน Top 3"
-            },
-            {
-              "keyword": "ภงด 50",
-              "volume": 2800,
-              "kd": "-",
-              "position": 10,
-              "traffic": 0,
-              "url": "/blog/accounting/pnd50-tax-return/",
-              "opp": "AEO ภาษี — ดันขึ้น"
-            },
-            {
-              "keyword": "po คือ",
-              "volume": 2700,
-              "kd": "-",
-              "position": 14,
-              "traffic": 0,
-              "url": "/blog/accounting/what-is-purchase-order/",
-              "opp": "AEO — ใส่ FAQ"
-            }
-          ],
-          "content": [
-            {
-              "page": "Pillar: จดทะเบียนบริษัท ครบจบในหน้าเดียว",
-              "type": "Pillar/Service",
-              "keyword": "จดทะเบียนบริษัท, รับจดทะเบียนบริษัท",
-              "volume": "~10,400",
-              "kd": "-",
-              "angle": "ขั้นตอน + ค่าบริการ + เอกสาร + CTA",
-              "aeo": "FAQ + Service schema"
-            },
-            {
-              "page": "FAQ + Schema กลุ่มบัญชี-ภาษี 'คือ'",
-              "type": "Optimization",
-              "keyword": "po คือ, ภพ 30 คือ, ออดิทคือ",
-              "volume": "สูง",
-              "kd": "ต่ำ-กลาง",
-              "angle": "คำถาม-คำตอบสั้นบนสุด + ผู้เชี่ยวชาญ",
-              "aeo": "ดึง AI Overview / snippet"
-            },
-            {
-              "page": "Use case: เอกสารบัญชีธุรกิจ",
-              "type": "Use case",
-              "keyword": "ใบแจ้งหนี้, po, ใบลดหนี้",
-              "volume": "~19,000",
-              "kd": "-",
-              "angle": "ต่อยอดหน้าที่ rank ดี เชื่อมบริการบัญชี",
-              "aeo": "เชื่อม internal link เป็น cluster"
-            }
-          ],
-          "technical": [
-            {
-              "issue": "Multiple meta description tags",
-              "level": "Error",
-              "count": "11",
-              "cat": "Content",
-              "todo": "⚠️ ยังค้าง (GT02 มาร์ค done แต่ยังพบ) — ตรวจ template"
-            },
-            {
-              "issue": "Multiple title tags",
-              "level": "Error",
-              "count": "1",
-              "cat": "Content",
-              "todo": "เหลือ title เดียวต่อหน้า"
-            },
-            {
-              "issue": "HTTPS page links to HTTP (internal)",
-              "level": "Error",
-              "count": "1",
-              "cat": "Links",
-              "todo": "เปลี่ยนลิงก์ภายในเป็น HTTPS"
-            },
-            {
-              "issue": "3XX page receives organic traffic",
-              "level": "Error",
-              "count": "1",
-              "cat": "Other",
-              "todo": "ชี้ปลายทาง/อัปเดตลิงก์ให้ถูก"
-            },
-            {
-              "issue": "Missing alt text",
-              "level": "Warning",
-              "count": "332",
-              "cat": "Images",
-              "todo": "ทยอยใส่ alt"
-            },
-            {
-              "issue": "Meta description missing/empty",
-              "level": "Warning",
-              "count": "13",
-              "cat": "Content",
-              "todo": "เขียน meta description ใหม่"
-            },
-            {
-              "issue": "CSS file size too large",
-              "level": "Warning",
-              "count": "5",
-              "cat": "CSS",
-              "todo": "บีบอัด/ลดขนาด CSS"
-            },
-            {
-              "issue": "Meta description too long",
-              "level": "Warning",
-              "count": "2",
-              "cat": "Content",
-              "todo": "ตัดให้ ~120-155 ตัวอักษร"
-            },
-            {
-              "issue": "schema.org validation error",
-              "level": "Notice",
-              "count": "33",
-              "cat": "Other",
-              "todo": "แก้ markup ให้ผ่าน (งาน GT05)"
-            },
-            {
-              "issue": "Noindex page",
-              "level": "Notice",
-              "count": "145",
-              "cat": "Indexability",
-              "todo": "ทบทวนว่าตั้งใจ noindex"
-            },
-            {
-              "issue": "✅ JavaScript broken",
-              "level": "Notice",
-              "count": "0",
-              "cat": "JavaScript",
-              "todo": "แก้แล้ว (จาก 3 → 0) — ปิดงาน GT01"
-            }
-          ],
-          "competitors": [
-            {
-              "domain": "dbd.go.th",
-              "dr": 81,
-              "common": 338,
-              "theirs": 4065,
-              "traffic": 679295,
-              "note": "ภาครัฐ — คำจดทะเบียน/หนังสือรับรอง ★"
-            },
-            {
-              "domain": "rd.go.th",
-              "dr": 79,
-              "common": 298,
-              "theirs": 15391,
-              "traffic": 2132625,
-              "note": "กรมสรรพากร — คำภาษี ★"
-            },
-            {
-              "domain": "kasikornbank.com",
-              "dr": 75,
-              "common": 249,
-              "theirs": 33786,
-              "traffic": 2239301,
-              "note": "แบงก์ — คำธุรกิจ/บัญชี"
-            },
-            {
-              "domain": "flowaccount.com",
-              "dr": 58,
-              "common": 424,
-              "theirs": 16878,
-              "traffic": 565650,
-              "note": "ซอฟต์แวร์บัญชี — คู่แข่งตรงคอนเทนต์ ★"
-            },
-            {
-              "domain": "peakaccount.com",
-              "dr": 53,
-              "common": 328,
-              "theirs": 8429,
-              "traffic": 129191,
-              "note": "ซอฟต์แวร์บัญชี — แข่งคำบัญชี"
-            },
-            {
-              "domain": "humansoft.co.th",
-              "dr": 46,
-              "common": 101,
-              "theirs": 16618,
-              "traffic": 214358,
-              "note": "HR/payroll software"
-            },
-            {
-              "domain": "drthawip.com",
-              "dr": 30,
-              "common": 87,
-              "theirs": 6595,
-              "traffic": 137834,
-              "note": "คอนเทนต์บัญชี-ภาษี DR ใกล้เคียง"
-            },
-            {
-              "domain": "moc.go.th",
-              "dr": 72,
-              "common": 119,
-              "theirs": 7426,
-              "traffic": 98400,
-              "note": "กระทรวงพาณิชย์ — ภาครัฐ"
-            }
-          ],
-          "summaryHtml": "<b>ภาพรวมแข็งแรงและโตต่อเนื่อง</b> — Top 3 เพิ่มถึง 57 คำ (+28%), traffic +8.5%, 'รับจดทะเบียนบริษัท' ขึ้นอันดับ 1 แต่ต้องรีบแก้ JavaScript ที่พังและ meta/title ซ้ำ 11 หน้า ซึ่งเป็นปัญหาเทคนิคที่กดศักยภาพไว้"
-        },
-        {
-          "id": "2026-06-14",
-          "label": "สัปดาห์ที่ 14 มิ.ย. 2026",
-          "metrics": [
-            {
-              "label": "Domain Rating",
-              "value": 24,
-              "suffix": " /100",
-              "sub": "อำนาจโดเมน (backlink)"
-            },
-            {
-              "label": "Organic Keywords",
-              "value": 968,
+              "value": 1083,
               "prev": 904,
               "fmt": "int"
             },
             {
               "label": "คำติด Top 3",
-              "value": 261,
+              "value": 360,
               "prev": 204,
               "fmt": "int"
             },
             {
               "label": "Organic Traffic / เดือน",
-              "value": 7953,
+              "value": 7909,
               "prev": 7331,
               "fmt": "int"
             },
             {
               "label": "มูลค่าทราฟฟิก",
-              "value": 960.06,
+              "value": 1033.17,
               "prev": 878.59,
               "fmt": "usd"
             },
@@ -3842,6 +2103,12 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "traffic": 7953,
               "keywords": 968,
               "top3": 261
+            },
+            {
+              "week": "30 มิ.ย.",
+              "traffic": 7909,
+              "keywords": 1083,
+              "top3": 360
             }
           ],
           "findings": [
@@ -3862,15 +2129,21 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "สูง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Earth",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
                 }
-              ]
+              ],
+              "closed": false,
+              "note": "✅ ยืนยันแก้แล้ว (Ahrefs 2026-06-29=0)"
             },
             {
               "id": "GT02",
@@ -3882,15 +2155,21 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "สูง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Earth",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
                 }
-              ]
+              ],
+              "closed": false,
+              "note": "✅ ยืนยันแก้แล้ว (Ahrefs 2026-06-29=0)"
             },
             {
               "id": "GT03",
@@ -3902,15 +2181,21 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "กลาง",
               "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Earth",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
                 }
-              ]
+              ],
+              "closed": false,
+              "note": "✅ ยืนยันแก้แล้ว (Ahrefs 2026-06-29=0)"
             },
             {
               "id": "GT04",
@@ -3922,15 +2207,21 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "กลาง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "done",
+              "owner": "Earth",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "done",
+                  "at": "2026-06-25"
                 }
-              ]
+              ],
+              "closed": false,
+              "note": "✅ ยืนยันแก้แล้ว (Ahrefs 2026-06-29=0)"
             },
             {
               "id": "GT05",
@@ -3942,15 +2233,20 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "กลาง",
               "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
+              "stage": "doing",
+              "owner": "Earth",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-14"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-06-25"
                 }
-              ]
+              ],
+              "closed": false
             },
             {
               "id": "GT06",
@@ -4122,16 +2418,69 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "keyword": "-",
               "impact": "สูง",
               "effort": "กลาง",
-              "stage": "todo",
+              "stage": "doing",
               "owner": "",
               "due": "",
               "log": [
                 {
                   "stage": "todo",
                   "at": "2026-06-23"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-07-03"
+                },
+                {
+                  "stage": "todo",
+                  "at": "2026-07-03"
+                },
+                {
+                  "stage": "doing",
+                  "at": "2026-07-03"
                 }
               ],
-              "closed": false
+              "closed": false,
+              "note": "✅ Ahrefs 29 มิ.ย. = 0 (พร้อมปิดเป็น done)"
+            },
+            {
+              "id": "GT16",
+              "priority": "สูงมาก",
+              "category": "Crawl & Error",
+              "action": "แก้หน้า 5XX 17 หน้า (ใหม่)",
+              "detail": "Ahrefs crawl 29 มิ.ย. พบ 5XX page ระดับ Error 17 หน้า (ใหม่) — เซิร์ฟเวอร์ตอบ error กระทบ crawl/อันดับ ตรวจ error log ด่วน",
+              "page": "17 หน้า",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-07-03"
+                }
+              ],
+              "owner": "",
+              "due": "",
+              "keyword": "-"
+            },
+            {
+              "id": "GT17",
+              "priority": "สูง",
+              "category": "CSS",
+              "action": "แก้ CSS พัง/โหลดไม่ได้ (ใหม่)",
+              "detail": "CSS broken 14 หน้า (ใหม่ 12) + Page has broken CSS 12 หน้า — กระทบการแสดงผล/Core Web Vitals",
+              "page": "~26 หน้า",
+              "impact": "กลาง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-07-03"
+                }
+              ],
+              "owner": "",
+              "due": "",
+              "keyword": "-"
             }
           ],
           "tracked": [
@@ -4382,110 +2731,319 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
           ],
           "content": [
             {
-              "page": "Pillar: จดทะเบียนบริษัท ครบจบในหน้าเดียว",
-              "type": "Pillar/Service",
-              "keyword": "จดทะเบียนบริษัท, รับจดทะเบียนบริษัท",
-              "volume": "~10,400",
-              "kd": "-",
-              "angle": "ขั้นตอน + ค่าบริการ + เอกสาร + CTA",
-              "aeo": "FAQ + Service schema"
+              "gp": "GP01",
+              "page": "GP01 จดทะเบียนบริษัท",
+              "type": "Money/Service",
+              "keyword": "จดทะเบียนบริษัท",
+              "volume": 8900,
+              "kd": 50,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/services/business-formation/company-registration/"
             },
             {
-              "page": "FAQ + Schema กลุ่มบัญชี-ภาษี 'คือ'",
-              "type": "Optimization",
-              "keyword": "po คือ, ภพ 30 คือ, ออดิทคือ",
-              "volume": "สูง",
-              "kd": "ต่ำ-กลาง",
-              "angle": "คำถาม-คำตอบสั้นบนสุด + ผู้เชี่ยวชาญ",
-              "aeo": "ดึง AI Overview / snippet"
+              "gp": "GP02",
+              "page": "GP02 หนังสือรับรองออนไลน์",
+              "type": "Hub",
+              "keyword": "ขอหนังสือรับรองบริษัท",
+              "volume": 22000,
+              "kd": 4,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/business/how-to-request-company-certification-online/"
             },
             {
-              "page": "Use case: เอกสารบัญชีธุรกิจ",
-              "type": "Use case",
-              "keyword": "ใบแจ้งหนี้, po, ใบลดหนี้",
-              "volume": "~19,000",
+              "gp": "GP03",
+              "page": "GP03 รับทำบัญชี",
+              "type": "Money/Service",
+              "keyword": "รับทำบัญชี, สำนักงานบัญชี",
+              "volume": 1600,
+              "kd": 7,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/services/accounting/accounting-tax-services/"
+            },
+            {
+              "gp": "GP04",
+              "page": "GP04 จดทะเบียนมูลนิธิ",
+              "type": "Service",
+              "keyword": "จดทะเบียนมูลนิธิ",
+              "volume": "-",
               "kd": "-",
-              "angle": "ต่อยอดหน้าที่ rank ดี เชื่อมบริการบัญชี",
-              "aeo": "เชื่อม internal link เป็น cluster"
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/services/business-formation/foundation-registration/"
+            },
+            {
+              "gp": "GP05",
+              "page": "GP05 ใบอนุญาตขายสุรา",
+              "type": "Blog/Lead",
+              "keyword": "ขอใบอนุญาตขายสุรา",
+              "volume": 800,
+              "kd": 43,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/business/how-to-get-alcohol-license-thailand/"
+            },
+            {
+              "gp": "GP06",
+              "page": "GP06 ใบอนุญาตร้านอาหาร",
+              "type": "Blog/Lead",
+              "keyword": "เปิดร้านอาหารต้องขอใบอนุญาตอะไรบ้าง",
+              "volume": 150,
+              "kd": 0,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/business/restaurant-license-requirements/"
+            },
+            {
+              "gp": "GP07",
+              "page": "GP07 ใบลดหนี้ / credit note",
+              "type": "Blog",
+              "keyword": "ใบลดหนี้",
+              "volume": 2700,
+              "kd": 24,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/accounting/how-to-issue-credit-note-correctly-thailand/"
+            },
+            {
+              "gp": "GP08",
+              "page": "GP08 ใบกำกับภาษี vs ใบเสร็จ",
+              "type": "Blog",
+              "keyword": "ใบเสร็จรับเงิน/ใบกำกับภาษี",
+              "volume": 3100,
+              "kd": 0,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/tax/tax-invoice-vs-receipt-thailand-guide/"
+            },
+            {
+              "gp": "GP09",
+              "page": "GP09 ตรวจสอบผู้ประกอบการ VAT",
+              "type": "Blog/Tool",
+              "keyword": "รายชื่อผู้ประกอบการ vat",
+              "volume": 9800,
+              "kd": 0,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "-"
+            },
+            {
+              "gp": "GP10",
+              "page": "GP10 เครื่องคำนวณ หัก ณ ที่จ่าย",
+              "type": "Free-tool",
+              "keyword": "คำนวณภาษีหัก ณ ที่จ่าย",
+              "volume": 7200,
+              "kd": 39,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/tax/withholding-tax-calculator-2026-with-guide/"
+            },
+            {
+              "gp": "GP11",
+              "page": "GP11 ภ.ง.ด.51 (Pillar)",
+              "type": "Pillar",
+              "keyword": "ภงด 51",
+              "volume": "-",
+              "kd": "-",
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "-"
+            },
+            {
+              "gp": "GP12",
+              "page": "GP12 ภ.ง.ด.51 (Service)",
+              "type": "Service",
+              "keyword": "ยื่น ภงด 51",
+              "volume": "-",
+              "kd": "-",
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "-"
+            },
+            {
+              "gp": "GP13",
+              "page": "GP13 เงินเพิ่ม / เบี้ยปรับ",
+              "type": "Blog",
+              "keyword": "เงินเพิ่ม",
+              "volume": "-",
+              "kd": "-",
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "/blog/business/additional-tax-surcharge/"
+            },
+            {
+              "gp": "GP14",
+              "page": "GP14 ภ.ง.ด.94 (ครึ่งปี)",
+              "type": "Blog",
+              "keyword": "ภงด 94",
+              "volume": "-",
+              "kd": "-",
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "-"
+            },
+            {
+              "gp": "GP15",
+              "page": "GP15 ภ.ง.ด.90/91",
+              "type": "Blog",
+              "keyword": "ภงด 90",
+              "volume": 5800,
+              "kd": 60,
+              "angle": "",
+              "aeo": "",
+              "status": "Draft",
+              "url": "-"
             }
           ],
           "technical": [
             {
-              "issue": "Multiple meta description tags",
+              "issue": "5XX page",
               "level": "Error",
-              "count": "11",
-              "cat": "Content",
-              "todo": "⚠️ ยังค้าง (GT02 มาร์ค done แต่ยังพบ) — ตรวจ template"
-            },
-            {
-              "issue": "Multiple title tags",
-              "level": "Error",
-              "count": "1",
-              "cat": "Content",
-              "todo": "เหลือ title เดียวต่อหน้า"
-            },
-            {
-              "issue": "HTTPS page links to HTTP (internal)",
-              "level": "Error",
-              "count": "1",
-              "cat": "Links",
-              "todo": "เปลี่ยนลิงก์ภายในเป็น HTTPS"
-            },
-            {
-              "issue": "3XX page receives organic traffic",
-              "level": "Error",
-              "count": "1",
-              "cat": "Other",
-              "todo": "ชี้ปลายทาง/อัปเดตลิงก์ให้ถูก"
+              "count": "17",
+              "cat": "Internal pages",
+              "todo": "⬆️ เพิ่ม — เซิร์ฟเวอร์คืน 5XX — เช็ก error log/โฮสต์ด่วน กระทบ crawl+อันดับ"
             },
             {
               "issue": "Missing alt text",
               "level": "Warning",
-              "count": "332",
+              "count": "322",
               "cat": "Images",
-              "todo": "ทยอยใส่ alt"
+              "todo": "ทยอยใส่ alt text รูปภาพ"
             },
             {
-              "issue": "Meta description missing/empty",
+              "issue": "Noindex page",
               "level": "Warning",
-              "count": "13",
+              "count": "129",
+              "cat": "Indexability",
+              "todo": "ทบทวนว่าตั้งใจ noindex ทั้งหมด ไม่บังหน้าที่ควร index"
+            },
+            {
+              "issue": "CSS broken",
+              "level": "Warning",
+              "count": "14",
+              "cat": "CSS",
+              "todo": "🆕 ใหม่ 12 หน้า — แก้ไฟล์ CSS ที่โหลดไม่ได้"
+            },
+            {
+              "issue": "Page has broken CSS",
+              "level": "Warning",
+              "count": "12",
+              "cat": "CSS",
+              "todo": "⬆️ เพิ่ม — หน้าที่มี CSS พัง — ตรวจ path/plugin"
+            },
+            {
+              "issue": "Meta description tag missing or empty",
+              "level": "Warning",
+              "count": "12",
               "cat": "Content",
-              "todo": "เขียน meta description ใหม่"
+              "todo": "เขียน meta description ให้หน้าที่ยังว่าง"
             },
             {
               "issue": "CSS file size too large",
               "level": "Warning",
-              "count": "5",
+              "count": "6",
               "cat": "CSS",
-              "todo": "บีบอัด/ลดขนาด CSS"
+              "todo": "🆕 ใหม่ 1 หน้า — บีบอัด/แยกไฟล์ CSS ลดขนาด (Core Web Vitals)"
             },
             {
-              "issue": "Meta description too long",
+              "issue": "H1 tag missing or empty",
               "level": "Warning",
               "count": "2",
               "cat": "Content",
-              "todo": "ตัดให้ ~120-155 ตัวอักษร"
+              "todo": "เพิ่ม H1 ให้หน้าที่ขาด"
             },
             {
-              "issue": "schema.org validation error",
+              "issue": "Noindex follow page",
+              "level": "Notice",
+              "count": "129",
+              "cat": "Indexability",
+              "todo": "ทบทวน noindex ว่าถูกต้อง"
+            },
+            {
+              "issue": "Page and SERP titles do not match",
+              "level": "Notice",
+              "count": "39",
+              "cat": "Content",
+              "todo": "ปรับ title ให้ตรงกับที่ Google แสดง"
+            },
+            {
+              "issue": "Structured data has schema.org validation error",
               "level": "Notice",
               "count": "33",
+              "cat": "Content",
+              "todo": "แก้ schema markup ให้ผ่าน validation"
+            },
+            {
+              "issue": "Meta description too long",
+              "level": "Notice",
+              "count": "28",
+              "cat": "Content",
+              "todo": "ตัด meta description ให้ ~120-155 ตัวอักษร"
+            },
+            {
+              "issue": "External 3XX redirect",
+              "level": "Notice",
+              "count": "21",
+              "cat": "External pages",
+              "todo": "อัปเดตลิงก์ภายนอกให้ชี้ปลายทางตรง"
+            },
+            {
+              "issue": "Title too long",
+              "level": "Notice",
+              "count": "19",
+              "cat": "Content",
+              "todo": "ตัด title ให้ ~60 ตัวอักษร"
+            },
+            {
+              "issue": "Meta description too short",
+              "level": "Notice",
+              "count": "9",
+              "cat": "Content",
+              "todo": "ขยาย meta description ให้ครบ ~120-155 ตัวอักษร"
+            },
+            {
+              "issue": "Organic traffic dropped",
+              "level": "Notice",
+              "count": "6",
               "cat": "Other",
-              "todo": "แก้ markup ให้ผ่าน (งาน GT05)"
+              "todo": "ตรวจหน้าที่ traffic ลด หาสาเหตุ"
             },
             {
-              "issue": "Noindex page",
+              "issue": "Pages to submit to IndexNow",
               "level": "Notice",
-              "count": "145",
-              "cat": "Indexability",
-              "todo": "ทบทวนว่าตั้งใจ noindex"
+              "count": "5",
+              "cat": "Other",
+              "todo": "ส่ง URL ใหม่เข้า IndexNow"
             },
             {
-              "issue": "✅ JavaScript broken",
+              "issue": "Pages dropped from Top 10",
               "level": "Notice",
-              "count": "0",
-              "cat": "JavaScript",
-              "todo": "แก้แล้ว (จาก 3 → 0) — ปิดงาน GT01"
+              "count": "4",
+              "cat": "Other",
+              "todo": "ตรวจหน้าที่หลุด Top 10 — refresh เนื้อหา/ลิงก์"
+            },
+            {
+              "issue": "Structured data has Google rich results validation error",
+              "level": "Notice",
+              "count": "1",
+              "cat": "Content",
+              "todo": "🆕 ใหม่ 1 หน้า — แก้ schema ให้ผ่าน Google rich results"
             }
           ],
           "competitors": [
@@ -4554,7 +3112,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "note": "กระทรวงพาณิชย์ — ภาครัฐ"
             }
           ],
-          "summaryHtml": "<b>ภาพรวมแข็งแรงและโตต่อเนื่อง</b> — Top 3 เพิ่มถึง 57 คำ (+28%), traffic +8.5%, 'รับจดทะเบียนบริษัท' ขึ้นอันดับ 1 แต่ต้องรีบแก้ JavaScript ที่พังและ meta/title ซ้ำ 11 หน้า ซึ่งเป็นปัญหาเทคนิคที่กดศักยภาพไว้"
+          "summaryHtml": "<b>ภาพรวมแข็งแรงและโตต่อเนื่อง</b> — Top 3 เพิ่มถึง 57 คำ (+28%), traffic +8.5%, 'รับจดทะเบียนบริษัท' ขึ้นอันดับ 1 แต่ต้องรีบแก้ JavaScript ที่พังและ meta/title ซ้ำ 11 หน้า ซึ่งเป็นปัญหาเทคนิคที่กดศักยภาพไว้",
+          "_ahrefs_crawl": "2026-06-29"
         }
       ]
     },
@@ -4564,487 +3123,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       "domain": "perfectblending.com",
       "weeks": [
         {
-          "id": "2026-06-23",
-          "label": "สัปดาห์ที่ 23 มิ.ย. 2026",
-          "metrics": [
-            {
-              "label": "Domain Rating",
-              "value": 14,
-              "suffix": " /100",
-              "sub": "อำนาจโดเมน (backlink)"
-            },
-            {
-              "label": "Organic Keywords",
-              "value": 3,
-              "fmt": "int"
-            },
-            {
-              "label": "คำติด Top 3",
-              "value": 1,
-              "fmt": "int"
-            },
-            {
-              "label": "Organic Traffic / เดือน",
-              "value": 3,
-              "fmt": "int"
-            },
-            {
-              "label": "มูลค่าทราฟฟิก",
-              "value": 0.97,
-              "fmt": "usd"
-            },
-            {
-              "label": "Referring Domains",
-              "value": 229,
-              "fmt": "int",
-              "sub": "โดเมนอ้างอิง"
-            },
-            {
-              "label": "Health Score",
-              "value": 92,
-              "suffix": " /100",
-              "sub": "12 error · 31 warning · 10 notice (crawl 17 มิ.ย.)"
-            }
-          ],
-          "history": [
-            {
-              "week": "7 มิ.ย.",
-              "traffic": 0,
-              "keywords": 1,
-              "top3": 1
-            },
-            {
-              "week": "14 มิ.ย.",
-              "traffic": 0,
-              "keywords": 2,
-              "top3": 1
-            },
-            {
-              "week": "23 มิ.ย.",
-              "traffic": 3,
-              "keywords": 3,
-              "top3": 1
-            }
-          ],
-          "findings": [
-            "เว็บใหม่/early stage: TH organic ยังน้อยมาก (3 คำ, traffic ~3) — ranking หลักคือ 'odoo'",
-            "⚠️ 'odoo' หล่น #10 → #17 — เป็นคำหลักของเว็บ ต้องเสริมเนื้อหา/ลิงก์ภายใน",
-            "เทคนิค (crawl 17 มิ.ย.): Multiple meta description ซ้ำ 11 หน้า (Error), H1 หาย 11 หน้า, title ซ้ำ 1",
-            "โอกาส: ต่อยอด /odoo-erp-guide-2026/ + สร้างคลัสเตอร์ ERP/บัญชี เชื่อมกับ Greenpro KSP เพื่อยืม authority",
-            "DR 14 · ref domains 229 (โตจาก 219) — โครงสร้างลิงก์เริ่มก่อตัว"
-          ],
-          "actions": [
-            {
-              "id": "PT01",
-              "priority": "สูงมาก",
-              "category": "On-page",
-              "action": "แก้ Multiple meta description tags",
-              "detail": "Error 11 หน้ามี meta description ซ้ำ — เหลือชุดเดียวต่อหน้า",
-              "page": "11 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PT02",
-              "priority": "สูง",
-              "category": "On-page",
-              "action": "เพิ่ม H1 ให้หน้าที่ขาด",
-              "detail": "H1 tag missing or empty 11 หน้า — แต่ละหน้าควรมี H1 หลัก",
-              "page": "11 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PT03",
-              "priority": "สูง",
-              "category": "Crawl & Error",
-              "action": "แก้ลิงก์ภายใน HTTP",
-              "detail": "HTTPS page มี internal link ไป HTTP 1 หน้า (Error) — แก้ให้เป็น HTTPS",
-              "page": "1 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PT04",
-              "priority": "กลาง",
-              "category": "On-page",
-              "action": "เติม/ปรับ Meta description",
-              "detail": "หาย 5 หน้า + ยาวเกิน 2 หน้า — เขียน/ตัดให้ ~120-155 ตัวอักษร",
-              "page": "7 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PT05",
-              "priority": "สูง",
-              "category": "Crawl & Error",
-              "action": "เก็บ Error ใน Site Audit ให้ Health > 95",
-              "detail": "Health 92 (12 errors) ต่ำสุดในกลุ่ม — ไล่แก้ error ทีละหมวด",
-              "page": "ทั้งไซต์",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PT06",
-              "priority": "ต่ำ",
-              "category": "Images",
-              "action": "ใส่ Alt text รูปภาพ",
-              "detail": "Missing alt text 5 รูป — ใส่ alt อธิบายรูป",
-              "page": "5 รูป",
-              "keyword": "-",
-              "impact": "ต่ำ",
-              "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PQ07",
-              "priority": "กลาง",
-              "category": "Quick Win",
-              "action": "ดัน 'odoo' เข้า Top 10",
-              "detail": "คำ 'odoo' (vol 4,200) อยู่อันดับ 18 — ปรับ on-page + internal link",
-              "page": "/odoo-erp-guide-2026/",
-              "keyword": "odoo (4,200)",
-              "impact": "กลาง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PC08",
-              "priority": "สูง",
-              "category": "Content/AEO",
-              "action": "เร่งสร้างคอนเทนต์รากฐาน",
-              "detail": "เว็บมี organic แค่ 2 คำ — วางแผนคอนเทนต์ตามบริการหลัก (ERP/Odoo/automation) สร้างฐานคีย์เวิร์ด",
-              "page": "ใหม่ หลายหน้า",
-              "keyword": "odoo, erp, automation",
-              "impact": "สูง",
-              "effort": "สูง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-14"
-                }
-              ]
-            },
-            {
-              "id": "PB01",
-              "priority": "สูงมาก",
-              "category": "On-page",
-              "action": "แก้ Multiple meta description tags (11 หน้า)",
-              "detail": "Error 11 หน้ามี meta description ซ้ำ — เหลือชุดเดียวต่อหน้า",
-              "page": "11 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "PB02",
-              "priority": "สูง",
-              "category": "Content",
-              "action": "เติม H1 ที่หาย (11 หน้า)",
-              "detail": "11 หน้าไม่มี H1 — ใส่ H1 ที่มีคีย์เวิร์ดหลัก",
-              "page": "11 หน้า",
-              "keyword": "-",
-              "impact": "สูง",
-              "effort": "กลาง",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            },
-            {
-              "id": "PB03",
-              "priority": "กลาง",
-              "category": "On-page",
-              "action": "แก้ Multiple title (1) + internal link HTTP→HTTPS (1)",
-              "detail": "รวม 2 Error เล็ก — เหลือ title เดียว + เปลี่ยนลิงก์ภายในเป็น HTTPS",
-              "page": "2 หน้า",
-              "keyword": "-",
-              "impact": "กลาง",
-              "effort": "ต่ำ",
-              "stage": "todo",
-              "owner": "",
-              "due": "",
-              "log": [
-                {
-                  "stage": "todo",
-                  "at": "2026-06-23"
-                }
-              ],
-              "closed": false
-            }
-          ],
-          "tracked": [
-            {
-              "trend": "down",
-              "keyword": "odoo",
-              "position": 17,
-              "diff": -7,
-              "volume": 4200,
-              "traffic": 0
-            },
-            {
-              "trend": "flat",
-              "keyword": "odoo erp",
-              "position": 16,
-              "diff": 0,
-              "volume": 400,
-              "traffic": 3
-            },
-            {
-              "trend": "none",
-              "keyword": "erp",
-              "position": null,
-              "diff": null,
-              "volume": 6600,
-              "traffic": 0
-            },
-            {
-              "trend": "none",
-              "keyword": "งบทดลอง",
-              "position": null,
-              "diff": null,
-              "volume": 2600,
-              "traffic": 0
-            }
-          ],
-          "quickWins": [
-            {
-              "keyword": "odoo",
-              "volume": 4200,
-              "kd": "-",
-              "position": 18,
-              "traffic": 0,
-              "url": "/odoo-erp-guide-2026/",
-              "opp": "คำหลักของเว็บ — เสริมเนื้อหา/ลิงก์ ดันเข้า Top 10"
-            },
-            {
-              "keyword": "odoo erp",
-              "volume": 400,
-              "kd": "-",
-              "position": 16,
-              "traffic": 3,
-              "url": "/odoo-erp-guide-2026/",
-              "opp": "ต่อยอดหน้าเดียวกัน — เพิ่ม use case"
-            }
-          ],
-          "content": [
-            {
-              "page": "Odoo ERP คืออะไร (ฉบับสมบูรณ์)",
-              "type": "Pillar/Guide",
-              "keyword": "odoo, odoo erp, erp",
-              "volume": "~10,800",
-              "kd": "-",
-              "angle": "นิยาม + โมดูล + ราคา + ใครเหมาะ",
-              "aeo": "FAQ schema, ตอบสั้นบนสุด"
-            },
-            {
-              "page": "บริการวางระบบ ERP/Odoo",
-              "type": "Service page",
-              "keyword": "วางระบบ odoo, รับทำ erp",
-              "volume": "-",
-              "kd": "-",
-              "angle": "บริการ + ผลงาน + ฟอร์มติดต่อ",
-              "aeo": "Service + FAQ schema"
-            },
-            {
-              "page": "คอนเทนต์รากฐานตามบริการ",
-              "type": "Cluster",
-              "keyword": "automation, ระบบธุรกิจ",
-              "volume": "-",
-              "kd": "-",
-              "angle": "สร้างชุดบทความรองรับบริการหลัก",
-              "aeo": "วางโครง cluster ตั้งแต่ต้น"
-            }
-          ],
-          "technical": [
-            {
-              "issue": "Multiple meta description tags",
-              "level": "Error",
-              "count": "11",
-              "cat": "Content",
-              "todo": "เหลือ meta description ชุดเดียวต่อหน้า"
-            },
-            {
-              "issue": "Multiple title tags",
-              "level": "Error",
-              "count": "1",
-              "cat": "Content",
-              "todo": "เหลือ title เดียว"
-            },
-            {
-              "issue": "HTTPS page links to HTTP (internal)",
-              "level": "Error",
-              "count": "1",
-              "cat": "Links",
-              "todo": "เปลี่ยนลิงก์ภายในเป็น HTTPS"
-            },
-            {
-              "issue": "H1 tag missing or empty",
-              "level": "Warning",
-              "count": "11",
-              "cat": "Content",
-              "todo": "เพิ่ม H1 ให้ครบทุกหน้า"
-            },
-            {
-              "issue": "Missing alt text",
-              "level": "Warning",
-              "count": "5",
-              "cat": "Images",
-              "todo": "ใส่ alt อธิบายรูป"
-            },
-            {
-              "issue": "Meta description missing/empty",
-              "level": "Warning",
-              "count": "5",
-              "cat": "Content",
-              "todo": "เขียน meta description"
-            },
-            {
-              "issue": "Meta description too long",
-              "level": "Warning",
-              "count": "2",
-              "cat": "Content",
-              "todo": "ตัดให้ ~120-155 ตัวอักษร"
-            },
-            {
-              "issue": "External 3XX redirect",
-              "level": "Notice",
-              "count": "5",
-              "cat": "External pages",
-              "todo": "อัปเดตลิงก์ภายนอกให้ตรงปลายทาง"
-            },
-            {
-              "issue": "Noindex page",
-              "level": "Notice",
-              "count": "2",
-              "cat": "Indexability",
-              "todo": "ทบทวนว่าตั้งใจ noindex"
-            }
-          ],
-          "competitors": [
-            {
-              "domain": "odoo.com",
-              "dr": 93,
-              "common": 1,
-              "theirs": 501,
-              "traffic": 7374,
-              "note": "เจ้าของแพลตฟอร์ม Odoo — คำ odoo ★"
-            },
-            {
-              "domain": "rocket.in.th",
-              "dr": 40,
-              "common": 1,
-              "theirs": 2862,
-              "traffic": 73014,
-              "note": "คู่แข่งคอนเทนต์ธุรกิจ/ซอฟต์แวร์"
-            },
-            {
-              "domain": "dynamics-motion.com",
-              "dr": 10,
-              "common": 1,
-              "theirs": 1692,
-              "traffic": 18999,
-              "note": "automation รายเล็ก DR ใกล้เคียง"
-            },
-            {
-              "domain": "anyworkanywhereanytime.com",
-              "dr": 12,
-              "common": 0,
-              "theirs": 8,
-              "traffic": 7,
-              "note": "เว็บเล็ก"
-            }
-          ],
-          "summaryHtml": "<b>เว็บอยู่ระยะเริ่มต้น</b> — ยังแทบไม่มี organic presence (2 คีย์เวิร์ด, ทราฟฟิก 0) โฟกัสควรเป็นการวางรากฐาน: แก้ปัญหาเทคนิค (meta ซ้ำ, H1 หาย), เร่งสร้างคอนเทนต์ตามบริการหลัก และดันคำ 'odoo' เข้าหน้าแรก"
-        },
-        {
           "id": "2026-06-14",
-          "label": "สัปดาห์ที่ 14 มิ.ย. 2026",
+          "label": "สัปดาห์ 3 ก.ค. 2026 (merge ทีม + Ahrefs 1 ก.ค.)",
           "metrics": [
             {
               "label": "Domain Rating",
@@ -5333,6 +3413,46 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
                 }
               ],
               "closed": false
+            },
+            {
+              "id": "PT07",
+              "priority": "สูง",
+              "category": "Links",
+              "action": "แก้ Orphan pages 24 หน้า (ใหม่)",
+              "detail": "Ahrefs พบ orphan page 24 หน้า (ไม่มี internal link เข้าเลย) — เพิ่มลิงก์ภายในเข้าหน้าเหล่านี้",
+              "page": "24 หน้า",
+              "impact": "สูง",
+              "effort": "กลาง",
+              "stage": "todo",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-07-03"
+                }
+              ],
+              "owner": "",
+              "due": "",
+              "keyword": "-"
+            },
+            {
+              "id": "PT08",
+              "priority": "สูง",
+              "category": "Links",
+              "action": "เปลี่ยน internal link HTTP→HTTPS 18 หน้า",
+              "detail": "HTTPS page has internal links to HTTP ระดับ Error 18 หน้า (ใหม่ 13) — เปลี่ยนลิงก์ภายในเป็น HTTPS",
+              "page": "18 หน้า",
+              "impact": "กลาง",
+              "effort": "ต่ำ",
+              "stage": "todo",
+              "log": [
+                {
+                  "stage": "todo",
+                  "at": "2026-07-03"
+                }
+              ],
+              "owner": "",
+              "due": "",
+              "keyword": "-"
             }
           ],
           "tracked": [
@@ -5387,67 +3507,130 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
           ],
           "technical": [
             {
-              "issue": "Multiple meta description tags",
+              "issue": "Orphan page (has no incoming internal links)",
               "level": "Error",
-              "count": "11",
-              "cat": "Content",
-              "todo": "เหลือ meta description ชุดเดียวต่อหน้า"
-            },
-            {
-              "issue": "Multiple title tags",
-              "level": "Error",
-              "count": "1",
-              "cat": "Content",
-              "todo": "เหลือ title เดียว"
-            },
-            {
-              "issue": "HTTPS page links to HTTP (internal)",
-              "level": "Error",
-              "count": "1",
+              "count": "24",
               "cat": "Links",
-              "todo": "เปลี่ยนลิงก์ภายในเป็น HTTPS"
+              "todo": "🆕 ใหม่ 24 หน้า — เพิ่ม internal link เข้าหน้า orphan"
             },
             {
-              "issue": "H1 tag missing or empty",
-              "level": "Warning",
-              "count": "11",
-              "cat": "Content",
-              "todo": "เพิ่ม H1 ให้ครบทุกหน้า"
+              "issue": "HTTPS page has internal links to HTTP",
+              "level": "Error",
+              "count": "18",
+              "cat": "Links",
+              "todo": "🆕 ใหม่ 13 หน้า — เปลี่ยนลิงก์ภายในจาก HTTP เป็น HTTPS"
+            },
+            {
+              "issue": "Image file size too large",
+              "level": "Error",
+              "count": "2",
+              "cat": "Images",
+              "todo": "บีบอัดรูปภาพ (WebP)"
+            },
+            {
+              "issue": "Image broken",
+              "level": "Error",
+              "count": "1",
+              "cat": "Images",
+              "todo": "แก้รูปที่โหลดไม่ได้"
             },
             {
               "issue": "Missing alt text",
               "level": "Warning",
-              "count": "5",
+              "count": "70",
               "cat": "Images",
-              "todo": "ใส่ alt อธิบายรูป"
+              "todo": "🆕 ใหม่ 9 หน้า — ทยอยใส่ alt text รูปภาพ"
             },
             {
-              "issue": "Meta description missing/empty",
+              "issue": "Meta description tag missing or empty",
               "level": "Warning",
-              "count": "5",
+              "count": "63",
               "cat": "Content",
-              "todo": "เขียน meta description"
-            },
-            {
-              "issue": "Meta description too long",
-              "level": "Warning",
-              "count": "2",
-              "cat": "Content",
-              "todo": "ตัดให้ ~120-155 ตัวอักษร"
-            },
-            {
-              "issue": "External 3XX redirect",
-              "level": "Notice",
-              "count": "5",
-              "cat": "External pages",
-              "todo": "อัปเดตลิงก์ภายนอกให้ตรงปลายทาง"
+              "todo": "🆕 ใหม่ 12 หน้า — เขียน meta description ให้หน้าที่ยังว่าง"
             },
             {
               "issue": "Noindex page",
-              "level": "Notice",
-              "count": "2",
+              "level": "Warning",
+              "count": "36",
               "cat": "Indexability",
-              "todo": "ทบทวนว่าตั้งใจ noindex"
+              "todo": "ทบทวนว่าตั้งใจ noindex ทั้งหมด ไม่บังหน้าที่ควร index"
+            },
+            {
+              "issue": "H1 tag missing or empty",
+              "level": "Warning",
+              "count": "32",
+              "cat": "Content",
+              "todo": "🆕 ใหม่ 22 หน้า — เพิ่ม H1 ให้หน้าที่ขาด"
+            },
+            {
+              "issue": "Low word count",
+              "level": "Warning",
+              "count": "24",
+              "cat": "Content",
+              "todo": "🆕 ใหม่ 20 หน้า — เพิ่มเนื้อหาหน้าที่บางเกินไป"
+            },
+            {
+              "issue": "Meta description too short",
+              "level": "Warning",
+              "count": "13",
+              "cat": "Content",
+              "todo": "🆕 ใหม่ 12 หน้า — ขยาย meta description ให้ครบ ~120-155 ตัวอักษร"
+            },
+            {
+              "issue": "CSS file size too large",
+              "level": "Warning",
+              "count": "2",
+              "cat": "CSS",
+              "todo": "บีบอัด/แยกไฟล์ CSS ลดขนาด (Core Web Vitals)"
+            },
+            {
+              "issue": "Pages to submit to IndexNow",
+              "level": "Notice",
+              "count": "73",
+              "cat": "Other",
+              "todo": "ส่ง URL ใหม่เข้า IndexNow"
+            },
+            {
+              "issue": "Title tag changed",
+              "level": "Notice",
+              "count": "41",
+              "cat": "Content",
+              "todo": "ตรวจว่า title ที่เปลี่ยนตั้งใจ"
+            },
+            {
+              "issue": "Noindex page became indexable",
+              "level": "Notice",
+              "count": "41",
+              "cat": "Indexability",
+              "todo": "ยืนยันหน้าที่กลับมา index ถูกต้อง"
+            },
+            {
+              "issue": "Noindex follow page",
+              "level": "Notice",
+              "count": "36",
+              "cat": "Indexability",
+              "todo": "ทบทวน noindex ว่าถูกต้อง"
+            },
+            {
+              "issue": "Meta description changed",
+              "level": "Notice",
+              "count": "26",
+              "cat": "Content",
+              "todo": "ตรวจว่า meta ที่เปลี่ยนตั้งใจ"
+            },
+            {
+              "issue": "Multiple H1 tags",
+              "level": "Notice",
+              "count": "5",
+              "cat": "Content",
+              "todo": "🆕 ใหม่ 3 หน้า — เหลือ H1 เดียวต่อหน้า"
+            },
+            {
+              "issue": "Page and SERP titles do not match",
+              "level": "Notice",
+              "count": "3",
+              "cat": "Content",
+              "todo": "ปรับ title ให้ตรงกับที่ Google แสดง"
             }
           ],
           "competitors": [
@@ -5484,13 +3667,13 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
               "note": "เว็บเล็ก"
             }
           ],
-          "summaryHtml": "<b>เว็บอยู่ระยะเริ่มต้น</b> — ยังแทบไม่มี organic presence (2 คีย์เวิร์ด, ทราฟฟิก 0) โฟกัสควรเป็นการวางรากฐาน: แก้ปัญหาเทคนิค (meta ซ้ำ, H1 หาย), เร่งสร้างคอนเทนต์ตามบริการหลัก และดันคำ 'odoo' เข้าหน้าแรก"
+          "summaryHtml": "<b>เว็บอยู่ระยะเริ่มต้น</b> — ยังแทบไม่มี organic presence (2 คีย์เวิร์ด, ทราฟฟิก 0) โฟกัสควรเป็นการวางรากฐาน: แก้ปัญหาเทคนิค (meta ซ้ำ, H1 หาย), เร่งสร้างคอนเทนต์ตามบริการหลัก และดันคำ 'odoo' เข้าหน้าแรก",
+          "_ahrefs_crawl": "2026-07-01"
         }
       ]
     }
   ]
-}
-</script>
+}</script>
 
 <script>
 (function(){

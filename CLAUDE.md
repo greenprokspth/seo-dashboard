@@ -5,26 +5,39 @@ Deploy ด้วย GitHub Pages — push ขึ้น `main` แล้วหน
 
 ## สถาปัตยกรรม (สำคัญ — อ่านก่อนแก้อะไร)
 
-ไฟล์ `index.html` ไฟล์เดียว แบ่งเป็น 3 ส่วน:
+ไฟล์ `index.html` ไฟล์เดียว แบ่งเป็น 4 ส่วน:
 
 1. **ข้อมูลรายงาน** — JSON ฝังใน `<script type="application/json" id="report-data">`
    โครงสร้าง: `sites[] → weeks[] → {metrics, findings, actions, tracked, quickWins, content, technical, competitors, history, summaryHtml}`
    อัปเดตตัวเลข Ahrefs รายสัปดาห์ = แก้ JSON ก้อนนี้ (เพิ่ม week ใหม่ไว้หน้าสุดของ `weeks[]`)
 
-2. **Firebase config** — `<script>` เล็ก ๆ ใน `<head>` มีบรรทัด `window.FIREBASE_CONFIG = {...}`
+2. **ข้อมูล Content Map** — JSON ฝังใน `<script type="application/json" id="content-map-data">`
+   โครงสร้าง: `{nodes[], links[], stats, generated}` · node = `{id, t: hub|blog|svc, label, cat, site, url, deg}`
+   link = `{s, t, k: struct|plan_p|plan_s}` (struct = หน้า→hub ของคลัสเตอร์)
+
+3. **Firebase config** — `<script>` เล็ก ๆ ใน `<head>` มีบรรทัด `window.FIREBASE_CONFIG = {...}`
    ⚠️ **ห้ามลบ/ห้ามแก้ก้อนนี้เด็ดขาด** — ถ้าเป็น `null` dashboard จะตกไปโหมด localStorage
    (เครื่องใครเครื่องมัน) ทันที สังเกตจากป้ายมุมขวาบน: 🟢 = เชื่อม Firebase อยู่, ⚪ = โหมดเครื่องนี้
 
-3. **โค้ดทั้งหมด** — IIFE ใน `<script>` ท้ายไฟล์ + CSS ใน `<style>` บนหัวไฟล์ (ใช้ CSS variables จาก `:root`)
+4. **โค้ดทั้งหมด** — IIFE ใน `<script>` ท้ายไฟล์ + CSS ใน `<style>` บนหัวไฟล์ (ใช้ CSS variables จาก `:root`)
+   ส่วนของ Content Map: CSS ทุก selector scope ใต้ `#cmView`, JS ทั้งหมดอยู่ใน `initContentMap()` (init ครั้งเดียวแบบ lazy)
 
-## ลิงก์แยกต่อเว็บไซต์ (deep link)
+## Routing (deep link)
 
-แต่ละเว็บมี URL ของตัวเองด้วย hash ต่อท้าย — เปิดแล้วเข้าเว็บนั้นทันที และกดแท็บเมื่อไหร่ URL เปลี่ยนตาม:
-- `#kspasiafin` → KSP AsiaFin
-- `#greenproksp` → Greenpro KSP
-- `#perfectblending` → Perfect Blending
+- **URL เปล่า (ไม่มี #)** → หน้า **Content Map** (แผนที่คอนเทนต์ทั้ง 3 เว็บ, D3 force graph + list view)
+- `#kspasiafin` / `#greenproksp` / `#perfectblending` → dashboard รายเว็บ (กดแท็บแล้ว URL เปลี่ยนตาม)
+- hash = `site.id` ใน JSON `report-data` — เพิ่มเว็บใหม่ใน JSON แล้วลิงก์ใช้ได้เอง (ดู `siteFromHash()`, `showMap()`, `showSite()`)
+- ห้ามทำ path แยกเป็นโฟลเดอร์ (เช่น /content-map/) — เคยมีแล้วถูกยุบรวมเข้า index.html เมื่อ 1 ก.ย. 2026
 
-hash = `site.id` ใน JSON `report-data` — **ถ้าเพิ่มเว็บไซต์ใหม่ใน JSON ลิงก์จะใช้ได้เองอัตโนมัติ** (ดูฟังก์ชัน `siteFromHash()` และ `selectSite()`)
+## การอัปเดตข้อมูล Content Map (ทำเป็นระยะเมื่อหน้าเว็บจริงเปลี่ยน)
+
+ข้อมูลต้องตรงกับ sitemap จริงของทั้ง 3 เว็บ วิธี regenerate ที่ถูกต้อง (แบบ reconcile — อย่า generate ทับทั้งก้อน):
+1. ดึง URL ทั้งหมดจาก `https://www.{greenproksp,kspasiafin,perfectblending}.com/sitemap_index.xml`
+   (ตาม post-sitemap + page-sitemap, ข้าม category-sitemap)
+2. หน้าที่มีอยู่แล้วใน `content-map-data` → **เก็บ node เดิมไว้ทั้งดวง** (รักษา cat/label ที่จัดไว้แล้ว)
+3. หน้าที่หายจาก sitemap → ลบ node + links ของมัน · หน้าใหม่ → เพิ่ม node จัด cat จาก path/slug
+   (greenproksp: `/services/`→svc gp_service, `/blog/accounting|tax|business/`→gp_acc/gp_tax/gp_register, slug มี license→gp_license, audit→gp_audit)
+4. สร้าง struct link หน้า→hub ทุกหน้า, เก็บ plan_* links ที่สองปลายยังอยู่, อัปเดต `generated` เป็นวันที่ทำ
 
 ## ข้อมูลทีมอยู่ใน Firebase ไม่ได้อยู่ในไฟล์
 

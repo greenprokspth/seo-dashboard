@@ -204,10 +204,10 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
 .activity-by{font-weight:700;color:var(--primary)}
 /* ---- Content Map (ย้ายมาจาก /content-map/ — scope ทุก selector ใต้ #cmView กันชนสไตล์เดิม) ---- */
 #cmView .cm-sub{color:var(--text-2);font-size:14.5px;margin:-6px 0 12px}
-#cmView .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+#cmView .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
 #cmView .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 14px}
 #cmView .card .n{font-size:24px;font-weight:800}#cmView .card .l{font-size:12.5px;color:var(--text-2)}
-#cmView .card.b .n{color:var(--blue,#2563EB)}#cmView .card.g .n{color:var(--primary)}#cmView .card.a .n{color:var(--amber,#B7791F)}
+#cmView .card.b .n{color:var(--blue,#2563EB)}#cmView .card.g .n{color:var(--primary)}#cmView .card.a .n{color:var(--amber,#B7791F)}#cmView .card.r .n{color:#C0392B}
 #cmView .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 #cmView .chip{border:1px solid var(--border);background:#fff;border-radius:var(--pill);padding:6px 13px;font-size:14px;cursor:pointer;color:var(--text-2);font-weight:600;display:inline-block}
 #cmView .chip.active{background:var(--ink,#131736);color:#fff;border-color:var(--ink,#131736)}
@@ -223,6 +223,9 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
 #cmView #detail .close{position:absolute;top:8px;right:11px;cursor:pointer;color:var(--grey,#6B7280);font-weight:700}
 #cmView .planbox{margin-top:8px;background:var(--accent-soft);border:1px solid #cfe9d4;border-radius:8px;padding:8px 10px}
 #cmView .planbox.nop{background:#FEF6E7;border-color:#f2ddb0}
+#cmView .planbox.new{background:#FDECEA;border-color:#f0b9b3}
+#cmView .planbox.new .pbh{color:#C0392B}
+#cmView .sec.New{background:#FDECEA;color:#C0392B}
 #cmView .planbox .pbh{font-weight:800;color:var(--primary);margin-bottom:4px}#cmView .planbox.nop .pbh{color:var(--amber,#B7791F)}
 #cmView .anch{color:#4B5563;display:block;border-left:2px solid #9ad0a3;padding-left:7px;margin-top:2px;font-size:12px}
 #cmView #dbody a{color:var(--primary);font-weight:700}
@@ -274,8 +277,9 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       <div class="glegend">
         <div><span class="dot" style="background:#111"></span> คลัสเตอร์ (hub)</div>
         <div><span class="dot" style="background:#2563EB"></span> หน้าบริการ — ใหญ่=ลิงก์เข้ามาก</div>
-        <div><span class="dot" style="background:#207D3F"></span> บทความ</div>
-        <div style="margin-top:3px"><span class="ln" style="border-color:#3CB348"></span> ลิงก์ที่วางแผน &nbsp; <span class="ln"></span> โครงคลัสเตอร์</div>
+        <div><span class="dot" style="background:#207D3F"></span> หน้าที่ทำแล้ว — จุด+เส้นสีเดียวกันตามคลัสเตอร์</div>
+        <div><span class="dot" style="background:#C0392B"></span> <b style="color:#C0392B">แนะนำเปิดหน้าใหม่</b> ตาม focus keyword</div>
+        <div style="margin-top:3px"><span class="ln" style="border-color:#3CB348"></span> ลิงก์ที่วางแผน &nbsp; <span class="ln" style="border-color:#C0392B"></span> เส้นประแดง=หน้าแนะนำ</div>
       </div>
       <div class="ghint">คลิกโหนด=ไฮไลต์ · ลาก=ย้าย · สกอลล์=ซูม</div>
       <div id="detail"><span class="close" id="cmDetailClose">✕</span><h4 id="dttl"></h4><div id="dbody"></div></div>
@@ -1379,6 +1383,49 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       document.getElementById("graphwrap").innerHTML='<div style="padding:40px;text-align:center;color:var(--text-2)">โหลดไลบรารี D3 ไม่สำเร็จ — เช็คอินเทอร์เน็ตแล้วรีเฟรชหน้า</div>';
       return;
     }
+    /* ---- ปักหมุดแดง: หน้าแนะนำให้เปิดใหม่ จากตาราง "แผนคอนเทนต์" สัปดาห์ล่าสุดของแต่ละเว็บ ---- */
+    (function addPlanNodes(){
+      const NORM=s=>String(s||"").toLowerCase().replace(/\(.*?\)/g,"").replace(/[^a-z0-9ก-๙]/g,"");
+      const urlSet=new Set(G.nodes.filter(n=>n.url).map(n=>n.url.replace(/^https?:\/\/(www\.)?[^\/]+/,"").replace(/\/+$/,"")+"/"));
+      const labelNorms=G.nodes.filter(n=>n.t!=="hub").map(n=>NORM(n.label)).filter(x=>x.length>4);
+      const hubIds=new Set(G.nodes.filter(n=>n.t==="hub").map(n=>n.id));
+      function planCat(siteId,c){
+        const k=((c.keyword||"")+" "+(c.page||"")+" "+(c.type||"")).toLowerCase();
+        const u=(c.url&&c.url!=="-")?c.url:"";
+        if(siteId==="greenproksp"){
+          if(u.startsWith("/services/")||/service/i.test(c.type||""))return "gp_service";
+          if(/ใบอนุญาต|สุรา|license/.test(k))return "gp_license";
+          if(/ภงด|ภาษี|vat|หัก ณ|เงินเพิ่ม|เบี้ยปรับ|ใบกำกับ/.test(k)||u.startsWith("/blog/tax/"))return "gp_tax";
+          if(/จดทะเบียน|หนังสือรับรอง|บริษัท/.test(k)||u.startsWith("/blog/business/"))return "gp_register";
+          if(/บัญชี|ใบลดหนี้|credit note/.test(k)||u.startsWith("/blog/accounting/"))return "gp_acc";
+          if(/ตรวจสอบบัญชี|audit/.test(k))return "gp_audit";
+          return "gp_other";
+        }
+        if(siteId==="perfectblending"){
+          if(/วางระบบ|service/i.test(k))return "pb_impl";
+          if(/odoo|erp/.test(k))return "pb_overview";
+          return "pb_other";
+        }
+        if(/rpa|automation|อัตโนมัติ/.test(k))return "ka_rpa";
+        if(/ocr|เอกสาร|invoice/.test(k))return "ka_ocr";
+        return "ka_other";
+      }
+      raw.sites.forEach(s=>{
+        const wk=(s.weeks&&s.weeks[0])||{};
+        (wk.content||[]).forEach((c,i)=>{
+          if(!c.page)return;
+          if(c.url&&c.url!=="-"){const p=c.url.replace(/\/+$/,"")+"/";if(urlSet.has(p))return;} /* หน้าจริงเปิดแล้ว — ไม่ปักซ้ำ */
+          const nm=NORM(String(c.page).replace(/^GP\d+\s*/,""));
+          if(nm.length>4&&labelNorms.some(l=>l.includes(nm)||nm.includes(l)))return; /* มีหน้าชื่อใกล้กันอยู่แล้ว */
+          const cat=planCat(s.id,c);
+          let hub="hub:"+s.id+":"+cat;
+          if(!hubIds.has(hub))hub="hub:"+s.id+":"+(s.id==="greenproksp"?"gp_other":s.id==="perfectblending"?"pb_other":"ka_other");
+          if(!hubIds.has(hub))return;
+          const n={id:"plan:"+s.id+":"+i,t:"plan",label:String(c.page).replace(/^GP\d+\s*/,""),cat:cat,site:s.id,url:"",kw:c.keyword||"",vol:c.volume,planType:c.type||"",st:0,deg:0};
+          G.nodes.push(n);G.links.push({s:n.id,t:hub,k:"plan_new"});
+        });
+      });
+    })();
     G.links.forEach(l=>{l.source=l.s;l.target=l.t;});
     const CATLABEL={gp_other:"อื่นๆ",gp_acc:"บัญชี",gp_audit:"ออดิท",gp_register:"จดทะเบียน",gp_license:"ใบอนุญาต",gp_tax:"ภาษี",gp_service:"บริการ",
       pb_module:"โมดูล Odoo",pb_impl:"วางระบบ",pb_overview:"Odoo ภาพรวม",pb_web:"หน้าเว็บ",pb_other:"อื่นๆ",
@@ -1395,32 +1442,43 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     svg.on("click",()=>clearSel());
     const adj={};G.links.forEach(l=>{(adj[l.s]=adj[l.s]||new Set()).add(l.t);(adj[l.t]=adj[l.t]||new Set()).add(l.s);});
     const nodeById={};G.nodes.forEach(n=>nodeById[n.id]=n);
+    function nodeColor(n){return n.t==="hub"?"#111":n.t==="plan"?"#C0392B":n.t==="svc"?"#2563EB":CATCOL[n.cat]||"#207D3F";}
+    function linkColor(l){
+      if(l.k==="plan_new")return "#C0392B";
+      if(l.k&&l.k.startsWith("plan"))return "#3CB348";
+      const src=nodeById[l.s];return src?nodeColor(src):"#e2e2e2"; /* เส้นสีเดียวกับจุดต้นทาง (ตามคลัสเตอร์) */
+    }
     const link=rootG.append("g").selectAll("line").data(G.links).join("line")
-      .attr("stroke",d=>d.k.startsWith("plan")?"#3CB348":"#e2e2e2").attr("stroke-width",d=>d.k==="plan_p"?1.6:d.k==="plan_s"?1:.8)
-      .attr("stroke-dasharray",d=>d.k==="plan_s"?"4 3":null).attr("stroke-opacity",.6);
+      .attr("stroke",linkColor).attr("stroke-width",d=>d.k==="plan_new"?1.4:d.k==="plan_p"?1.6:d.k==="plan_s"?1:.9)
+      .attr("stroke-dasharray",d=>d.k==="plan_new"?"3 3":d.k==="plan_s"?"4 3":null).attr("stroke-opacity",.45);
     const node=rootG.append("g").selectAll("g").data(G.nodes).join("g").attr("class","node").style("cursor","pointer")
       .call(d3.drag().on("start",(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;}).on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y;}).on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}))
       .on("click",(e,d)=>{e.stopPropagation();select(d);})
-      .on("mousemove",(e,d)=>{tip.style.opacity=1;tip.style.left=(e.pageX+12)+"px";tip.style.top=(e.pageY+12)+"px";tip.innerHTML=d.t==="hub"?`<b>${d.label}</b>`:d.t==="svc"?`<b>หน้าบริการ</b><br>${d.label}<br>ลิงก์เข้า ${d.deg} บทความ`:`<b>${d.label}</b>`;})
+      .on("mousemove",(e,d)=>{tip.style.opacity=1;tip.style.left=(e.pageX+12)+"px";tip.style.top=(e.pageY+12)+"px";tip.innerHTML=d.t==="hub"?`<b>${d.label}</b>`:d.t==="plan"?`<b>🔴 แนะนำเปิดหน้าใหม่</b><br>${d.label}<br>focus: ${d.kw||"-"}`:d.t==="svc"?`<b>หน้าบริการ</b><br>${d.label}<br>ลิงก์เข้า ${d.deg} บทความ`:`<b>${d.label}</b>`;})
       .on("mouseleave",()=>tip.style.opacity=0);
-    function radius(d){return d.t==="hub"?16:d.t==="svc"?Math.min(8+d.deg*2.2,26):5;}
+    function radius(d){return d.t==="hub"?16:d.t==="svc"?Math.min(8+d.deg*2.2,26):d.t==="plan"?6:5;}
     node.append("circle").attr("r",radius)
-      .attr("fill",d=>d.t==="hub"?"#111":d.t==="svc"?"#2563EB":CATCOL[d.cat]||"#207D3F")
+      .attr("fill",nodeColor)
       .attr("stroke",d=>d.md?"#F59E0B":"#fff").attr("stroke-width",d=>d.md?2.5:1.3);
     node.filter(d=>d.t!=="blog").append("text").text(d=>d.t==="hub"?(CATLABEL[d.cat]?"● "+CATLABEL[d.cat]:d.label):d.label).attr("text-anchor","middle")
-      .attr("y",d=>-(radius(d)+4)).attr("font-size",d=>d.t==="hub"?14:9.5).attr("font-weight",d=>d.t==="hub"?800:600).attr("fill",d=>d.t==="hub"?"#111":"#1e3a8a");
+      .attr("y",d=>-(radius(d)+4)).attr("font-size",d=>d.t==="hub"?14:9.5).attr("font-weight",d=>d.t==="hub"?800:600).attr("fill",d=>d.t==="hub"?"#111":d.t==="plan"?"#C0392B":"#1e3a8a");
     function cards(){
       let ns=G.nodes.filter(n=>n.t!=="hub"&&(cmState.brand==="all"||n.site===cmState.brand));
-      let s={total:ns.length,blogs:ns.filter(n=>n.t==="blog").length,svcs:ns.filter(n=>n.t==="svc").length,planned:G.links.filter(l=>l.k&&l.k.startsWith("plan")).length,md:ns.filter(n=>n.obs).length};
+      let s={total:ns.filter(n=>n.t!=="plan").length,blogs:ns.filter(n=>n.t==="blog").length,svcs:ns.filter(n=>n.t==="svc").length,newRec:ns.filter(n=>n.t==="plan").length,planned:G.links.filter(l=>l.k==="plan_p"||l.k==="plan_s").length,md:ns.filter(n=>n.obs).length};
       document.getElementById("cmCards").innerHTML=`
       <div class="card"><div class="n">${s.total}</div><div class="l">หน้าทั้งหมด (จาก sitemap)</div></div>
       <div class="card g"><div class="n">${s.blogs}</div><div class="l">บทความ</div></div>
       <div class="card b"><div class="n">${s.svcs}</div><div class="l">หน้าบริการ</div></div>
+      <div class="card r"><div class="n">${s.newRec}</div><div class="l">🔴 แนะนำเปิดหน้าใหม่</div></div>
       <div class="card g"><div class="n">${s.planned}</div><div class="l">🔗 ลิงก์ที่วางแผน</div></div>
       <div class="card a"><div class="n">${s.md}</div><div class="l">📝 มีโน้ต Obsidian</div></div>`;
     }
+    const CAT_ORDER=["gp_service","gp_register","gp_license","gp_tax","gp_acc","gp_audit","gp_other",
+      "pb_impl","pb_overview","pb_module","pb_web","pb_other",
+      "ka_rpa","ka_ocr","ka_fin","ka_ai","ka_other"];
     function renderClusterChips(){
-      const cats=[...new Set(G.nodes.filter(n=>n.t!=="hub"&&(cmState.brand==="all"||n.site===cmState.brand)).map(n=>n.cat))];
+      const cats=[...new Set(G.nodes.filter(n=>n.t!=="hub"&&(cmState.brand==="all"||n.site===cmState.brand)).map(n=>n.cat))]
+        .sort((a,b)=>{const ia=CAT_ORDER.indexOf(a),ib=CAT_ORDER.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
       const bar=document.getElementById("cmClusters");
       bar.innerHTML=[["all","ทั้งหมด"]].concat(cats.map(c=>[c,CATLABEL[c]||c])).map(p=>`<span class="chip${cmState.f===p[0]?" active":""}" data-f="${p[0]}">${p[1]}</span>`).join(" ");
       bar.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{cmState.f=c.dataset.f;renderClusterChips();applyFilter();if(cmv==="list")renderList();});
@@ -1429,7 +1487,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       const vB=n=>cmState.brand==="all"||n.site===cmState.brand;
       const vC=n=>n.t==="hub"||cmState.f==="all"||n.cat===cmState.f;
       node.style("display",d=>(vB(d)&&vC(d))?null:"none")
-        .style("opacity",d=>{if(cmState.q&&d.t==="blog"&&!(d.label.toLowerCase().includes(cmState.q.toLowerCase())))return .12;return 1;});
+        .style("opacity",d=>{if(cmState.q&&(d.t==="blog"||d.t==="plan")&&!((d.label+" "+(d.kw||"")).toLowerCase().includes(cmState.q.toLowerCase())))return .12;return 1;});
       link.style("display",l=>{
         function vis(n){return (cmState.brand==="all"||n.site===cmState.brand)&&(n.t==="hub"||cmState.f==="all"||n.cat===cmState.f);}
         let a=nodeById[l.s]||l.source,b=nodeById[l.t]||l.target;
@@ -1439,13 +1497,17 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       cmState.sel=d.id;const nb=adj[d.id]||new Set();
       node.select("circle").attr("opacity",n=>n.id===d.id||nb.has(n.id)?1:.12);
       node.selectAll("text").attr("opacity",n=>n.id===d.id||nb.has(n.id)?1:.12);
-      link.attr("stroke-opacity",l=>{let s=(l.source.id||l.s),t=(l.target.id||l.t);return (s===d.id||t===d.id)?.95:.05;})
-          .attr("stroke",l=>{let s=(l.source.id||l.s),t=(l.target.id||l.t);return (s===d.id||t===d.id)?(l.k.startsWith("plan")?"#3CB348":"#94a3b8"):(l.k.startsWith("plan")?"#3CB348":"#e2e2e2");});
+      link.attr("stroke-opacity",l=>{let s=(l.source.id||l.s),t=(l.target.id||l.t);return (s===d.id||t===d.id)?.95:.04;});
       let outs=[],ins=[];G.links.forEach(l=>{let s=(l.source.id||l.s),t=(l.target.id||l.t);if(s===d.id&&nodeById[t])outs.push(nodeById[t]);if(t===d.id&&nodeById[s])ins.push(nodeById[s]);});
       document.getElementById("dttl").textContent=d.label;
       const stMap=x=>{x=(x||"").toLowerCase();return x.includes("publish")||x.includes("done")||x.includes("live")?"🟢 Publish แล้ว":x.includes("draft")?"🟡 Draft":"⚪ ยังไม่ทำ";};
       let planHtml="";
-      if(d.plan){const p=d.plan;
+      if(d.t==="plan"){
+        planHtml='<div class="planbox new"><div class="pbh">🔴 แนะนำเปิดหน้าใหม่</div>'+
+        (d.kw?`<div class="row"><b>focus keyword:</b> ${d.kw}${d.vol?` <span style="color:#888">(vol ${d.vol})</span>`:""}</div>`:"")+
+        (d.planType?`<div class="row"><b>รูปแบบ:</b> ${d.planType}</div>`:"")+
+        '<div class="row" style="color:#6B7280">มาจากตาราง "แผนคอนเทนต์" สัปดาห์ล่าสุด — ยังไม่มีหน้าจริงบนเว็บ</div></div>';
+      }else if(d.plan){const p=d.plan;
         planHtml='<div class="planbox"><div class="pbh">📋 จากแผน (Internal Link Plan)</div>'+
         (p.kw?`<div class="row"><b>keyword:</b> ${p.kw} <span style="color:#888">(vol ${Number(p.vol||0).toLocaleString()} · #${p.pos||"-"})</span></div>`:"")+
         `<div class="row"><b>สถานะแผน:</b> ${stMap(p.status)}</div>`+
@@ -1457,7 +1519,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       }
       const urlHtml=(d.url&&d.t!=="hub")?`<div class="row" style="margin-top:8px"><a href="${d.url}" target="_blank" rel="noopener">🔗 เปิดหน้าจริง (published)</a></div>`:"";
       document.getElementById("dbody").innerHTML=
-        `<div class="row"><b>ประเภท:</b> ${d.t==="hub"?"คลัสเตอร์":d.t==="svc"?"หน้าบริการ":"บทความ"}</div>`+
+        `<div class="row"><b>ประเภท:</b> ${d.t==="hub"?"คลัสเตอร์":d.t==="plan"?"🔴 หน้าแนะนำ (ยังไม่ได้ทำ)":d.t==="svc"?"หน้าบริการ":"บทความ"}</div>`+
         (d.t!=="hub"?`<div class="row"><b>คลัสเตอร์:</b> ${CATLABEL[d.cat]||d.cat}</div>`:"")+
         urlHtml+planHtml+
         `<div class="row" style="margin-top:8px"><b>เชื่อมกับ ${nb.size} โหนด</b></div>`+
@@ -1467,7 +1529,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     }
     function clearSel(){
       cmState.sel=null;node.select("circle").attr("opacity",1);node.selectAll("text").attr("opacity",1);
-      link.attr("stroke-opacity",.6).attr("stroke",d=>d.k.startsWith("plan")?"#3CB348":"#e2e2e2");
+      link.attr("stroke-opacity",.45).attr("stroke",linkColor);
       document.getElementById("detail").style.display="none";
     }
     document.getElementById("cmDetailClose").addEventListener("click",clearSel);
@@ -1484,15 +1546,16 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     function renderList(){
       let rows=G.nodes.filter(n=>n.t!=="hub")
         .filter(n=>cmState.brand==="all"||n.site===cmState.brand).filter(n=>cmState.f==="all"||n.cat===cmState.f)
-        .filter(n=>{if(!cmState.q)return true;let q=cmState.q.toLowerCase();return ((n.label||"")+(n.url||"")+((n.plan&&n.plan.kw)||"")).toLowerCase().includes(q);});
-      rows.sort((a,b)=>(b.plan?1:0)-(a.plan?1:0));
+        .filter(n=>{if(!cmState.q)return true;let q=cmState.q.toLowerCase();return ((n.label||"")+(n.url||"")+(n.kw||"")+((n.plan&&n.plan.kw)||"")).toLowerCase().includes(q);});
+      rows.sort((a,b)=>((b.t==="plan")-(a.t==="plan"))||((b.plan?1:0)-(a.plan?1:0)));
       document.getElementById("lbody").innerHTML=rows.map(n=>{
         let p=n.plan;
         let links=p?((p.pSvc?`<div class="lk"><span class="to">→ ${p.pSvc}</span><span class="anch">${p.pAnchor||""}</span></div>`:"")+(p.sSvc?`<div class="lk"><span class="to sec2">↘ ${p.sSvc}</span><span class="anch">${p.sAnchor||""}</span></div>`:"")):'<span style="color:#c99">— ยังไม่มีแผนลิงก์ —</span>';
-        let st=p?stBadge(p.status):(n.t==="svc"?"🔵 หน้าบริการ":"⚪ —");
-        let kw=(p&&p.kw)?`${p.kw}<br><span style="font-size:11px;color:#888">vol ${Number(p.vol||0).toLocaleString()} · #${p.pos||"-"}</span>`:"—";
-        return `<tr><td><span class="c-title">${n.label}</span>${n.url?`<a class="c-url" href="${n.url}" target="_blank" rel="noopener">${n.url.replace("https://www.","")}</a>`:""}</td>`+
-          `<td><span class="sec ${n.t==="svc"?"Service":"Blog"}">${n.t==="svc"?"บริการ":"บทความ"}</span></td>`+
+        let st=n.t==="plan"?'<span style="color:#C0392B;font-weight:700">🔴 แนะนำเปิดหน้า</span>':p?stBadge(p.status):(n.t==="svc"?"🔵 หน้าบริการ":"⚪ —");
+        let kw=n.t==="plan"?`${n.kw||"—"}${n.vol?`<br><span style="font-size:11px;color:#888">vol ${n.vol}</span>`:""}`:(p&&p.kw)?`${p.kw}<br><span style="font-size:11px;color:#888">vol ${Number(p.vol||0).toLocaleString()} · #${p.pos||"-"}</span>`:"—";
+        if(n.t==="plan")links=`<span style="color:#888">${n.planType||"หน้าใหม่ตามแผนคอนเทนต์"}</span>`;
+        return `<tr><td><span class="c-title"${n.t==="plan"?' style="color:#C0392B"':''}>${n.label}</span>${n.url?`<a class="c-url" href="${n.url}" target="_blank" rel="noopener">${n.url.replace("https://www.","")}</a>`:""}</td>`+
+          `<td><span class="sec ${n.t==="plan"?"New":n.t==="svc"?"Service":"Blog"}">${n.t==="plan"?"หน้าแนะนำ":n.t==="svc"?"บริการ":"บทความ"}</span></td>`+
           `<td>${CATLABEL[n.cat]||n.cat}</td><td>${kw}</td><td>${links}</td><td>${st}</td></tr>`;
       }).join("");
       document.getElementById("lcount").textContent=rows.length;

@@ -264,7 +264,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     <div class="cm-sub">โหนด = หน้าจริงจาก sitemap (อัปเดต <b id="cmGenerated"></b>) · <b>คลิกโหนดเพื่อไฮไลต์มัน + เพื่อนบ้าน</b> · คลิกพื้นที่ว่างเพื่อรีเซ็ต · ลาก=ย้าย · สกอลล์=ซูม</div>
     <div class="cards" id="cmCards"></div>
     <div class="viewtabs"><span class="vtab active" data-v="graph">🕸️ Graph</span><span class="vtab" data-v="list">📋 List</span></div>
-    <div class="toolbar"><span style="font-weight:700;font-size:13px;color:var(--text-2)">บริษัท:</span><span class="bchip active" data-b="all">ทั้งหมด</span><span class="bchip" data-b="greenproksp">Greenpro</span><span class="bchip" data-b="perfectblending">Perfect Blending</span><span class="bchip" data-b="kspasiafin">AsiaFin</span></div>
+    <div class="toolbar"><span style="font-weight:700;font-size:13px;color:var(--text-2)">เว็บไซต์:</span><span class="bchip active" data-b="greenproksp">1. Greenpro</span><span class="bchip" data-b="perfectblending">2. Perfect Blending</span><span class="bchip" data-b="kspasiafin">3. KSP AsiaFin</span><span class="bchip" data-b="all">รวม 3 เว็บ</span></div>
     <div class="toolbar">
       <span style="font-weight:700;font-size:13px;color:var(--text-2)">คลัสเตอร์:</span>
       <span id="cmClusters"></span>
@@ -985,7 +985,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     }
   }
 
-  let site=raw.sites[0], week=site.weeks[0];
+  const SITE_ORDER=["greenproksp","perfectblending","kspasiafin"];
+  let site=raw.sites.find(s=>s.id===SITE_ORDER[0])||raw.sites[0], week=site.weeks[0];
 
   /* ---------- Routing: หน้าแรก (ไม่มี #) = Content Map · #kspasiafin / #greenproksp / #perfectblending = dashboard รายเว็บ ---------- */
   function siteFromHash(){
@@ -1026,7 +1027,10 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   cmTab.className="site-tab";cmTab.textContent="🗺 Content Map";cmTab.dataset.id="contentmap";
   cmTab.addEventListener("click",()=>showMap());
   siteTabs.appendChild(cmTab);
-  raw.sites.forEach(s=>{
+  [...raw.sites].sort((a,b)=>{
+    const ia=SITE_ORDER.indexOf(a.id),ib=SITE_ORDER.indexOf(b.id);
+    return (ia<0?99:ia)-(ib<0?99:ib);
+  }).forEach(s=>{
     const b=document.createElement("button");b.className="site-tab";b.textContent=s.name;b.dataset.id=s.id;
     b.addEventListener("click",()=>showSite(s));
     siteTabs.appendChild(b);
@@ -1383,7 +1387,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       pb_module:"#7C3AED",pb_overview:"#207D3F",pb_impl:"#111",pb_web:"#6B7280",pb_other:"#6B7280",
       ka_rpa:"#207D3F",ka_ocr:"#2563EB",ka_fin:"#B7791F",ka_ai:"#7C3AED",ka_other:"#6B7280"};
     let cmv="graph";
-    const cmState={f:"all",q:"",sel:null,brand:"all"};
+    const cmState={f:"all",q:"",sel:null,brand:"greenproksp"};
     const svg=d3.select("#graph"),tip=document.getElementById("gtip");
     const W=svg.node().clientWidth||1100,H=svg.node().clientHeight||680;
     const rootG=svg.append("g");
@@ -1505,7 +1509,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       cmViewEl.querySelectorAll(".bchip").forEach(x=>x.classList.remove("active"));c.classList.add("active");
       renderClusterChips();cards();applyFilter();if(cmv==="list")renderList();
     });
-    cards();renderClusterChips();
+    cards();renderClusterChips();applyFilter();
   }
 
   syncWeekSel();selectSite();

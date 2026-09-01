@@ -58,19 +58,39 @@ function extractFocusKw(html) {
   if (!m) return "";
   try { return JSON.parse('"' + m[1] + '"').trim(); } catch (e) { return m[1]; }
 }
+/**
+ * ดึงลิงก์ภายในทั้งหมดของหน้า (ยังไม่กรองเมนู/footer — กรองทีหลังด้วยความถี่)
+ * เว็บใช้ Elementor ไม่มี <header>/<footer>/<main> มาตรฐาน จึงแยกด้วยโครงสร้างไม่ได้
+ * วิธีที่แม่นกว่า: ลิงก์ที่โผล่ซ้ำแทบทุกหน้า = เมนู/footer/sidebar (boilerplate) → ตัดออก
+ */
 function extractInternalLinks(html, domain) {
-  const main = (html.match(/<main[\s\S]*?<\/main>/i) || html.match(/<article[\s\S]*?<\/article>/i) || [html])[0];
   const set = new Set();
-  for (const m of main.matchAll(/<a\s[^>]*href=["']([^"']+)["']/gi)) {
+  for (const m of html.matchAll(/<a\s[^>]*href=["']([^"']+)["']/gi)) {
     let href = m[1];
     if (/^(#|mailto:|tel:|javascript:)/i.test(href)) continue;
     if (href.startsWith("/")) href = `https://${domain}${href}`;
     if (!href.includes(domain)) continue;             // เอาเฉพาะลิงก์ภายในเว็บเดียวกัน
-    if (/\.(jpg|jpeg|png|gif|webp|svg|pdf|zip)$/i.test(href)) continue;
-    if (/\/(wp-content|wp-json|feed|author|tag|category)\//i.test(href)) continue;
+    if (/\.(jpg|jpeg|png|gif|webp|svg|pdf|zip|mp4)$/i.test(href)) continue;
+    if (/\/(wp-content|wp-json|feed|author|tag|category|page)\//i.test(href)) continue;
     set.add(norm(href));
   }
   return [...set];
+}
+
+/** ลิงก์ที่ปรากฏในหน้ามากกว่า BOILERPLATE_RATIO ของหน้าทั้งหมด = เมนู/footer */
+const BOILERPLATE_RATIO = 0.6;
+function findBoilerplate(results) {
+  const freq = new Map();
+  let pages = 0;
+  for (const r of results.values()) {
+    if (!r.ok) continue;
+    pages++;
+    for (const l of r.links) freq.set(l, (freq.get(l) || 0) + 1);
+  }
+  const cut = Math.max(3, Math.ceil(pages * BOILERPLATE_RATIO));
+  const set = new Set();
+  freq.forEach((c, l) => { if (c >= cut) set.add(l); });
+  return { set, pages, cut };
 }
 async function crawlPage(url, domain) {
   try {
@@ -119,7 +139,7 @@ function classify(url, siteId) {
 
   const nodes = [], allLinks = [];
   const urlToId = new Map();
-  const stats = { crawled: 0, failed: 0, kwFound: 0 };
+  const stats = { crawled: 0, failed: 0, kwFound: 0, boilerplate: 0 };
 
   for (const site of SITES) {
     process.stderr.write(`\n[${site.id}] ดึง sitemap...`);
@@ -159,11 +179,16 @@ function classify(url, siteId) {
       nodes.push(n);
       urlToId.set(u, id);
     }
+    /* ตัดลิงก์เมนู/footer ออกก่อนนับ */
+    const bp = findBoilerplate(results);
+    process.stderr.write(`  ตัดลิงก์เมนู/footer: ${bp.set.size} URL (โผล่ตั้งแต่ ${bp.cut}/${bp.pages} หน้าขึ้นไป)\n`);
+    stats.boilerplate += bp.set.size;
     for (const u of list) {
       const r = results.get(u);
       if (!r || !r.ok) continue;
       const from = urlToId.get(u);
       for (const target of r.links) {
+        if (bp.set.has(target)) continue;             // เมนู/footer — ไม่นับ
         const to = urlToId.get(target);
         if (to && to !== from) allLinks.push({ s: from, t: to, k: "real" });
       }
@@ -213,7 +238,8 @@ function classify(url, siteId) {
   console.log("\n=== สรุป ===");
   console.log("หน้าทั้งหมด:", out.stats.total, "| crawl สำเร็จ:", stats.crawled - stats.failed, "| ล้มเหลว:", stats.failed);
   console.log("เจอ focus keyword:", stats.kwFound, "หน้า");
-  console.log("internal link จริง:", out.stats.realLinks, "เส้น | หน้าที่ไม่มีลิงก์เข้า (orphan):", out.stats.orphans);
+  console.log("internal link ในเนื้อหา:", out.stats.realLinks, "เส้น (ไม่นับเมนู/footer)",
+    "| หน้าที่ไม่มีลิงก์เข้า (orphan):", out.stats.orphans);
   SITES.forEach((s) => {
     const ns = nodes.filter((n) => n.site === s.id);
     console.log(`  ${s.id}: ${ns.length} หน้า · มี kw ${ns.filter((n) => n.kw).length} · orphan ${ns.filter((n) => n.deg === 0).length}`);

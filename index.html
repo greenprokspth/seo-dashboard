@@ -1563,7 +1563,19 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       .on("click",(e,d)=>{e.stopPropagation();select(d);})
       .on("mousemove",(e,d)=>{tip.style.opacity=1;tip.style.left=(e.pageX+12)+"px";tip.style.top=(e.pageY+12)+"px";tip.innerHTML=d.t==="hub"?`<b>${esc(d.label)}</b>`:d.t==="plan"?`<b>🔴 แนะนำเปิดหน้าใหม่</b><br>${esc(d.kw||d.label)}`:`<b>${esc(d.kw||d.label)}</b>${d.kw?`<br><span style="opacity:.75">${esc(d.label)}</span>`:""}`+(d.t==="svc"?`<br><span style="opacity:.75">หน้าบริการ · ลิงก์เข้า ${d.deg}</span>`:"");})
       .on("mouseleave",()=>tip.style.opacity=0);
-    function radius(d){return d.t==="hub"?16:d.t==="svc"?Math.min(8+d.deg*2.2,26):d.t==="plan"?6:5;}
+    /* ขนาดจุดหน้าบริการ = อันดับจำนวนลิงก์เข้า "เทียบกันเองภายในเว็บนั้น" (percentile)
+       เดิมใช้ 8+deg*2.2 ซึ่งตั้งไว้ตอน deg อยู่ราว 0–8 พอแก้บั๊กการนับลิงก์แล้ว deg พุ่งเป็น 23–53
+       ทุกจุดเลยชนเพดาน 26px พร้อมกันหมด กลายเป็นวงกลมใหญ่เท่ากันทั้งกระจุก (ใหญ่กว่า hub ด้วย)
+       สเกลตามอันดับทำให้เห็นความต่างเสมอ ไม่ว่าค่า deg จะกระจุกแค่ไหน และไม่มีวันเกิน hub (16px) */
+    const svcDeg={};
+    G.nodes.filter(n=>n.t==="svc").forEach(n=>{(svcDeg[n.site]=svcDeg[n.site]||[]).push(n.deg||0);});
+    Object.values(svcDeg).forEach(a=>a.sort((x,y)=>x-y));
+    function svcRadius(d){
+      const a=svcDeg[d.site]; if(!a||a.length<2)return 9;
+      const p=a.filter(v=>v<(d.deg||0)).length/(a.length-1);
+      return 6.5+p*7.5;                                    /* 6.5–14px */
+    }
+    function radius(d){return d.t==="hub"?16:d.t==="svc"?svcRadius(d):d.t==="plan"?6:5;}
     node.append("circle").attr("r",radius)
       .attr("fill",nodeColor)
       .attr("stroke",d=>d.md?"#F59E0B":"#fff").attr("stroke-width",d=>d.md?2.5:1.3);

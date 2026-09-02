@@ -112,9 +112,41 @@ function extractFocusKw(html) {
   return "";
 }
 /**
- * ดึงลิงก์ภายในทั้งหมดของหน้า (ยังไม่กรองเมนู/footer — กรองทีหลังด้วยความถี่)
- * เว็บใช้ Elementor ไม่มี <header>/<footer>/<main> มาตรฐาน จึงแยกด้วยโครงสร้างไม่ได้
- * วิธีที่แม่นกว่า: ลิงก์ที่โผล่ซ้ำแทบทุกหน้า = เมนู/footer/sidebar (boilerplate) → ตัดออก
+ * ตัดเฉพาะ "โซนเนื้อหา" ของหน้าออกมา (ตัดเมนู/header/footer ทิ้ง)
+ *
+ * เดิมใช้วิธีนับความถี่ (ลิงก์ที่โผล่เกิน 60% ของหน้า = เมนู) ซึ่ง **ผิด** สำหรับเว็บนี้:
+ * เว็บเอาหน้าบริการทั้ง 36 หน้าใส่ไว้ในเมนู ทำให้หน้าบริการถูกขึ้นบัญชีดำทั้งหมด
+ * แล้วลิงก์ที่ชี้ไปหาหน้าบริการ "จากในเนื้อหาบทความ" ก็ถูกตัดทิ้งไปด้วย
+ * ผลคือหน้าบริการทุกหน้าแสดง deg=0 ทั้งที่จริงมีบทความลิงก์มาหาเพียบ
+ *
+ * วิธีใหม่: ตัดตามตำแหน่งใน HTML แทน เว็บใช้ Elementor ซึ่งมี marker ชัดเจน
+ *   data-elementor-type="header"                    -> ส่วนหัว
+ *   data-elementor-type="single|wp-page|wp-post|archive" -> เริ่มเนื้อหา
+ *   data-elementor-type="footer"                    -> ส่วนท้าย
+ * ลิงก์เดียวกันที่อยู่ในเมนูจะไม่ถูกนับ แต่ถ้าอยู่ในเนื้อหาจะนับ — ตรงตามที่ต้องการ
+ */
+function contentZone(html) {
+  let start = 0, end = html.length;
+  const single = html.search(/data-elementor-type=["'](single|wp-page|wp-post|archive|product)/i);
+  const header = html.search(/data-elementor-type=["']header/i);
+  const footer = html.search(/data-elementor-type=["']footer/i);
+  if (single >= 0) start = single;
+  else if (header >= 0) {
+    // ไม่มี marker เนื้อหา — ตัดตั้งแต่จบบล็อก header เป็นต้นไป
+    const after = html.indexOf(">", header);
+    start = after > 0 ? after : header;
+  }
+  if (footer > start) end = footer;
+  const zone = html.slice(start, end);
+  // กันเหนียว: ถ้าตัดแล้วเหลือน้อยผิดปกติ (< 5% ของหน้า) แปลว่า marker ไม่ตรงกับธีมนี้
+  // ให้คืนทั้งหน้าไปแทน ดีกว่าตัดเนื้อหาจริงทิ้ง
+  if (zone.length < html.length * 0.05) return { zone: html, sliced: false };
+  return { zone, sliced: true };
+}
+
+/**
+ * ดึงลิงก์ภายในทั้งหมดของหน้า
+ * onlyContent=true -> นับเฉพาะลิงก์ในเนื้อหา (ตัดเมนู/header/footer ออกแล้ว)
  */
 function extractInternalLinks(html, domain) {
   const set = new Set();
@@ -154,11 +186,14 @@ async function crawlPage(url, domain) {
   try {
     const html = await get(url);
     const finalUrl = norm(lastFinalUrl || url);
+    const cz = contentZone(html);
     return {
       ok: true,
       finalUrl,
       kw: extractFocusKw(html),
-      links: extractInternalLinks(html, domain),
+      links: extractInternalLinks(cz.zone, domain),   // เฉพาะลิงก์ในเนื้อหา (ตัดเมนู/footer แล้ว)
+      allLinks: extractInternalLinks(html, domain),   // ทั้งหน้า — ไว้เทียบตอนตรวจ
+      sliced: cz.sliced,
       noindex: isNoIndex(html),
       title: (html.match(/<title>([^<]*)<\/title>/i) || [])[1] || "",
     };
@@ -295,21 +330,25 @@ function classify(url, siteId) {
     }
 
 
-    /* ตัดลิงก์เมนู/footer ออกก่อนนับ */
-    const bp = findBoilerplate(results);
-    process.stderr.write(`  ตัดลิงก์เมนู/footer: ${bp.set.size} URL (โผล่ตั้งแต่ ${bp.cut}/${bp.pages} หน้าขึ้นไป)\n`);
-    stats.boilerplate += bp.set.size;
+    /* นับเฉพาะลิงก์ในเนื้อหา — r.links ถูกตัดเมนู/header/footer ออกแล้วตั้งแต่ตอน crawl
+       (เลิกใช้ findBoilerplate ที่นับความถี่ เพราะตัดหน้าบริการทิ้งทั้งหมด ดูคอมเมนต์ที่ contentZone) */
+    let slicedOk = 0, slicedFail = 0, cut = 0;
     for (const u of list) {
       const r = results.get(u);
       if (!r || !r.ok) continue;
+      r.sliced ? slicedOk++ : slicedFail++;
+      cut += Math.max(0, (r.allLinks || []).length - r.links.length);
       const from = urlToId.get(u);
       if (!from) continue;                            // หน้านี้ถูกกรองทิ้ง (noindex/redirect) — ไม่มีโหนด
       for (const target of r.links) {
-        if (bp.set.has(target)) continue;             // เมนู/footer — ไม่นับ
         const to = urlToId.get(target);
         if (to && to !== from) allLinks.push({ s: from, t: to, k: "real" });
       }
     }
+    process.stderr.write(`  แยกโซนเนื้อหาได้ ${slicedOk} หน้า` +
+      (slicedFail ? ` (ใช้ทั้งหน้า ${slicedFail} หน้า — ไม่เจอ marker)` : "") +
+      ` · ตัดลิงก์เมนู/footer ออกเฉลี่ย ${slicedOk ? Math.round(cut / slicedOk) : 0} ลิงก์/หน้า\n`);
+    stats.boilerplate += cut;
   }
 
   /* hubs + struct links (โครงคลัสเตอร์ — ยังคงไว้ตามเดิม) */

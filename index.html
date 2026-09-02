@@ -324,7 +324,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     <div id="graphview"><div id="graphwrap"><svg id="graph"></svg>
       <div class="glegend">
         <div><span class="dot" style="background:#111"></span> คลัสเตอร์ (hub)</div>
-        <div><span class="dot" style="background:#2563EB"></span> หน้าบริการ — ใหญ่=ลิงก์เข้ามาก</div>
+        <div><span class="dot" style="background:#2563EB"></span> หน้าบริการ (ชี้เมาส์ดูจำนวนลิงก์เข้า)</div>
         <div><span class="dot" style="background:#207D3F"></span> หน้าที่ทำแล้ว — จุด+เส้นโครงสีเดียวกันตามคลัสเตอร์</div>
         <div><span class="dot" style="background:#C0392B"></span> <b style="color:#C0392B">แนะนำเปิดหน้าใหม่</b> ตาม focus keyword</div>
         <div style="margin-top:3px"><span class="ln" style="border-color:#94a3b8"></span> <b>ลิงก์จริงบนเว็บ</b> &nbsp; <span class="ln" style="border-color:#3CB348"></span> ลิงก์ตามแผน &nbsp; <span class="ln" style="border-color:#C0392B"></span> หน้าแนะนำ</div>
@@ -1563,19 +1563,10 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       .on("click",(e,d)=>{e.stopPropagation();select(d);})
       .on("mousemove",(e,d)=>{tip.style.opacity=1;tip.style.left=(e.pageX+12)+"px";tip.style.top=(e.pageY+12)+"px";tip.innerHTML=d.t==="hub"?`<b>${esc(d.label)}</b>`:d.t==="plan"?`<b>🔴 แนะนำเปิดหน้าใหม่</b><br>${esc(d.kw||d.label)}`:`<b>${esc(d.kw||d.label)}</b>${d.kw?`<br><span style="opacity:.75">${esc(d.label)}</span>`:""}`+(d.t==="svc"?`<br><span style="opacity:.75">หน้าบริการ · ลิงก์เข้า ${d.deg}</span>`:"");})
       .on("mouseleave",()=>tip.style.opacity=0);
-    /* ขนาดจุดหน้าบริการ = อันดับจำนวนลิงก์เข้า "เทียบกันเองภายในเว็บนั้น" (percentile)
-       เดิมใช้ 8+deg*2.2 ซึ่งตั้งไว้ตอน deg อยู่ราว 0–8 พอแก้บั๊กการนับลิงก์แล้ว deg พุ่งเป็น 23–53
-       ทุกจุดเลยชนเพดาน 26px พร้อมกันหมด กลายเป็นวงกลมใหญ่เท่ากันทั้งกระจุก (ใหญ่กว่า hub ด้วย)
-       สเกลตามอันดับทำให้เห็นความต่างเสมอ ไม่ว่าค่า deg จะกระจุกแค่ไหน และไม่มีวันเกิน hub (16px) */
-    const svcDeg={};
-    G.nodes.filter(n=>n.t==="svc").forEach(n=>{(svcDeg[n.site]=svcDeg[n.site]||[]).push(n.deg||0);});
-    Object.values(svcDeg).forEach(a=>a.sort((x,y)=>x-y));
-    function svcRadius(d){
-      const a=svcDeg[d.site]; if(!a||a.length<2)return 9;
-      const p=a.filter(v=>v<(d.deg||0)).length/(a.length-1);
-      return 6.5+p*3.5;                                    /* 6.5–10px — ยึดขนาดเดิม 8px เป็นกลาง */
-    }
-    function radius(d){return d.t==="hub"?16:d.t==="svc"?svcRadius(d):d.t==="plan"?6:5;}
+    /* หน้าบริการ = 8px คงที่ทุกจุด (ขนาดเดิม)
+       สูตรเก่า 8+deg*2.2 เคยให้ 8px ก็เพราะ deg ถูกนับผิดเป็น 0 ทุกหน้า พอ deg จริงเป็น 23–53
+       ทุกจุดชนเพดาน 26px พร้อมกัน — ผู้ใช้ต้องการขนาดเท่ากันแบบเดิม จำนวนลิงก์เข้าดูได้จาก tooltip แทน */
+    function radius(d){return d.t==="hub"?16:d.t==="svc"?8:d.t==="plan"?6:5;}
     node.append("circle").attr("r",radius)
       .attr("fill",nodeColor)
       .attr("stroke",d=>d.md?"#F59E0B":"#fff").attr("stroke-width",d=>d.md?2.5:1.3);
@@ -1730,8 +1721,15 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     /* มือถือ: ลดภาระการคำนวณ — ใช้เฉพาะเส้นโครงคลัสเตอร์จัดตำแหน่ง, หยุด simulation เร็วขึ้น, วาดทุก 2 tick */
     const simLinks=IS_MOBILE?G.links.filter(l=>l.k!=="real"):G.links;
     let tickN=0;
+    /* แรงดึงของลิงก์ในเนื้อหา: หารด้วยจำนวนลิงก์ของโหนดปลายที่มีลิงก์น้อยกว่า (กติกา default ของ d3)
+       ถ้าใช้ค่าคงที่ 0.12 หน้าบริการที่มีบทความลิงก์มา 50 หน้าจะโดนดึงแรงกว่าหน้าอื่น 50 เท่า
+       ทุกหน้าบริการเลยถูกลากไปกองรวมกันตรงกลาง (ระยะห่างเฉลี่ยตกจาก ~116px เหลือ ~32px)
+       เส้นโครงคลัสเตอร์/แผน ยังใช้ 0.12 คงที่ เพราะเป็นตัวกำหนดรูปทรงคลัสเตอร์ */
+    const realCnt={};
+    G.links.forEach(l=>{if(l.k==="real"){realCnt[l.s]=(realCnt[l.s]||0)+1;realCnt[l.t]=(realCnt[l.t]||0)+1;}});
+    const linkStrength=d=>d.k==="real"?0.12/Math.max(1,Math.min(realCnt[d.s]||1,realCnt[d.t]||1)):0.12;
     const sim=d3.forceSimulation(G.nodes)
-      .force("link",d3.forceLink(simLinks).id(d=>d.id).distance(d=>d.k==="struct"?(nodeById[d.t]&&nodeById[d.t].t==="hub"?95:70):80).strength(0.12))
+      .force("link",d3.forceLink(simLinks).id(d=>d.id).distance(d=>d.k==="struct"?(nodeById[d.t]&&nodeById[d.t].t==="hub"?95:70):80).strength(linkStrength))
       .force("charge",d3.forceManyBody().strength(IS_MOBILE?-220:-340).distanceMax(IS_MOBILE?380:560))
       .force("center",d3.forceCenter(W/2,H/2))
       .force("collide",d3.forceCollide().radius(d=>radius(d)+(IS_MOBILE?4:7)).strength(IS_MOBILE?.7:.9))

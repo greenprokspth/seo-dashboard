@@ -3,7 +3,8 @@
  * build-content-map.js — สร้าง/อัปเดตข้อมูล Content Map ให้ตรงกับเว็บจริง
  *
  * ทำอะไร:
- *   1. ดึง URL ทั้งหมดจาก sitemap ของทั้ง 3 เว็บ (หน้า noindex ไม่อยู่ใน sitemap อยู่แล้ว)
+ *   1. ดึงรายการหน้าจาก WordPress REST API (แหล่งหลัก ครบ+สด) + sitemap + ไล่ลิงก์จากหน้าจริง
+ *      แล้วคัดหน้า noindex ออกด้วยการอ่าน <meta name="robots"> ของแต่ละหน้า
  *   2. crawl ทุกหน้า เก็บ: focus keyword (Rank Math), path, วันที่อัปเดต, internal link จริง
  *   3. เก็บหมวดหมู่ (cat) ของหน้าเดิมไว้ — หน้าใหม่จัดหมวดจาก path/slug
  *   4. เขียนผลลัพธ์กลับเข้า <script id="content-map-data"> ใน index.html
@@ -27,13 +28,14 @@ const norm = (u) =>
   String(u).replace(/^http:/, "https:").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/+$/, "") + "/";
 const dec = (s) => { try { return decodeURIComponent(s); } catch (e) { return s; } };
 
+let lastFinalUrl = "";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 /** ดึงหน้าเว็บ พร้อม retry เมื่อเจอ 429/503 (เซิร์ฟเวอร์กันยิงถี่) */
 async function get(url, tries = 4) {
   for (let i = 1; i <= tries; i++) {
     try {
       const res = await fetch(url, { headers: { "User-Agent": "GreenproContentMap/1.0" }, redirect: "follow" });
-      if (res.ok) return await res.text();
+      if (res.ok) { const t = await res.text(); t.__finalUrl = res.url; lastFinalUrl = res.url; return t; }
       if ((res.status === 429 || res.status >= 500) && i < tries) { await sleep(1500 * i); continue; }
       throw new Error("HTTP " + res.status);
     } catch (e) {
@@ -41,6 +43,34 @@ async function get(url, tries = 4) {
       await sleep(1500 * i);
     }
   }
+}
+
+/* ---------- 1. รายการหน้าทั้งหมดของเว็บ ---------- */
+/**
+ * WordPress REST API — แหล่งข้อมูลหลัก (ตรงจากฐานข้อมูลเว็บ ครบและสดที่สุด)
+ * ดีกว่า sitemap เพราะ sitemap มักอัปเดตช้า/แคช ทำให้หน้าใหม่ตกหล่น
+ * คืน Map: url -> { mod, status, type }
+ */
+async function wpApiUrls(site) {
+  const out = new Map();
+  for (const type of ["posts", "pages"]) {
+    for (let page = 1; page <= 20; page++) {
+      let arr;
+      try {
+        const txt = await get(
+          `https://${site.domain}/wp-json/wp/v2/${type}?per_page=100&page=${page}&status=publish&_fields=link,modified,status`
+        );
+        arr = JSON.parse(txt);
+      } catch (e) { break; }
+      if (!Array.isArray(arr) || !arr.length) break;
+      for (const p of arr) {
+        if (!p.link) continue;
+        out.set(norm(p.link), { mod: (p.modified || "").slice(0, 10), type });
+      }
+      if (arr.length < 100) break;
+    }
+  }
+  return out;
 }
 
 /* ---------- 1. sitemap ---------- */
@@ -115,10 +145,23 @@ function findBoilerplate(results) {
   freq.forEach((c, l) => { if (c >= cut) set.add(l); });
   return { set, pages, cut };
 }
+/** อ่าน <meta name="robots"> — ใช้คัดหน้า noindex ออก */
+function isNoIndex(html) {
+  const m = html.match(/<meta[^>]+name=["']robots["'][^>]*content=["']([^"']+)["']/i);
+  return m ? /noindex/i.test(m[1]) : false;
+}
 async function crawlPage(url, domain) {
   try {
     const html = await get(url);
-    return { ok: true, kw: extractFocusKw(html), links: extractInternalLinks(html, domain) };
+    const finalUrl = norm(lastFinalUrl || url);
+    return {
+      ok: true,
+      finalUrl,
+      kw: extractFocusKw(html),
+      links: extractInternalLinks(html, domain),
+      noindex: isNoIndex(html),
+      title: (html.match(/<title>([^<]*)<\/title>/i) || [])[1] || "",
+    };
   } catch (e) {
     return { ok: false, kw: "", links: [], err: e.message };
   }
@@ -162,12 +205,20 @@ function classify(url, siteId) {
 
   const nodes = [], allLinks = [];
   const urlToId = new Map();
-  const stats = { crawled: 0, failed: 0, kwFound: 0, boilerplate: 0 };
+  const stats = { crawled: 0, failed: 0, kwFound: 0, boilerplate: 0, discovered: 0, noindexSkipped: 0, redirects: 0, archives: 0 };
 
   for (const site of SITES) {
-    process.stderr.write(`\n[${site.id}] ดึง sitemap...`);
-    const urls = await sitemapUrls(site);
+    process.stderr.write(`\n[${site.id}] ดึงรายการหน้าจาก WordPress API...`);
+    const wp = await wpApiUrls(site);                       // แหล่งหลัก: ครบ + สด
+    const urls = new Map();
+    wp.forEach((v, k) => urls.set(k, v.mod));
     process.stderr.write(` ${urls.size} หน้า\n`);
+    try {                                                    // เสริมด้วย sitemap เผื่อมีหน้าที่ API ไม่คืน
+      const sm = await sitemapUrls(site);
+      let extra = 0;
+      sm.forEach((mod, u) => { if (!urls.has(u)) { urls.set(u, mod); extra++; } });
+      if (extra) process.stderr.write(`  + จาก sitemap อีก ${extra} หน้า\n`);
+    } catch (e) { process.stderr.write("  (อ่าน sitemap ไม่ได้ — ใช้ข้อมูลจาก API อย่างเดียว)\n"); }
 
     const list = [...urls.keys()];
     const results = new Map();
@@ -186,7 +237,47 @@ function classify(url, siteId) {
       })
     );
 
+    /* ---- รอบเก็บตก: หา URL ที่ไม่อยู่ใน sitemap (sitemap มักอัปเดตช้า) ---- */
+    {
+      const known = new Set(list);
+      const found = new Set();
+      for (const r of results.values()) {
+        if (!r.ok) continue;
+        for (const l of r.links) if (!known.has(l)) found.add(l);
+      }
+      const extra = [...found];
+      if (extra.length) {
+        process.stderr.write(`  เจอหน้าที่ไม่อยู่ใน sitemap ${extra.length} URL — กำลังตรวจ...\n`);
+        let j = 0, added = 0;
+        await Promise.all(
+          Array.from({ length: CONCURRENCY }, async () => {
+            while (j < extra.length) {
+              const u = extra[j++];
+              const r = await crawlPage(u, site.domain);
+              stats.crawled++;
+              if (!r.ok) { stats.failed++; continue; }
+              if (r.noindex) { stats.noindexSkipped++; continue; }   // หน้า noindex ไม่เอา
+              results.set(u, r);
+              list.push(u);
+              urls.set(u, "");
+              added++;
+              if (r.kw) stats.kwFound++;
+            }
+          })
+        );
+        stats.discovered += added;
+        process.stderr.write(`  เพิ่มหน้าที่ sitemap ยังไม่มี: ${added} หน้า\n`);
+      }
+    }
+
     for (const u of list) {
+      const rr = results.get(u);
+      if (rr && rr.ok && rr.noindex) { stats.noindexSkipped++; continue; }  // หน้า noindex — ไม่แสดงใน map
+      // URL ที่ redirect ไปหน้าอื่น = URL เก่า/ซ้ำ ไม่ใช่หน้าจริง
+      if (rr && rr.ok && rr.finalUrl && rr.finalUrl !== u) { stats.redirects++; continue; }
+      // หน้ารวมหมวดหมู่ (/blog/, /blog/tax/) ไม่ใช่หน้าเนื้อหา
+      if (/^\/(blog|th)\/?$/.test(u.replace(/https?:\/\/[^\/]+/, "")) ||
+          /^\/blog\/[^\/]+\/$/.test(u.replace(/https?:\/\/[^\/]+/, ""))) { stats.archives++; continue; }
       const oldNode = oldByUrl.get(u);
       const c = oldNode ? { t: oldNode.t, cat: oldNode.cat, label: oldNode.label } : classify(u, site.id);
       const slug = dec(u.replace(/\/$/, "").split("/").pop() || "home");
@@ -202,6 +293,8 @@ function classify(url, siteId) {
       nodes.push(n);
       urlToId.set(u, id);
     }
+
+
     /* ตัดลิงก์เมนู/footer ออกก่อนนับ */
     const bp = findBoilerplate(results);
     process.stderr.write(`  ตัดลิงก์เมนู/footer: ${bp.set.size} URL (โผล่ตั้งแต่ ${bp.cut}/${bp.pages} หน้าขึ้นไป)\n`);
@@ -261,6 +354,8 @@ function classify(url, siteId) {
   console.log("\n=== สรุป ===");
   console.log("หน้าทั้งหมด:", out.stats.total, "| crawl สำเร็จ:", stats.crawled - stats.failed, "| ล้มเหลว:", stats.failed);
   console.log("เจอ focus keyword:", stats.kwFound, "หน้า");
+  console.log("เจอเพิ่มจากการไล่ลิงก์:", stats.discovered,
+    "| ข้าม noindex:", stats.noindexSkipped, "| ข้าม URL ที่ redirect ซ้ำ:", stats.redirects, "| ข้ามหน้ารวมหมวดหมู่:", stats.archives);
   console.log("internal link ในเนื้อหา:", out.stats.realLinks, "เส้น (ไม่นับเมนู/footer)",
     "| หน้าที่ไม่มีลิงก์เข้า (orphan):", out.stats.orphans);
   SITES.forEach((s) => {

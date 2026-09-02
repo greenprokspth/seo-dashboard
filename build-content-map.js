@@ -281,7 +281,7 @@ function classify(url, siteId) {
       const oldNode = oldByUrl.get(u);
       const c = oldNode ? { t: oldNode.t, cat: oldNode.cat, label: oldNode.label } : classify(u, site.id);
       const slug = dec(u.replace(/\/$/, "").split("/").pop() || "home");
-      const id = oldNode ? oldNode.id : (c.t === "svc" ? "svc:" : "b:") + slug;
+      const id = oldNode ? oldNode.id : (c.t === "svc" ? "svc:" : "b:") + site.id + ":" + slug;
       const r = results.get(u) || { kw: "", links: [] };
       const p = u.replace(/https?:\/\/[^\/]+/, "");
       const n = {
@@ -303,6 +303,7 @@ function classify(url, siteId) {
       const r = results.get(u);
       if (!r || !r.ok) continue;
       const from = urlToId.get(u);
+      if (!from) continue;                            // หน้านี้ถูกกรองทิ้ง (noindex/redirect) — ไม่มีโหนด
       for (const target of r.links) {
         if (bp.set.has(target)) continue;             // เมนู/footer — ไม่นับ
         const to = urlToId.get(target);
@@ -331,6 +332,11 @@ function classify(url, siteId) {
     if (seen.has(key)) continue;
     seen.add(key); realLinks.push(l);
   }
+  /* ตัดลิงก์ที่หาโหนดปลายทางไม่เจอ (กัน d3.forceLink พัง) */
+  const validLinks = realLinks.filter((l) => ids.has(l.s) && ids.has(l.t));
+  const dropped = realLinks.length - validLinks.length;
+  if (dropped) console.log("  (ตัดลิงก์ที่หาโหนดไม่เจอ", dropped, "เส้น)");
+  realLinks.length = 0; realLinks.push(...validLinks);
   const inDeg = {};
   realLinks.forEach((l) => { inDeg[l.t] = (inDeg[l.t] || 0) + 1; });
   nodes.forEach((n) => { n.deg = inDeg[n.id] || 0; });

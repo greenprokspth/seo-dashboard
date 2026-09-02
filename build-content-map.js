@@ -19,7 +19,7 @@ const SITES = [
   { id: "perfectblending", domain: "www.perfectblending.com" },
   { id: "kspasiafin", domain: "www.kspasiafin.com" },
 ];
-const CONCURRENCY = 8;
+const CONCURRENCY = 4;   // ลดลงเพื่อไม่ให้เซิร์ฟเวอร์ตอบ 503
 const HTML_FILE = path.join(__dirname, "index.html");
 const DRY = process.argv.includes("--dry");
 
@@ -27,10 +27,20 @@ const norm = (u) =>
   String(u).replace(/^http:/, "https:").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/+$/, "") + "/";
 const dec = (s) => { try { return decodeURIComponent(s); } catch (e) { return s; } };
 
-async function get(url) {
-  const res = await fetch(url, { headers: { "User-Agent": "GreenproContentMap/1.0" }, redirect: "follow" });
-  if (!res.ok) throw new Error("HTTP " + res.status);
-  return await res.text();
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+/** ดึงหน้าเว็บ พร้อม retry เมื่อเจอ 429/503 (เซิร์ฟเวอร์กันยิงถี่) */
+async function get(url, tries = 4) {
+  for (let i = 1; i <= tries; i++) {
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": "GreenproContentMap/1.0" }, redirect: "follow" });
+      if (res.ok) return await res.text();
+      if ((res.status === 429 || res.status >= 500) && i < tries) { await sleep(1500 * i); continue; }
+      throw new Error("HTTP " + res.status);
+    } catch (e) {
+      if (i >= tries) throw e;
+      await sleep(1500 * i);
+    }
+  }
 }
 
 /* ---------- 1. sitemap ---------- */
@@ -53,10 +63,23 @@ async function sitemapUrls(site) {
 
 /* ---------- 2. crawl หน้าเดียว ---------- */
 function extractFocusKw(html) {
-  // Rank Math ใส่ focus keyword ไว้ใน schema JSON-LD -> "keywords":"..."
+  // 1) schema JSON-LD ของ Rank Math (BlogPosting/Article) -> "keywords":"..."
   const m = html.match(/"keywords"\s*:\s*"((?:[^"\\]|\\.)*)"/);
-  if (!m) return "";
-  try { return JSON.parse('"' + m[1] + '"').trim(); } catch (e) { return m[1]; }
+  if (m) {
+    try { return JSON.parse('"' + m[1] + '"').trim(); } catch (e) { return m[1].trim(); }
+  }
+  // 2) schema แบบ array -> "keywords":["a","b"]
+  const arr = html.match(/"keywords"\s*:\s*\[([^\]]*)\]/);
+  if (arr) {
+    try { return JSON.parse('[' + arr[1] + ']').join(', ').trim(); } catch (e) {}
+  }
+  // 3) meta keywords (บางธีม/ปลั๊กอินยังส่งออก)
+  const meta = html.match(/<meta[^>]+name=["']keywords["'][^>]*content=["']([^"']+)["']/i)
+            || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]*name=["']keywords["']/i);
+  if (meta) return meta[1].trim();
+  // 4) ไม่มีในหน้า — Rank Math ไม่ได้ส่ง focus keyword ออก HTML ทุกหน้า
+  //    (หน้าที่ schema เป็น VideoObject/Service/WebPage จะไม่มี keywords ติดมา)
+  return "";
 }
 /**
  * ดึงลิงก์ภายในทั้งหมดของหน้า (ยังไม่กรองเมนู/footer — กรองทีหลังด้วยความถี่)

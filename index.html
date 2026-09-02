@@ -1573,7 +1573,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     function svcRadius(d){
       const a=svcDeg[d.site]; if(!a||a.length<2)return 9;
       const p=a.filter(v=>v<(d.deg||0)).length/(a.length-1);
-      return 6.5+p*7.5;                                    /* 6.5–14px */
+      return 6.5+p*3.5;                                    /* 6.5–10px — ยึดขนาดเดิม 8px เป็นกลาง */
     }
     function radius(d){return d.t==="hub"?16:d.t==="svc"?svcRadius(d):d.t==="plan"?6:5;}
     node.append("circle").attr("r",radius)

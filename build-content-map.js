@@ -130,17 +130,28 @@ function contentZone(html) {
   const single = html.search(/data-elementor-type=["'](single|wp-page|wp-post|archive|product)/i);
   const header = html.search(/data-elementor-type=["']header/i);
   const footer = html.search(/data-elementor-type=["']footer/i);
+  // หน้าบริการบางหน้าไม่มี marker เนื้อหาของ Elementor เลย (มีแค่ header/footer)
+  // จึงต้องหาจุดเริ่มเนื้อหาจากโครง HTML มาตรฐานแทน: <main> / #content / .site-main / .entry-content
+  const mainRe = /<main[\s>]|id=["']content["']|class=["'][^"']*site-main|class=["'][^"']*entry-content/i;
+  const main = html.search(mainRe);
   if (single >= 0) start = single;
   else if (header >= 0) {
-    // ไม่มี marker เนื้อหา — ตัดตั้งแต่จบบล็อก header เป็นต้นไป
-    const after = html.indexOf(">", header);
+    // ไม่มี landmark ใด ๆ — ข้ามทั้งบล็อก <header>...</header> (เดิมใช้ indexOf(">") ซึ่งข้ามแค่แท็กเปิด
+    // ทำให้เมนูทั้งก้อนยังอยู่ในโซนเนื้อหา และถูกนับเป็น internal link ผิด ๆ)
+    const close = html.toLowerCase().indexOf("</header>", header);
+    const after = close > 0 ? close + 9 : html.indexOf(">", header);
     start = after > 0 ? after : header;
-  }
+    if (main > start) start = main;                 // มี <main>/.site-main อยู่ถัดจาก header -> แม่นกว่า
+  } else if (main >= 0) start = main;
   if (footer > start) end = footer;
   const zone = html.slice(start, end);
-  // กันเหนียว: ถ้าตัดแล้วเหลือน้อยผิดปกติ (< 5% ของหน้า) แปลว่า marker ไม่ตรงกับธีมนี้
-  // ให้คืนทั้งหน้าไปแทน ดีกว่าตัดเนื้อหาจริงทิ้ง
-  if (zone.length < html.length * 0.05) return { zone: html, sliced: false };
+  // กันเหนียว: ใช้เฉพาะกรณี "หา landmark ไม่เจอเลย" เท่านั้น
+  // (เดิมเช็ค < 5% ของหน้า ซึ่งพังกับหน้าบริการที่เมนูยาวมาก: เนื้อหาจริง 9KB จากหน้า 198KB = 4.6%
+  //  ถูกตีว่าผิดปกติแล้วคืนทั้งหน้า -> ลิงก์เมนู 45 เส้นถูกนับเป็น internal link ทั้งหมด)
+  // ถ้ายังตัดหัวไม่ได้เลย (ไม่เจอทั้ง single/main/header) แต่รู้จุดจบ footer -> อย่างน้อยตัดท้ายทิ้ง
+  const found = start > 0 || end < html.length;
+  if (!found || zone.length < 200) return { zone: html, sliced: false };   // 200 พอกันเคสตัดพลาดจริง ๆ
+  // (หน้ารวมบริการอย่าง /services/ มีเนื้อหาจริงแค่ ~490 ตัวอักษร เพราะเป็นหน้าสารบัญ — ต้องไม่ตีว่าผิดปกติ)
   return { zone, sliced: true };
 }
 

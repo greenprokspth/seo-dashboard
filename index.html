@@ -1533,7 +1533,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     const CATLABEL={gp_other:"อื่นๆ",gp_acc:"บัญชี",gp_audit:"ออดิท",gp_register:"จดทะเบียน",gp_license:"ใบอนุญาต",gp_tax:"ภาษี",gp_service:"บริการ",
       pb_module:"โมดูล Odoo",pb_impl:"วางระบบ",pb_overview:"Odoo ภาพรวม",pb_web:"หน้าเว็บ",pb_other:"อื่นๆ",
       ka_ocr:"OCR/ข้อมูล",ka_rpa:"RPA/อัตโนมัติ",ka_fin:"บัญชี/การเงิน",ka_ai:"AI/เทคโนโลยี",ka_other:"อื่นๆ"};
-    const CATCOL={gp_acc:"#EC4899",gp_tax:"#B7791F",gp_register:"#207D3F",gp_license:"#4D7C0F",gp_audit:"#7C3AED",gp_service:"#111",gp_other:"#6B7280",
+    const CATCOL={gp_acc:"#EC4899",gp_tax:"#B7791F",gp_register:"#207D3F",gp_license:"#FB923C",gp_audit:"#7C3AED",gp_service:"#111",gp_other:"#6B7280",
       pb_module:"#7C3AED",pb_overview:"#207D3F",pb_impl:"#111",pb_web:"#6B7280",pb_other:"#6B7280",
       ka_rpa:"#207D3F",ka_ocr:"#2563EB",ka_fin:"#B7791F",ka_ai:"#7C3AED",ka_other:"#6B7280"};
     let cmv="graph";
@@ -1724,7 +1724,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     /* ---- จัดวางคลัสเตอร์เป็นวงรอบศูนย์กลาง: hub แต่ละคลัสเตอร์มีตำแหน่งประจำ (anchor) สมาชิกเกาะรอบ hub ของตัวเอง ----
        เดิมปล่อยให้แรงดึงจากลิงก์จริง (2,800+ เส้น ส่วนใหญ่ข้ามคลัสเตอร์) จัดตำแหน่งเอง คลัสเตอร์เลยละลายรวมเป็นก้อนเดียว
        (วัดจริง: สมาชิกอยู่ใกล้ hub ของตัวเองแค่ 20%) · คลัสเตอร์ใหญ่ได้ส่วนโค้งกว้างกว่า · บริการถูกดันออกไปไกลกว่าคลัสเตอร์อื่น */
-    const RING_BASE=240,RING_PER=75,SVC_MUL=1.4,PIN_HUBS=true;
+    const RING_BASE=240,RING_PER=58,SVC_MUL=1.2,PIN_HUBS=true;
     const ANCH={};
     (function placeAnchors(){
       const bySite={},cnt={};

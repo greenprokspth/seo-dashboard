@@ -139,6 +139,11 @@ section{margin-bottom:30px}
 .badge.low{color:var(--blue);background:var(--blue-soft)}
 .chip{font-size:12px;font-weight:600;padding:2px 8px;border-radius:var(--pill);background:#F1F2F4;color:var(--text-2)}
 /* ปุ่มยืนยันว่าทำหน้าตามแผนแล้ว (ตารางแผนคอนเทนต์) */
+.refreshbtn{font-family:inherit;font-size:12px;font-weight:700;padding:3px 10px;border-radius:var(--pill);
+  border:1px solid var(--border);background:#fff;color:var(--text-2);cursor:pointer;white-space:nowrap;margin-left:4px}
+.refreshbtn:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+.refreshbtn:disabled{opacity:.55;cursor:default}
+.refreshmsg{font-size:12px;margin-left:6px}
 .planchk{font-family:inherit;font-size:12px;font-weight:700;padding:4px 10px;border-radius:var(--pill);
   border:1px solid var(--border);background:#fff;color:var(--text-2);cursor:pointer;white-space:nowrap}
 .planchk:hover{border-color:var(--primary);color:var(--primary)}
@@ -305,7 +310,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   <!-- ============ Content Map (หน้าแรกของ dashboard) ============ -->
   <section id="cmView" style="display:none">
     <div class="sec-title"><span class="dot"></span>Full Content Map — แผนที่คอนเทนต์ทั้ง 3 เว็บ</div>
-    <div class="cm-sub">โหนด = หน้าที่เผยแพร่จริงทุกหน้า (ไม่รวม noindex / URL ที่ redirect ซ้ำ) · เส้นเทา = <b>internal link ในเนื้อหา</b> (ไม่นับลิงก์จากเมนู/footer) · ข้อมูล <b id="cmGenerated"></b><br>
+    <div class="cm-sub">โหนด = หน้าที่เผยแพร่จริงทุกหน้า (ไม่รวม noindex / URL ที่ redirect ซ้ำ) · เส้นเทา = <b>internal link ในเนื้อหา</b> (ไม่นับลิงก์จากเมนู/footer) · ข้อมูล <b id="cmGenerated"></b> <button class="refreshbtn" id="cmRefreshBtn" title="ไปดึงข้อมูลจากเว็บจริงมาอัปเดตแผนที่">🔄 อัปเดตข้อมูลตอนนี้</button> <span class="refreshmsg" id="cmRefreshMsg"></span><br>
       <b>คลิกโหนด</b> = ดู focus keyword, path, ลิงก์เข้า-ออกจริง · คลิกพื้นที่ว่าง=รีเซ็ต · ลาก=ย้าย · สกอลล์=ซูม</div>
     <div class="cards" id="cmCards"></div>
     <div class="viewtabs"><span class="vtab active" data-v="graph">🕸️ Graph</span><span class="vtab" data-v="list">📋 List</span></div>
@@ -978,6 +983,43 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     try{localStorage.setItem(PLAN_LS,JSON.stringify([...planClosed]));}catch(e){}
     if(FB.db){try{FB.db.ref("planDone").set([...planClosed]);}catch(e){}}
   }
+  /* ---------- ปุ่ม "อัปเดตข้อมูลตอนนี้" ของ Content Map ----------
+     หน้าเว็บเขียน "คำขอ" ลง Firebase path mapRefresh เท่านั้น (ไม่มี token ใด ๆ ในหน้าเว็บ
+     เพราะ repo เป็น public ใครก็เปิดดู index.html ได้)
+     ฝั่ง GitHub Actions จะมาอ่านคำขอนี้ทุก ๆ 10 นาที แล้วรัน crawler + commit ให้เอง */
+  const RF={btn:null,msg:null,last:null};
+  function rfSet(text,color){
+    if(!RF.msg)return;
+    RF.msg.textContent=text||"";
+    RF.msg.style.color=color||"var(--text-2)";
+  }
+  function rfRender(st){
+    RF.last=st||{};
+    if(!RF.btn)return;
+    const req=Number(RF.last.requestedAt||0),started=Number(RF.last.startedAt||0),fin=Number(RF.last.finishedAt||0);
+    const state=RF.last.state||"";
+    const waiting=req>started;                       /* กดแล้ว ยังไม่เริ่มรัน */
+    const running=state==="running"&&started>fin;    /* กำลังรันอยู่ */
+    RF.btn.disabled=waiting||running;
+    if(waiting)      rfSet("⏳ ส่งคำขอแล้ว รอระบบเริ่มทำงาน (ไม่เกิน 10 นาที)","var(--amber,#B7791F)");
+    else if(running) rfSet("⚙️ กำลังดึงข้อมูลจากเว็บจริง… (ราว 3–5 นาที)","var(--amber,#B7791F)");
+    else if(state==="done")  rfSet("✅ อัปเดตเสร็จแล้ว — กด Ctrl+F5 เพื่อดูข้อมูลใหม่","var(--primary)");
+    else if(state==="error") rfSet("⚠️ อัปเดตไม่สำเร็จ ลองกดใหม่อีกครั้ง","#C0392B");
+    else rfSet("");
+  }
+  function requestMapRefresh(){
+    if(!FB.db){alert("ยังไม่ได้เชื่อมต่อระบบกลาง (Firebase) — ปุ่มนี้ใช้ไม่ได้ในโหมดเครื่องนี้");return;}
+    if(!confirm("ให้ระบบไปดึงข้อมูลจากเว็บจริงทั้ง 3 เว็บมาอัปเดตแผนที่?\n\nใช้เวลาราว 3-5 นาที (เริ่มทำงานภายใน 10 นาที)\nระหว่างนี้ใช้งานหน้าเว็บได้ตามปกติ"))return;
+    try{
+      FB.db.ref("mapRefresh").update({requestedAt:Date.now(),by:editorName(),state:"queued"});
+      logActivity(null,"สั่งอัปเดตข้อมูล Content Map");
+      rfRender(Object.assign({},RF.last,{requestedAt:Date.now(),state:"queued"}));
+    }catch(e){alert("ส่งคำขอไม่สำเร็จ: "+e.message);}
+  }
+  /* ผูกปุ่มหลังจาก RF ถูกประกาศแล้ว (ถ้าผูกก่อนจะเกิด ReferenceError: Cannot access RF before initialization) */
+  RF.btn=document.getElementById("cmRefreshBtn");RF.msg=document.getElementById("cmRefreshMsg");
+  if(RF.btn)RF.btn.onclick=requestMapRefresh;
+
   function togglePlanDone(key,label){
     const on=!planClosed.has(key);
     on?planClosed.add(key):planClosed.delete(key);
@@ -1041,6 +1083,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
       renderActivity(list);
     });
     /* รายการแผนที่ทีมกดยืนยันว่าทำแล้ว — sync ให้ทุกคนเห็นตรงกัน */
+    /* สถานะการอัปเดต Content Map — ให้ทุกคนเห็นตรงกันว่ากำลังรันอยู่ไหม */
+    FB.db.ref("mapRefresh").on("value",snap=>{rfRender(snap.val()||{});});
     FB.db.ref("planDone").on("value",snap=>{
       const v=snap.val();if(!v)return;
       planClosed.clear();(Array.isArray(v)?v:Object.values(v)).forEach(k=>planClosed.add(k));

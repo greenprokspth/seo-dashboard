@@ -332,7 +332,10 @@ function classify(url, siteId) {
       const p = u.replace(/https?:\/\/[^\/]+/, "");
       const n = {
         id, t: c.t, label: c.label, cat: c.cat, site: site.id,
-        url: u, path: p, kw: r.kw || "", mod: urls.get(u) || "", st: 2, deg: 0,
+        // focus keyword: ใช้ค่าที่ crawl ได้ก่อน ถ้าหน้านั้นไม่ส่งออกมา ให้ "คงค่าเดิมในแผนที่ไว้"
+        // (สำคัญมากตอนรันอัตโนมัติ เพราะ CSV จาก Rank Math ไม่ได้อยู่ใน repo — ถ้าเขียนทับด้วยค่าว่าง
+        //  keyword ที่เคยเติมไว้ 55 หน้าจะหายทุกครั้งที่รัน)
+        url: u, path: p, kw: r.kw || (oldNode && oldNode.kw) || "", mod: urls.get(u) || "", st: 2, deg: 0,
       };
       if (oldNode && oldNode.plan) n.plan = oldNode.plan;
       if (oldNode && oldNode.obs) n.obs = oldNode.obs;

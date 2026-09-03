@@ -1533,7 +1533,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     const CATLABEL={gp_other:"อื่นๆ",gp_acc:"บัญชี",gp_audit:"ออดิท",gp_register:"จดทะเบียน",gp_license:"ใบอนุญาต",gp_tax:"ภาษี",gp_service:"บริการ",
       pb_module:"โมดูล Odoo",pb_impl:"วางระบบ",pb_overview:"Odoo ภาพรวม",pb_web:"หน้าเว็บ",pb_other:"อื่นๆ",
       ka_ocr:"OCR/ข้อมูล",ka_rpa:"RPA/อัตโนมัติ",ka_fin:"บัญชี/การเงิน",ka_ai:"AI/เทคโนโลยี",ka_other:"อื่นๆ"};
-    const CATCOL={gp_acc:"#2563EB",gp_tax:"#B7791F",gp_register:"#207D3F",gp_license:"#0891B2",gp_audit:"#7C3AED",gp_service:"#111",gp_other:"#6B7280",
+    const CATCOL={gp_acc:"#EC4899",gp_tax:"#B7791F",gp_register:"#207D3F",gp_license:"#4D7C0F",gp_audit:"#7C3AED",gp_service:"#111",gp_other:"#6B7280",
       pb_module:"#7C3AED",pb_overview:"#207D3F",pb_impl:"#111",pb_web:"#6B7280",pb_other:"#6B7280",
       ka_rpa:"#207D3F",ka_ocr:"#2563EB",ka_fin:"#B7791F",ka_ai:"#7C3AED",ka_other:"#6B7280"};
     let cmv="graph";
@@ -1542,7 +1542,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     const svg=d3.select("#graph"),tip=document.getElementById("gtip");
     const W=svg.node().clientWidth||1100,H=svg.node().clientHeight||680;
     const rootG=svg.append("g");
-    svg.call(d3.zoom().scaleExtent([0.15,4]).on("zoom",e=>rootG.attr("transform",e.transform)));
+    const zoomB=d3.zoom().scaleExtent([0.15,4]).on("zoom",e=>rootG.attr("transform",e.transform));svg.call(zoomB);
     svg.on("click",()=>clearSel());
     const adj={};G.links.forEach(l=>{(adj[l.s]=adj[l.s]||new Set()).add(l.t);(adj[l.t]=adj[l.t]||new Set()).add(l.s);});
     const nodeById={};G.nodes.forEach(n=>nodeById[n.id]=n);
@@ -1566,12 +1566,12 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     /* หน้าบริการ = 8px คงที่ทุกจุด (ขนาดเดิม)
        สูตรเก่า 8+deg*2.2 เคยให้ 8px ก็เพราะ deg ถูกนับผิดเป็น 0 ทุกหน้า พอ deg จริงเป็น 23–53
        ทุกจุดชนเพดาน 26px พร้อมกัน — ผู้ใช้ต้องการขนาดเท่ากันแบบเดิม จำนวนลิงก์เข้าดูได้จาก tooltip แทน */
-    function radius(d){return d.t==="hub"?16:d.t==="svc"?8:d.t==="plan"?6:5;}
+    function radius(d){return d.t==="hub"?16:d.t==="plan"?6:5;}   /* หน้าบริการเท่าจุดอื่น (5px) */
     node.append("circle").attr("r",radius)
       .attr("fill",nodeColor)
       .attr("stroke",d=>d.md?"#F59E0B":"#fff").attr("stroke-width",d=>d.md?2.5:1.3);
     node.filter(d=>d.t!=="blog").append("text").text(d=>d.t==="hub"?(CATLABEL[d.cat]?"● "+CATLABEL[d.cat]:d.label):(d.kw||d.label)).attr("text-anchor","middle")
-      .attr("y",d=>-(radius(d)+4)).attr("font-size",d=>d.t==="hub"?14:9.5).attr("font-weight",d=>d.t==="hub"?800:600).attr("fill",d=>d.t==="hub"?"#111":d.t==="plan"?"#C0392B":"#1e3a8a");
+      .attr("y",d=>-(radius(d)+4)).attr("font-size",d=>d.t==="hub"?13:8).attr("font-weight",d=>d.t==="hub"?800:600).attr("fill",d=>d.t==="hub"?"#111":d.t==="plan"?"#C0392B":"#1e3a8a");
     function cards(){
       let ns=G.nodes.filter(n=>n.t!=="hub"&&(cmState.brand==="all"||n.site===cmState.brand));
       const real=ns.filter(n=>n.t!=="plan");
@@ -1641,7 +1641,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
         .sort((a,b)=>{const ia=CAT_ORDER.indexOf(a),ib=CAT_ORDER.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
       const bar=document.getElementById("cmClusters");
       bar.innerHTML=[["all","ทั้งหมด"]].concat(cats.map(c=>[c,CATLABEL[c]||c])).map(p=>`<span class="chip${cmState.f===p[0]?" active":""}" data-f="${p[0]}">${p[1]}</span>`).join(" ");
-      bar.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{cmState.f=c.dataset.f;renderClusterChips();applyFilter();if(cmv==="list")renderList();});
+      bar.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{cmState.f=c.dataset.f;renderClusterChips();applyFilter();if(cmv==="list")renderList();setTimeout(fitView,30);});
     }
     function applyFilter(){
       const vB=n=>cmState.brand==="all"||n.site===cmState.brand;
@@ -1721,22 +1721,67 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     /* มือถือ: ลดภาระการคำนวณ — ใช้เฉพาะเส้นโครงคลัสเตอร์จัดตำแหน่ง, หยุด simulation เร็วขึ้น, วาดทุก 2 tick */
     const simLinks=IS_MOBILE?G.links.filter(l=>l.k!=="real"):G.links;
     let tickN=0;
+    /* ---- จัดวางคลัสเตอร์เป็นวงรอบศูนย์กลาง: hub แต่ละคลัสเตอร์มีตำแหน่งประจำ (anchor) สมาชิกเกาะรอบ hub ของตัวเอง ----
+       เดิมปล่อยให้แรงดึงจากลิงก์จริง (2,800+ เส้น ส่วนใหญ่ข้ามคลัสเตอร์) จัดตำแหน่งเอง คลัสเตอร์เลยละลายรวมเป็นก้อนเดียว
+       (วัดจริง: สมาชิกอยู่ใกล้ hub ของตัวเองแค่ 20%) · คลัสเตอร์ใหญ่ได้ส่วนโค้งกว้างกว่า · บริการถูกดันออกไปไกลกว่าคลัสเตอร์อื่น */
+    const RING_BASE=240,RING_PER=75,SVC_MUL=1.4,PIN_HUBS=true;
+    const ANCH={};
+    (function placeAnchors(){
+      const bySite={},cnt={};
+      G.nodes.forEach(n=>{if(n.t==="hub")(bySite[n.site]=bySite[n.site]||[]).push(n);else cnt[n.site+":"+n.cat]=(cnt[n.site+":"+n.cat]||0)+1;});
+      /* วางแต่ละเว็บเรียงซ้าย→ขวา (ไม่ซ้อนกัน) — มุมมองรายเว็บ fitView จะซูมไปที่เว็บนั้นเอง, มุมมองรวมเห็น 3 เว็บเคียงกัน */
+      const known=typeof SITE_ORDER!=="undefined"?SITE_ORDER:[];
+      const order=known.filter(s=>bySite[s]).concat(Object.keys(bySite).filter(s=>!known.includes(s)));
+      const ext={},cx={};let span=0;
+      order.forEach(site=>{ext[site]=Math.max(RING_BASE,RING_PER*bySite[site].length)*SVC_MUL+160;});
+      order.forEach((site,i)=>{if(i>0)span+=ext[order[i-1]]+ext[site]+120;cx[site]=span;});
+      order.forEach(site=>{cx[site]=W/2+cx[site]-span/2;});
+      order.forEach(site=>{
+        const hubs=bySite[site].sort((a,b)=>CAT_ORDER.indexOf(a.cat)-CAT_ORDER.indexOf(b.cat));
+        const w=hubs.map(h=>Math.sqrt(cnt[site+":"+h.cat]||1)+1.2);
+        const tot=w.reduce((a,b)=>a+b,0);
+        const R=Math.max(RING_BASE,RING_PER*hubs.length);
+        let ang=-Math.PI/2;
+        hubs.forEach((h,i)=>{
+          const half=Math.PI*w[i]/tot,a=ang+half;
+          const r=R*(/_service$/.test(h.cat)?SVC_MUL:1);
+          ANCH[h.id]={x:cx[site]+r*Math.cos(a),y:H/2+r*Math.sin(a)};
+          if(PIN_HUBS){h.fx=ANCH[h.id].x;h.fy=ANCH[h.id].y;}   /* ตรึง hub ไว้ที่ตำแหน่งประจำ (ลากย้ายได้ ปล่อยแล้วเป็นอิสระ) */
+          ang+=2*half;
+        });
+      });
+    })();
+    const anchorOf=d=>ANCH[d.t==="hub"?d.id:("hub:"+d.site+":"+d.cat)]||{x:W/2,y:H/2};
+    /* ซูมให้เห็นทั้งแผนที่ของเว็บ/คลัสเตอร์ที่เลือก — เรียกตอน layout นิ่งครั้งแรก, สลับเว็บ, กดชิปคลัสเตอร์ */
+    let fitted=false;
+    function fitView(){
+      const vis=G.nodes.filter(n=>(cmState.brand==="all"||n.site===cmState.brand)&&(cmState.f==="all"||n.cat===cmState.f)&&isFinite(n.x));
+      if(!vis.length)return;
+      let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;
+      vis.forEach(n=>{if(n.x<x0)x0=n.x;if(n.x>x1)x1=n.x;if(n.y<y0)y0=n.y;if(n.y>y1)y1=n.y;});
+      x0-=80;x1+=80;y0-=80;y1+=80;
+      const k=Math.min(W/(x1-x0),H/(y1-y0),1.0);
+      /* ตั้ง zoom ทันที ไม่ใช้ transition — transition พึ่ง requestAnimationFrame ซึ่งหยุดเดินหลัง simulation นิ่ง
+         ในบางสภาพแวดล้อม (ตรวจพบตอนทดสอบ headless: zoom ไม่ขยับเลย) แบบทันทีทำงานเหมือนกันทุกที่ */
+      svg.interrupt().call(zoomB.transform,d3.zoomIdentity.translate(W/2-k*(x0+x1)/2,H/2-k*(y0+y1)/2).scale(k));
+    }
     /* แรงดึงของลิงก์ในเนื้อหา: หารด้วยจำนวนลิงก์ของโหนดปลายที่มีลิงก์น้อยกว่า (กติกา default ของ d3)
        ถ้าใช้ค่าคงที่ 0.12 หน้าบริการที่มีบทความลิงก์มา 50 หน้าจะโดนดึงแรงกว่าหน้าอื่น 50 เท่า
        ทุกหน้าบริการเลยถูกลากไปกองรวมกันตรงกลาง (ระยะห่างเฉลี่ยตกจาก ~116px เหลือ ~32px)
        เส้นโครงคลัสเตอร์/แผน ยังใช้ 0.12 คงที่ เพราะเป็นตัวกำหนดรูปทรงคลัสเตอร์ */
     const realCnt={};
     G.links.forEach(l=>{if(l.k==="real"){realCnt[l.s]=(realCnt[l.s]||0)+1;realCnt[l.t]=(realCnt[l.t]||0)+1;}});
-    const linkStrength=d=>d.k==="real"?0.12/Math.max(1,Math.min(realCnt[d.s]||1,realCnt[d.t]||1)):0.12;
+    const linkStrength=d=>d.k==="real"?0.08*0.12/Math.max(1,Math.min(realCnt[d.s]||1,realCnt[d.t]||1)):d.k==="struct"?0.5:0.12;   /* real เบา · struct (สมาชิก→hub) แข็ง */
     const sim=d3.forceSimulation(G.nodes)
       .force("link",d3.forceLink(simLinks).id(d=>d.id).distance(d=>d.k==="struct"?(nodeById[d.t]&&nodeById[d.t].t==="hub"?95:70):80).strength(linkStrength))
-      .force("charge",d3.forceManyBody().strength(IS_MOBILE?-220:-340).distanceMax(IS_MOBILE?380:560))
+      .force("charge",d3.forceManyBody().strength(d=>d.t==="hub"?-600:(IS_MOBILE?-220:-150)).distanceMax(IS_MOBILE?380:600))
       .force("center",d3.forceCenter(W/2,H/2))
-      .force("collide",d3.forceCollide().radius(d=>radius(d)+(IS_MOBILE?4:7)).strength(IS_MOBILE?.7:.9))
-      .force("x",d3.forceX(W/2).strength(.012)).force("y",d3.forceY(H/2).strength(.012))
+      .force("collide",d3.forceCollide().radius(d=>radius(d)+(d.t==="svc"?16:(IS_MOBILE?4:7))).strength(IS_MOBILE?.7:.9))   /* svc มีป้ายชื่อ เว้นระยะกว้างกว่า */
+      .force("x",d3.forceX(d=>anchorOf(d).x).strength(d=>d.t==="hub"?0.6:0.3)).force("y",d3.forceY(d=>anchorOf(d).y).strength(d=>d.t==="hub"?0.6:0.3))
       .alphaDecay(IS_MOBILE?.045:.018)
       .on("tick",()=>{
         if(IS_MOBILE&&(++tickN%2))return;
+        if(!fitted&&sim.alpha()<0.08){fitted=true;fitView();}
         link.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
         node.attr("transform",d=>`translate(${d.x},${d.y})`);
       });
@@ -1777,7 +1822,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
     });
     cmViewEl.querySelectorAll(".vtab").forEach(t=>t.onclick=()=>switchView(t.dataset.v));
     cmViewEl.querySelectorAll(".bchip").forEach(c=>c.onclick=()=>{
-      cmState.brand=c.dataset.b;cmState.f="all";
+      cmState.brand=c.dataset.b;cmState.f="all";setTimeout(fitView,30);
       cmViewEl.querySelectorAll(".bchip").forEach(x=>x.classList.remove("active"));c.classList.add("active");
       renderClusterChips();cards();applyFilter();if(cmv==="list")renderList();
     });

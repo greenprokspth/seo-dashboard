@@ -1,3 +1,6 @@
 # ไฟล์ข้อมูลลับของเว็บ — ห้าม commit ขึ้น GitHub (repo เป็น public)
 *-focus-keywords.csv
 *.csv
+# key ของ service account (Google/Firebase) — วางไว้นอก repo เท่านั้น แต่กันพลาดไว้อีกชั้น
+*service-account*.json
+greenpro-seo-*.json

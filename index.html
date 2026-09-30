@@ -1217,7 +1217,8 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color
   function renderMeta(){document.getElementById("siteMeta").textContent="ตลาด: ประเทศไทย (ภาษาไทย) · "+week.label+" · ข้อมูลจาก Ahrefs";}
   function renderCards(){
     const el=document.getElementById("scorecards");el.innerHTML="";
-    week.metrics.forEach(m=>{
+    /* ซ่อนการ์ด traffic ประเมินของ Ahrefs (ผู้ใช้ขอ 30 ก.ย. 2026 — ใช้การ์ดคลิกจริงจาก GSC แทน) · ข้อมูลยังอยู่ใน JSON ให้กราฟ Traffic Report ใช้ */
+    week.metrics.filter(m=>m.label!=="Organic Traffic / เดือน").forEach(m=>{
       let html=`<div class="label">${m.label}</div>`;
       const val=m.value==null?"—":m.fmt==="usd"?("$"+Number(m.value).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})):(fmtNum(m.value)+(m.suffix||""));
       html+=`<div class="value">${val}</div>`;

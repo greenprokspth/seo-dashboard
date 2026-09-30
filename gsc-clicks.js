@@ -3,6 +3,7 @@
  * gsc-clicks.js — ดึง "คลิกจริง" จาก Google Search Console ตรง ๆ (ไม่ผ่าน Ahrefs)
  *
  * ทำอะไร: ใช้ service account อ่านคลิกรายวันของทั้ง 3 เว็บ แล้วรวม 30 วันล่าสุด
+ *          (พร้อม % เทียบ 30 วันก่อนหน้า)
  *          นับถอยหลังจากวันสุดท้ายที่ Google มีข้อมูล (ข้อมูล final ช้ากว่าจริง ~2-3 วัน)
  *
  * ใช้:  node gsc-clicks.js            (แสดงผลอย่างเดียว)
@@ -102,15 +103,18 @@ async function main() {
     const prop = pickProperty(list, s.domain);
     if (!prop) { console.log(`[${s.id}] ❌ ไม่มีสิทธิ์เข้า GSC ของ ${s.domain} — เพิ่มอีเมล ${key.client_email} ใน Users and permissions`); continue; }
     const r = await api(token, `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(prop)}/searchAnalytics/query`,
-      { startDate: addDays(today, -70), endDate: today, dimensions: ["date"], type: "web", rowLimit: 1000 });
+      { startDate: addDays(today, -75), endDate: today, dimensions: ["date"], type: "web", rowLimit: 1000 });
     const byDate = Object.fromEntries((r.rows || []).map((x) => [x.keys[0], x.clicks]));
     const dates = Object.keys(byDate).sort();
     if (!dates.length) { console.log(`[${s.id}] ⚠️ ${prop} ไม่มีข้อมูล`); continue; }
     const end = dates[dates.length - 1], start = addDays(end, -(WINDOW - 1));
-    let clicks = 0;
-    for (let d = start; d <= end; d = addDays(d, 1)) clicks += byDate[d] || 0;
-    out[s.id] = { property: prop, start, end, clicks, label: `คลิกจริง (GSC) ${thRange(start, end)}` };
-    console.log(`[${s.id}] ${prop} · ${start} → ${end} · ${clicks.toLocaleString()} คลิก · ป้าย "${out[s.id].label}"`);
+    const total = (a, z) => { let n = 0; for (let d = a; d <= z; d = addDays(d, 1)) n += byDate[d] || 0; return n; };
+    const clicks = total(start, end);
+    /* % บนการ์ด = เทียบกับ 30 วันก่อนหน้า (ช่วงยาวเท่ากัน ต่อกันพอดี) — ถ้าข้อมูลย้อนไม่ถึงก็ไม่แสดง % */
+    const prevStart = addDays(start, -WINDOW), prevEnd = addDays(start, -1);
+    const prev = dates[0] <= prevStart ? total(prevStart, prevEnd) : null;
+    out[s.id] = { property: prop, start, end, clicks, prev, label: `คลิกจริง (GSC) ${thRange(start, end)}` };
+    console.log(`[${s.id}] ${prop} · ${start} → ${end} · ${clicks.toLocaleString()} คลิก · 30 วันก่อนหน้า (${prevStart} → ${prevEnd}) ${prev == null ? "ไม่มีข้อมูล" : prev.toLocaleString()} · ป้าย "${out[s.id].label}"`);
   }
 
   if (process.argv.includes("--write")) {
@@ -121,6 +125,7 @@ async function main() {
       const g = out[site.id]; if (!g) continue;
       const w = site.weeks[0], i = w.metrics.findIndex((m) => String(m.label).startsWith("คลิกจริง (GSC)"));
       const card = { label: g.label, value: g.clicks, fmt: "int" };
+      if (g.prev != null) card.prev = g.prev;
       if (i >= 0) w.metrics[i] = card; else {
         const j = w.metrics.findIndex((m) => m.label === "คำติด Top 3");
         w.metrics.splice(j >= 0 ? j + 1 : w.metrics.length, 0, card);
